@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load wallpaper_tags %}
+{% block title %}Users & Downloads — Admin — Wallpaper Haven{% endblock %}
+{% block content %}
+{% include 'includes/admin_nav.html' %}
+<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div>
+      <h1 class="text-2xl sm:text-3xl font-bold text-white">Users & Downloads</h1>
+      <p class="text-sm text-gray-500 mt-1">Download analytics overview</p>
+    </div>
+    <div class="flex gap-2">
+      <a href="?days=7" class="inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-lg transition-all {% if days == 7 %}bg-blue-600 text-white{% else %}bg-white/5 text-gray-400 hover:text-white hover:bg-white/10{% endif %}">7d</a>
+      <a href="?days=30" class="inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-lg transition-all {% if days == 30 %}bg-blue-600 text-white{% else %}bg-white/5 text-gray-400 hover:text-white hover:bg-white/10{% endif %}">30d</a>
+      <a href="?days=90" class="inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-lg transition-all {% if days == 90 %}bg-blue-600 text-white{% else %}bg-white/5 text-gray-400 hover:text-white hover:bg-white/10{% endif %}">90d</a>
+      <a href="?days=365" class="inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-lg transition-all {% if days == 365 %}bg-blue-600 text-white{% else %}bg-white/5 text-gray-400 hover:text-white hover:bg-white/10{% endif %}">All</a>
+    </div>
+  </div>
+
+  <!-- Daily downloads chart -->
+  <div class="rounded-2xl bg-white/[0.02] border border-white/[0.06] p-6">
+    <h2 class="text-lg font-semibold text-white mb-4">Daily Downloads ({{ days }} days)</h2>
+    {% if daily_downloads %}
+    {% with max_d=daily_downloads|dictsortreversed:"count"|first %}
+    {% with max_val=max_d.count|default:1 %}
+    <div class="flex items-end gap-0.5 h-40 overflow-x-auto pb-2">
+      {% for day in daily_downloads %}
+      <div class="flex-1 flex flex-col items-center gap-0.5 justify-end min-w-[6px] group relative">
+        <div class="w-full rounded-t bg-emerald-500/60 hover:bg-emerald-500 transition-all duration-200 cursor-pointer" style="height:{% widthratio day.count max_val 100 %}%" title="{{ day.date }}: {{ day.count }} downloads"></div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endwith %}
+    {% endwith %}
+    {% else %}
+    <div class="flex items-center justify-center h-40 text-gray-500 text-sm">No download data</div>
+    {% endif %}
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <!-- Top downloaders -->
+    <div class="rounded-2xl bg-white/[0.02] border border-white/[0.06] p-6">
+      <h2 class="text-lg font-semibold text-white mb-4">Top Downloaders ({{ days }} days)</h2>
+      {% if top_downloaders %}
+      <div class="space-y-2">
+        {% for d in top_downloaders %}
+        <div class="flex items-center justify-between p-3 rounded-xl hover:bg-white/[0.02] transition-colors">
+          <div class="flex items-center gap-3">
+            <span class="text-sm font-bold text-gray-600 w-6">#{{ forloop.counter }}</span>
+            <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500/20 to-purple-500/20 text-blue-400 text-xs font-bold">
+              {{ d.user_id|default:"?"|make_list|first|upper }}
+            </div>
+            <div>
+              <p class="text-sm text-white">User {{ d.user_id|default:"Anonymous"|truncatechars:20 }}</p>
+            </div>
+          </div>
+          <span class="text-sm font-mono text-white">{{ d.count }} download{{ d.count|pluralize }}</span>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="flex items-center justify-center h-32 text-gray-500 text-sm">No download data for this period</div>
+      {% endif %}
+    </div>
+
+    <!-- Recent downloads -->
+    <div class="rounded-2xl bg-white/[0.02] border border-white/[0.06] p-6">
+      <h2 class="text-lg font-semibold text-white mb-4">Recent Downloads</h2>
+      {% if recent_downloads %}
+      <div class="space-y-2 max-h-[400px] overflow-y-auto">
+        {% for d in recent_downloads %}
+        <div class="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/[0.02] transition-colors">
+          <div class="h-10 w-16 rounded-lg bg-white/5 overflow-hidden shrink-0 border border-white/5">
+            {% if d.wallpaper.thumbnail_url %}
+            <img src="{{ d.wallpaper.thumbnail_url }}" alt="{{ d.wallpaper.title }}" class="h-full w-full object-cover">
+            {% endif %}
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="text-sm text-white truncate">{{ d.wallpaper.title }}</p>
+            <p class="text-xs text-gray-600">{{ d.downloaded_at|timesince }} ago</p>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="flex items-center justify-center h-32 text-gray-500 text-sm">No recent downloads</div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

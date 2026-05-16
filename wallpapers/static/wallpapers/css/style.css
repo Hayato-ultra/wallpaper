@@ -1,0 +1,213 @@
+/* Wallpaper Haven - Custom Styles */
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #0a0a0a; }
+::-webkit-scrollbar-thumb { background: #1f2937; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #374151; }
+* { scrollbar-width: thin; scrollbar-color: #1f2937 #0a0a0a; }
+
+/* ── Selection ── */
+::selection { background: rgba(14, 165, 233, 0.3); color: white; }
+
+/* ── Image Transitions ── */
+img { transition: opacity 0.4s ease, transform 0.4s ease; }
+img[data-src] { opacity: 0; }
+img:not([data-src]), img.loaded { opacity: 1; }
+
+/* ── Card Hover Shine ── */
+.wp-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -75%;
+  width: 50%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent);
+  transform: skewX(-25deg);
+  transition: left 0.6s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+.wp-card:hover::before { left: 125%; }
+
+/* ── Card Border Glow ── */
+.wp-card::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(14,165,233,0), rgba(14,165,233,0.1), rgba(14,165,233,0));
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+.wp-card:hover::after { opacity: 1; }
+
+/* ── Glass Morphism ── */
+.glass {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+.glass-hover:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* ── Gradient Text ── */
+.gradient-text {
+  background: linear-gradient(135deg, #38bdf8, #818cf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Hero Gradient Animation ── */
+.hero-gradient {
+  background: linear-gradient(-45deg, #0c4a6e, #0369a1, #1e40af, #312e81);
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+}
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ── Skeleton Loading ── */
+.skeleton-loader {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.75rem;
+}
+.skeleton-loader::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(255,255,255,0.03) 25%, rgba(255,255,255,0.06) 50%, rgba(255,255,255,0.03) 75%);
+  background-size: 200% 100%;
+  animation: skeletonShimmer 1.8s ease infinite;
+  z-index: 2;
+}
+@keyframes skeletonShimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+.skeleton-text {
+  display: inline-block;
+  height: 0.8em;
+  border-radius: 4px;
+  background: rgba(255,255,255,0.05);
+  animation: skeletonPulse 1.5s ease infinite;
+}
+@keyframes skeletonPulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.6; }
+}
+
+/* ── Button Press ── */
+.btn-press:active { transform: scale(0.96); }
+
+/* ── Pulse Ring ── */
+.pulse-ring {
+  animation: pulseRing 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+@keyframes pulseRing {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(14, 165, 233, 0.4); }
+  50% { box-shadow: 0 0 0 12px rgba(14, 165, 233, 0); }
+}
+
+/* ── Scroll Reveal Animations ── */
+.reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.revealed { opacity: 1; transform: translateY(0); }
+
+.reveal-left { opacity: 0; transform: translateX(-30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal-left.revealed { opacity: 1; transform: translateX(0); }
+
+.reveal-right { opacity: 0; transform: translateX(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal-right.revealed { opacity: 1; transform: translateX(0); }
+
+.reveal-up { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.reveal-up.revealed { opacity: 1; transform: translateY(0); }
+
+.stagger-1 { transition-delay: 0.1s; }
+.stagger-2 { transition-delay: 0.2s; }
+.stagger-3 { transition-delay: 0.3s; }
+.stagger-4 { transition-delay: 0.4s; }
+.stagger-5 { transition-delay: 0.5s; }
+.stagger-6 { transition-delay: 0.6s; }
+
+/* ── Lazy Card Animation ── */
+.lazy-card {
+  opacity: 0;
+  transform: translateY(20px) scale(0.98);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.lazy-card.animate-in {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* ── Page Transition ── */
+.page-exit {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+/* ── Image Zoom Container ── */
+.image-zoom-container {
+  cursor: zoom-in;
+  overflow: hidden;
+  position: relative;
+}
+.image-zoom-container img {
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.image-zoom-container.zoomed {
+  cursor: zoom-out;
+}
+.image-zoom-container.zoomed img {
+  transform: scale(2);
+}
+
+/* ── Stats Counter ── */
+.count-up {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Filter Button Active Glow ── */
+.filter-active {
+  box-shadow: 0 0 20px rgba(14, 165, 233, 0.15);
+}
+
+/* ── Floating Particles Background ── */
+.particles-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* ── Device Badge ── */
+.device-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.625rem;
+  border-radius: 9999px;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  background: rgba(255,255,255,0.04);
+  color: rgba(255,255,255,0.5);
+  border: 1px solid rgba(255,255,255,0.06);
+  transition: all 0.2s ease;
+}
+.device-badge:hover {
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.8);
+}
+
+/* ── Responsive Grid Gap Fixes ── */
+@media (max-width: 640px) {
+  .wp-card .aspect-\[4\/3\] { aspect-ratio: 3/2; }
+}

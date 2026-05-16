@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}Admin Login — Wallpaper Haven{% endblock %}
+{% block content %}
+<div class="flex min-h-[80vh] items-center justify-center px-4">
+  <div class="w-full max-w-sm fade-in">
+    <div class="text-center mb-8">
+      <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 to-blue-700 shadow-xl shadow-blue-500/20 mb-4">
+        <span class="text-2xl font-bold text-white">W</span>
+      </div>
+      <h1 class="text-2xl font-bold text-white">Admin Login</h1>
+      <p class="mt-1.5 text-sm text-gray-500">Sign in to manage Wallpaper Haven</p>
+    </div>
+
+    <div class="rounded-2xl bg-white/[0.02] border border-white/[0.06] p-6 sm:p-8">
+      <form method="post" class="space-y-5">
+        {% csrf_token %}
+        <div>
+          <label class="block text-sm font-medium text-gray-300 mb-1.5">Email or Username</label>
+          <input type="text" name="username" required placeholder="admin@example.com or admin" class="w-full h-11 rounded-xl border border-white/10 bg-white/5 px-4 text-sm text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-300 mb-1.5">Password</label>
+          <input type="password" name="password" required placeholder="••••••••" class="w-full h-11 rounded-xl border border-white/10 bg-white/5 px-4 text-sm text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
+        </div>
+
+        {% if form.errors %}
+        <div class="rounded-xl bg-red-500/10 border border-red-500/20 p-4 flex items-start gap-3">
+          <svg class="h-5 w-5 text-red-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          <p class="text-sm text-red-300">Invalid email or password. Only staff accounts can access admin.</p>
+        </div>
+        {% endif %}
+
+        <button type="submit" class="w-full h-11 inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 text-sm font-semibold text-white hover:from-blue-500 hover:to-blue-400 transition-all duration-300 shadow-lg shadow-blue-500/20 hover:shadow-blue-500/30 btn-press">
+          Sign In
+        </button>
+      </form>
+    </div>
+
+    <p class="mt-6 text-center text-xs text-gray-700">
+      First time? Run
+      <code class="text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded text-[11px]">python manage.py createsuperuser</code>
+    </p>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+{% load static wallpaper_tags %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Wallpaper Haven — High-Quality Wallpapers{% endblock %}</title>
+  <meta name="description" content="{% block description %}Discover and download high-quality wallpapers for your desktop and mobile. Curated collection updated daily.{% endblock %}">
+  <meta name="theme-color" content="#0a0a0a">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230ea5e9'/><text x='16' y='23' text-anchor='middle' fill='white' font-size='20' font-weight='bold'>W</text></svg>">
+  <link rel="stylesheet" href="{% static 'wallpapers/css/style.css' %}">
+  {% if adsense_client_id and ads_enabled %}
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ adsense_client_id }}" crossorigin="anonymous"></script>
+  {% endif %}
+  {% block extra_head %}{% endblock %}
+  <style>
+    .fade-in { animation: fadeIn 0.5s ease-out both; }
+    .slide-up { animation: slideUp 0.4s ease-out both; }
+    .scale-in { animation: scaleIn 0.3s ease-out both; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes scaleIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+    .stagger-1 { animation-delay: 0.1s; }
+    .stagger-2 { animation-delay: 0.2s; }
+    .stagger-3 { animation-delay: 0.3s; }
+    .stagger-4 { animation-delay: 0.4s; }
+  </style>
+</head>
+<body class="bg-[#0a0a0a] text-white antialiased min-h-screen font-['Inter',sans-serif]">
+  <div class="flex flex-col min-h-screen">
+    {% include 'includes/header.html' %}
+    <main class="flex-1">
+      {% if messages %}
+      <div class="mx-auto max-w-7xl px-4 pt-4 space-y-2">
+        {% for message in messages %}
+        <div class="toast flex items-center justify-between rounded-xl px-5 py-3.5 text-sm shadow-lg {% if message.tags == 'error' %}bg-red-500/15 text-red-300 border border-red-500/20{% else %}bg-emerald-500/15 text-emerald-300 border border-emerald-500/20{% endif %} slide-up">
+          <span class="flex items-center gap-2">
+            {% if message.tags == 'error' %}
+            <svg class="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            {% else %}
+            <svg class="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            {% endif %}
+            {{ message }}
+          </span>
+          <button class="toast-dismiss ml-4 text-white/40 hover:text-white/80 transition-colors">
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+          </button>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+      {% block content %}{% endblock %}
+    </main>
+    {% include 'includes/footer.html' %}
+  </div>
+  <script src="{% static 'wallpapers/js/main.js' %}"></script>
+</body>
+</html>
