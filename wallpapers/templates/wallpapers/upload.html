@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 {% load wallpaper_tags %}
 {% block title %}Upload Wallpaper — Admin — Wallpaper Haven{% endblock %}
+{% block extra_head %}
+<script>window.CATEGORIES = {{ categories_json }};</script>
+{% endblock %}
 {% block content %}
 {% include 'includes/admin_nav.html' %}
 <div class="mx-auto max-w-2xl py-8 px-4 sm:px-6">
@@ -25,9 +28,9 @@
       </div>
       <div class="upload-info hidden flex-col items-center gap-3">
         <img id="preview" class="mx-auto max-h-64 rounded-xl object-contain border border-white/10" />
-        <p class="text-sm text-gray-400"><span class="text-blue-400">{{ file.name }}</span> selected</p>
+        <p class="text-sm text-gray-400"><span id="file-name" class="text-blue-400"></span> selected</p>
       </div>
-      <input type="file" name="file" id="id_file" accept="image/png,image/jpeg,image/webp" required class="hidden">
+      <input type="file" name="file" id="id_file" accept="image/png,image/jpeg,image/webp" required class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" multiple>
     </div>
 
     <!-- Fields -->
@@ -38,7 +41,11 @@
       </div>
       <div>
         <label class="block text-sm font-medium text-gray-300 mb-1.5">Category</label>
-        <input type="text" name="category" maxlength="100" placeholder="nature, abstract, etc." class="w-full h-11 rounded-xl border border-white/10 bg-white/5 px-4 text-sm text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
+        <div id="category-dropdown" class="relative">
+          <input type="text" id="category-search" autocomplete="off" placeholder="Search or type new category..." class="w-full h-11 rounded-xl border border-white/10 bg-white/5 px-4 text-sm text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
+          <input type="hidden" name="category" id="category-value">
+          <div id="category-options" class="hidden absolute z-20 top-full mt-1 w-full rounded-xl border border-white/10 bg-[#141414] shadow-2xl overflow-hidden max-h-48 overflow-y-auto"></div>
+        </div>
       </div>
     </div>
 

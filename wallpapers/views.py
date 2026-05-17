@@ -1,6 +1,7 @@
 import uuid
 import json
 from datetime import datetime, timedelta
+from django.utils.safestring import mark_safe
 from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Q, Count, Sum
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -10,7 +11,7 @@ from django.contrib import messages
 from django.conf import settings
 from .models import Wallpaper, Category, Download, PageView, SiteConfig
 from .forms import WallpaperUploadForm, ContactForm
-from .utils import upload_to_cloudinary, get_thumbnail_url
+from .utils import upload_to_cloudinary, get_thumbnail_url, file_sha256
 
 DEVICE_PRESETS = {
     'mobile': {'max_width': 768},
@@ -37,7 +38,7 @@ def home(request):
 
     trending = cache.get('home_trending')
     if trending is None:
-        trending = list(Wallpaper.objects.filter(is_published=True).order_by('-views', '-downloads')[:16])
+        trending = list(Wallpaper.objects.filter(is_published=True, downloads__gte=1000).order_by('-downloads', '-views')[:16])
         cache.set('home_trending', trending, settings.WALLPAPER_CACHE_TIMEOUT)
 
     categories = Category.objects.all().order_by('-wallpaper_count')
@@ -45,6 +46,7 @@ def home(request):
         'featured': featured,
         'trending': trending,
         'categories': categories,
+        'total_wallpapers': Wallpaper.objects.filter(is_published=True).count(),
     })
 
 
@@ -77,7 +79,7 @@ def explore(request):
     if sort == 'popular':
         wallpapers = wallpapers.order_by('-views')
     elif sort == 'trending':
-        wallpapers = wallpapers.order_by('-views', '-downloads')
+        wallpapers = wallpapers.filter(downloads__gte=1000).order_by('-downloads', '-views')
     elif sort == 'featured':
         wallpapers = wallpapers.filter(is_featured=True).order_by('-created_at')
     else:
@@ -105,6 +107,21 @@ def explore(request):
         sorted_tags = sorted(tag_counts.items(), key=lambda x: -x[1])[:50]
         cache.set(cache_key, sorted_tags, settings.WALLPAPER_CACHE_TIMEOUT)
 
+    featured = cache.get('explore_featured')
+    if featured is None:
+        featured = list(Wallpaper.objects.filter(is_featured=True, is_published=True).order_by('-created_at')[:12])
+        cache.set('explore_featured', featured, settings.WALLPAPER_CACHE_TIMEOUT)
+
+    trending = cache.get('explore_trending')
+    if trending is None:
+        trending = list(Wallpaper.objects.filter(is_published=True, downloads__gte=1000).order_by('-downloads', '-views')[:12])
+        cache.set('explore_trending', trending, settings.WALLPAPER_CACHE_TIMEOUT)
+
+    if request.GET.get('ajax') == '1':
+        return render(request, 'includes/wallpaper_grid.html', {'page_obj': page_obj, 'ajax': True})
+
+    categories = Category.objects.all().order_by('-wallpaper_count')
+
     return render(request, 'wallpapers/explore.html', {
         'page_obj': page_obj,
         'tags_list': [{'tag': k, 'count': v} for k, v in sorted_tags],
@@ -114,6 +131,9 @@ def explore(request):
         'current_device': device_param,
         'device_presets': DEVICE_PRESETS,
         'device_helpers': RECIPE_HELPERS,
+        'featured': featured,
+        'trending': trending,
+        'categories': categories,
     })
 
 
@@ -182,10 +202,23 @@ def category_view(request, slug):
     page_number = request.GET.get('page', 1)
     page_obj = paginator.get_page(page_number)
 
+    if request.GET.get('ajax') == '1':
+        return render(request, 'includes/wallpaper_grid.html', {'page_obj': page_obj, 'ajax': True})
+
+    sidebar_categories = Category.objects.all().order_by('-wallpaper_count')
+
     return render(request, 'wallpapers/category.html', {
         'category': cat,
         'page_obj': page_obj,
+        'sidebar_categories': sidebar_categories,
     })
+
+
+def check_wallpaper_hash(request):
+    h = request.GET.get('hash', '').strip().lower()
+    exists = Wallpaper.objects.filter(sha256=h).exists() if h else False
+    from django.http import JsonResponse
+    return JsonResponse({'exists': exists})
 
 
 def privacy(request):
@@ -250,47 +283,76 @@ def admin_dashboard(request):
 @user_passes_test(lambda u: u.is_staff)
 def upload_wallpaper(request):
     if request.method == 'POST':
-        form = WallpaperUploadForm(request.POST, request.FILES)
-        if form.is_valid():
+        form = WallpaperUploadForm(request.POST)
+        files = request.FILES.getlist('file')
+        if form.is_valid() and files:
             cd = form.cleaned_data
-            file = cd['file']
-
             tag_list = [t.strip().lower() for t in cd['tags'].split(',') if t.strip()]
+            uploaded = 0
+            errors = []
 
-            try:
-                result = upload_to_cloudinary(file, tags=tag_list)
-            except Exception as e:
-                messages.error(request, f'Cloudinary upload failed: {e}')
-                return render(request, 'wallpapers/upload.html', {'form': form})
+            for f in files:
+                try:
+                    fhash = cd.get('sha256', '')
+                    if not fhash:
+                        fhash = file_sha256(f)
+                    if Wallpaper.objects.filter(sha256=fhash).exists():
+                        errors.append(f'{f.name}: duplicate (already uploaded)')
+                        continue
 
-            wallpaper = Wallpaper.objects.create(
-                title=cd['title'],
-                description=cd.get('description', ''),
-                cloudinary_id=result['public_id'],
-                secure_url=result['secure_url'],
-                thumbnail_url=get_thumbnail_url(result['public_id']),
-                tags=tag_list,
-                category=cd.get('category', ''),
-                width=result.get('width'),
-                height=result.get('height'),
-                file_size=result.get('bytes'),
-                format=result.get('format'),
-                is_featured=cd.get('is_featured', False),
-                uploaded_by=request.user,
-            )
+                    result = upload_to_cloudinary(f, tags=tag_list)
+                    if hasattr(f, 'temporary_file_path') and f.temporary_file_path():
+                        import os
+                        try:
+                            os.unlink(f.temporary_file_path())
+                        except OSError:
+                            pass
+                except Exception as e:
+                    errors.append(f'{f.name}: {e}')
+                    continue
+
+                title = cd.get('title', '') or f.name.rsplit('.', 1)[0]
+                if len(files) > 1:
+                    title = f'{title}-{uploaded + 1}' if cd.get('title') else f.name.rsplit('.', 1)[0]
+
+                Wallpaper.objects.create(
+                    title=title,
+                    description=cd.get('description', ''),
+                    cloudinary_id=result['public_id'],
+                    secure_url=result['secure_url'],
+                    thumbnail_url=get_thumbnail_url(result['public_id']),
+                    tags=tag_list,
+                    category=cd.get('category', ''),
+                    width=result.get('width'),
+                    height=result.get('height'),
+                    file_size=result.get('bytes'),
+                    format=result.get('format'),
+                    is_featured=cd.get('is_featured', False),
+                    sha256=fhash,
+                    uploaded_by=request.user,
+                )
+                uploaded += 1
 
             for tag in tag_list:
+                from django.utils.text import slugify
                 Category.objects.get_or_create(
-                    slug=tag.lower().replace(' ', '-'),
+                    slug=slugify(tag),
                     defaults={'name': tag.title()},
                 )
 
-            messages.success(request, f'"{wallpaper.title}" uploaded successfully!')
+            if uploaded:
+                messages.success(request, f'{uploaded} wallpaper{"s" if uploaded > 1 else ""} uploaded successfully!')
+            for err in errors:
+                messages.error(request, err)
             return redirect('admin_dashboard')
+
+        if not files:
+            messages.error(request, 'No file selected.')
     else:
         form = WallpaperUploadForm()
 
-    return render(request, 'wallpapers/upload.html', {'form': form})
+    cats = list(Category.objects.values_list('name', flat=True).order_by('name'))
+    return render(request, 'wallpapers/upload.html', {'form': form, 'categories_json': mark_safe(json.dumps(cats))})
 
 
 @login_required

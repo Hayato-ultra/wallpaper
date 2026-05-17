@@ -16,6 +16,10 @@ document.addEventListener('DOMContentLoaded', function () {
   initCountUp()
   initImageZoom()
   initProgressiveImage()
+  initCategoryDropdown()
+  initMobileFilters()
+  initSearchBar()
+  initInfiniteScroll()
 })
 
 /* ── Mobile Menu ── */
@@ -37,6 +41,7 @@ function initImagePreview() {
   const fileInput = document.getElementById('id_file')
   const preview = document.getElementById('preview')
   const dropZone = document.getElementById('drop-zone')
+  const fileName = document.getElementById('file-name')
   if (!fileInput || !preview || !dropZone) return
 
   fileInput.addEventListener('change', function (e) {
@@ -48,12 +53,9 @@ function initImagePreview() {
       preview.classList.remove('hidden')
       const placeholder = dropZone.querySelector('.upload-placeholder')
       if (placeholder) placeholder.style.display = 'none'
+      if (fileName) fileName.textContent = file.name
     }
     reader.readAsDataURL(file)
-  })
-
-  dropZone.addEventListener('click', function () {
-    fileInput.click()
   })
 
   dropZone.addEventListener('dragover', function (e) {
@@ -323,4 +325,224 @@ function initProgressiveImage() {
   } else {
     loader.src = fullSrc
   }
+}
+
+/* ── Searchable Category Dropdown ── */
+function initCategoryDropdown() {
+  var container = document.getElementById('category-dropdown')
+  var searchInput = document.getElementById('category-search')
+  var hiddenInput = document.getElementById('category-value')
+  var optionsContainer = document.getElementById('category-options')
+  if (!container || !searchInput || !hiddenInput || !optionsContainer) return
+
+  var categories = (typeof CATEGORIES !== 'undefined') ? CATEGORIES : []
+
+  function renderOptions(filter) {
+    var q = (filter || '').toLowerCase()
+    var matches = categories.filter(function (c) { return c.toLowerCase().includes(q) })
+    if (matches.length === 0) {
+      optionsContainer.innerHTML = '<div class="px-4 py-3 text-sm text-gray-500">No matching categories</div>'
+      return
+    }
+    var html = ''
+    for (var i = 0; i < matches.length; i++) {
+      html += '<div class="category-option px-4 py-2.5 text-sm text-gray-300 hover:bg-white/5 hover:text-white cursor-pointer transition-colors" data-value="' + matches[i] + '">' + matches[i] + '</div>'
+    }
+    optionsContainer.innerHTML = html
+    optionsContainer.querySelectorAll('.category-option').forEach(function (opt) {
+      opt.addEventListener('click', function () {
+        selectCategory(opt.dataset.value)
+      })
+    })
+  }
+
+  function selectCategory(value) {
+    searchInput.value = value
+    hiddenInput.value = value
+    optionsContainer.classList.add('hidden')
+    optionsContainer.innerHTML = ''
+  }
+
+  searchInput.addEventListener('focus', function () {
+    renderOptions(searchInput.value)
+    optionsContainer.classList.remove('hidden')
+  })
+
+  searchInput.addEventListener('input', function () {
+    hiddenInput.value = ''
+    renderOptions(searchInput.value)
+    optionsContainer.classList.remove('hidden')
+  })
+
+  document.addEventListener('click', function (e) {
+    if (!container.contains(e.target)) {
+      optionsContainer.classList.add('hidden')
+    }
+  })
+
+  searchInput.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') {
+      e.preventDefault()
+      hiddenInput.value = searchInput.value
+      optionsContainer.classList.add('hidden')
+    }
+    if (e.key === 'Escape') {
+      optionsContainer.classList.add('hidden')
+    }
+  })
+}
+
+/* ── Mobile Filters Toggle ── */
+function initMobileFilters() {
+  var container = document.getElementById('mobile-filters')
+  if (!container) return
+
+  document.addEventListener('click', function (e) {
+    if (!container.open) return
+    if (!container.contains(e.target)) {
+      container.removeAttribute('open')
+    }
+  })
+}
+
+/* ── Inline Search Bar ── */
+function initSearchBar() {
+  var btn = document.getElementById('search-btn')
+  var bar = document.getElementById('search-bar')
+  var input = document.getElementById('search-input')
+  var suggestions = document.getElementById('search-suggestions')
+  var iconOpen = document.getElementById('search-icon-open')
+  var iconClose = document.getElementById('search-icon-close')
+  if (!btn || !bar || !input || !suggestions || !iconOpen || !iconClose) return
+
+  var isOpen = false
+  var categories = (typeof SEARCH_CATEGORIES !== 'undefined' && SEARCH_CATEGORIES.length) ? SEARCH_CATEGORIES : ['cars', 'anime', 'nature', 'dark']
+  var catIndex = 0
+  var catTimer = null
+
+  function cyclePlaceholder() {
+    if (!isOpen) return
+    var cat = categories[catIndex]
+    input.placeholder = 'Search ' + cat + '...'
+    catIndex = (catIndex + 1) % categories.length
+    catTimer = setTimeout(cyclePlaceholder, 2500)
+  }
+
+  function openSearch() {
+    isOpen = true
+    bar.style.maxWidth = '280px'
+    bar.style.opacity = '1'
+    bar.style.visibility = 'visible'
+    iconOpen.classList.add('hidden')
+    iconClose.classList.remove('hidden')
+    suggestions.classList.remove('hidden')
+    setTimeout(function () { input.focus(); cyclePlaceholder() }, 300)
+  }
+
+  function closeSearch() {
+    isOpen = false
+    clearTimeout(catTimer)
+    bar.style.maxWidth = '0'
+    bar.style.opacity = '0'
+    bar.style.visibility = 'hidden'
+    iconOpen.classList.remove('hidden')
+    iconClose.classList.add('hidden')
+    suggestions.classList.add('hidden')
+    input.value = ''
+    input.placeholder = 'Search wallpapers...'
+  }
+
+  function submitSearch(q) {
+    if (q && q.trim()) {
+      window.location.href = '/search/?q=' + encodeURIComponent(q.trim())
+    }
+  }
+
+  btn.addEventListener('click', function (e) {
+    e.stopPropagation()
+    if (isOpen) {
+      closeSearch()
+    } else {
+      openSearch()
+    }
+  })
+
+  input.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') {
+      e.preventDefault()
+      submitSearch(input.value)
+    }
+    if (e.key === 'Escape') {
+      closeSearch()
+    }
+  })
+
+  document.querySelectorAll('.suggestion-chip').forEach(function (chip) {
+    chip.addEventListener('click', function () {
+      submitSearch(chip.dataset.q)
+    })
+  })
+
+  document.addEventListener('click', function (e) {
+    if (!isOpen) return
+    var root = document.getElementById('search-root')
+    if (root && !root.contains(e.target)) {
+      closeSearch()
+    }
+  })
+}
+
+/* ── Infinite Scroll ── */
+function initInfiniteScroll() {
+  var sentinel = document.getElementById('scroll-sentinel')
+  var grid = document.getElementById('wallpaper-grid')
+  if (!sentinel || !grid) return
+  if (!sentinel.dataset.next) return
+
+  var loading = false
+
+  function buildUrl(page) {
+    var url = new URL(window.location.href)
+    url.searchParams.set('page', page)
+    url.searchParams.set('ajax', '1')
+    // keep the path clean — use the current URL's path + params
+    return url.pathname + '?' + url.searchParams.toString()
+  }
+
+  var observer = new IntersectionObserver(function (entries) {
+    if (!entries[0].isIntersecting) return
+    if (loading) return
+    var next = sentinel.dataset.next
+    if (!next) return
+
+    loading = true
+
+    var xhr = new XMLHttpRequest()
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState !== 4) return
+      loading = false
+      if (xhr.status !== 200) return
+
+      var temp = document.createElement('div')
+      temp.innerHTML = xhr.responseText
+
+      var newItems = temp.querySelectorAll('#wallpaper-grid > *')
+      newItems.forEach(function (el) { grid.appendChild(el) })
+
+      var newSentinel = temp.getElementById('scroll-sentinel')
+      if (newSentinel) {
+        sentinel.dataset.next = newSentinel.dataset.next || ''
+        sentinel.dataset.page = newSentinel.dataset.page
+        if (!newSentinel.dataset.next) {
+          sentinel.dataset.next = ''
+          observer.unobserve(sentinel)
+        }
+      }
+    }
+    xhr.open('GET', buildUrl(next), true)
+    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest')
+    xhr.send()
+  }, { rootMargin: '400px' })
+
+  observer.observe(sentinel)
 }

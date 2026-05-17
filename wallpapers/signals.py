@@ -1,6 +1,8 @@
+import re
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from django.core.cache import cache
+from django.utils.text import slugify
 from .models import Wallpaper, Category
 
 
@@ -22,10 +24,13 @@ def wallpaper_saved(sender, instance, **kwargs):
     cache.clear()
     cache.delete(f'wallpaper_detail_{instance.pk}')
     if instance.category:
-        Category.objects.get_or_create(
-            slug=instance.category.lower().replace(' ', '-'),
-            defaults={'name': instance.category.title()},
-        )
+        for cat_name in re.split(r'[,\s]+', instance.category):
+            cat_name = cat_name.strip()
+            if cat_name:
+                Category.objects.get_or_create(
+                    slug=slugify(cat_name),
+                    defaults={'name': cat_name.title()},
+                )
     update_category_counts()
 
 

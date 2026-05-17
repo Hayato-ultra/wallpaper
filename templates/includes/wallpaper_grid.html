@@ -1,0 +1,9 @@
+<div id="wallpaper-grid" class="grid grid-cols-2 gap-3 sm:gap-4 sm:grid-cols-3 lg:grid-cols-4">
+  {% for wp in page_obj %}
+    {% include 'includes/wallpaper_card.html' with wallpaper=wp %}
+    {% if forloop.counter|divisibleby:8 and not ajax %}
+      <div class="col-span-full">{% include 'includes/ad_slot.html' with format='rectangle' %}</div>
+    {% endif %}
+  {% endfor %}
+</div>
+<div id="scroll-sentinel" data-page="{{ page_obj.number }}"{% if page_obj.has_next %} data-next="{{ page_obj.next_page_number }}"{% endif %}></div>

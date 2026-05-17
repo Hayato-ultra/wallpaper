@@ -7,7 +7,6 @@ class WallpaperUploadForm(forms.Form):
     tags = forms.CharField(required=False, help_text='Comma-separated tags')
     category = forms.CharField(max_length=100, required=False)
     is_featured = forms.BooleanField(required=False)
-    file = forms.ImageField(required=True)
 
 
 class ContactForm(forms.Form):

@@ -44,3 +44,12 @@ def get_blur_placeholder_url(public_id: str) -> str:
 
 def delete_from_cloudinary(public_id: str):
     return cloudinary.uploader.destroy(public_id)
+
+
+def file_sha256(file_obj) -> str:
+    import hashlib
+    h = hashlib.sha256()
+    for chunk in iter(lambda: file_obj.read(65536), b""):
+        h.update(chunk)
+    file_obj.seek(0)
+    return h.hexdigest()

@@ -56,6 +56,7 @@ class Wallpaper(models.Model):
     file_size = models.BigIntegerField(null=True, blank=True)
     format = models.CharField(max_length=10, blank=True, default='')
     dominant_color = models.CharField(max_length=7, blank=True, default='')
+    sha256 = models.CharField(max_length=64, blank=True, default='', db_index=True)
     downloads = models.BigIntegerField(default=0)
     views = models.BigIntegerField(default=0)
     is_featured = models.BooleanField(default=False)
