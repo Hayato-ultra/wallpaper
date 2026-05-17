@@ -86,6 +86,12 @@ class Category(models.Model):
     class Meta:
         verbose_name_plural = 'categories'
 
+    def get_thumbnail(self):
+        if self.thumbnail_url:
+            return self.thumbnail_url
+        wp = Wallpaper.objects.filter(is_published=True, category__iexact=self.name).order_by('-views').first()
+        return wp.thumbnail_url if wp else ''
+
     def __str__(self):
         return self.name
 

@@ -1,39 +1,67 @@
 {% extends 'base.html' %}
 {% block title %}Contact Us — Wallpaper Haven{% endblock %}
 {% block content %}
-<div class="mx-auto max-w-2xl px-4 py-12 sm:px-6 lg:px-8">
-  <div class="mb-10">
-    <h1 class="text-3xl font-bold text-white">Contact Us</h1>
-    <p class="mt-2 text-gray-400 text-sm">Have a question, suggestion, or just want to say hello? Drop us a message.</p>
+<div class="mx-auto max-w-2xl px-margin-mobile md:px-margin-desktop py-12">
+  <!-- Hero Section -->
+  <section class="mb-10">
+    <h1 class="font-headline-md text-headline-md text-on-surface mb-2">Get in Touch</h1>
+    <p class="font-body-md text-on-surface-variant">Have a question about our wallpapers or a technical inquiry? We're here to help.</p>
+  </section>
+
+  <!-- Contact Form Card -->
+  <div class="glass-panel p-6 rounded-xl space-y-6 mb-8">
+    <form method="post" class="space-y-6">
+      {% csrf_token %}
+      <div class="space-y-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div class="space-y-2">
+            <label class="block font-label-md text-primary" for="id_name">Name</label>
+            <input type="text" name="name" id="id_name" required maxlength="100" class="w-full bg-[#1a181d] border-0 border-b border-white/10 text-on-surface focus:ring-0 focus:border-primary-container transition-colors py-3 px-0 placeholder:text-on-surface-variant/40" placeholder="Your full name">
+          </div>
+          <div class="space-y-2">
+            <label class="block font-label-md text-primary" for="id_email">Email</label>
+            <input type="email" name="email" id="id_email" required class="w-full bg-[#1a181d] border-0 border-b border-white/10 text-on-surface focus:ring-0 focus:border-primary-container transition-colors py-3 px-0 placeholder:text-on-surface-variant/40" placeholder="you@example.com">
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <label class="block font-label-md text-primary" for="id_subject">Subject</label>
+          <input type="text" name="subject" id="id_subject" required maxlength="200" class="w-full bg-[#1a181d] border-0 border-b border-white/10 text-on-surface focus:ring-0 focus:border-primary-container transition-colors py-3 px-0 placeholder:text-on-surface-variant/40" placeholder="What's this about?">
+        </div>
+
+        <div class="space-y-2">
+          <label class="block font-label-md text-primary" for="id_message">Message</label>
+          <textarea name="message" id="id_message" required rows="5" class="w-full bg-[#1a181d] border-0 border-b border-white/10 text-on-surface focus:ring-0 focus:border-primary-container transition-colors py-3 px-0 placeholder:text-on-surface-variant/40 resize-none" placeholder="How can we help you?"></textarea>
+        </div>
+
+        <button type="submit" class="w-full h-14 bg-primary-container text-on-primary-container font-label-md rounded-lg flex items-center justify-center gap-2 hover:opacity-90 active:scale-[0.98] transition-all">
+          <span>Send Message</span>
+          <span class="material-symbols-outlined text-base">send</span>
+        </button>
+      </div>
+    </form>
   </div>
 
-  <form method="post" class="space-y-5">
-    {% csrf_token %}
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-      <div>
-        <label for="id_name" class="block text-sm font-medium text-gray-300 mb-1.5">Name</label>
-        <input type="text" name="name" id="id_name" required maxlength="100" class="block w-full rounded-xl bg-white/5 border border-white/10 px-4 py-3 text-sm text-white placeholder-gray-600 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-colors" placeholder="Your name">
+  <!-- Info Blocks -->
+  <div class="grid grid-cols-1 gap-4">
+    <div class="flex items-start gap-4 p-4 glass-panel rounded-xl">
+      <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+        <span class="material-symbols-outlined text-primary">mail</span>
       </div>
       <div>
-        <label for="id_email" class="block text-sm font-medium text-gray-300 mb-1.5">Email</label>
-        <input type="email" name="email" id="id_email" required class="block w-full rounded-xl bg-white/5 border border-white/10 px-4 py-3 text-sm text-white placeholder-gray-600 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-colors" placeholder="you@example.com">
+        <p class="font-label-md text-on-surface">Email Support</p>
+        <p class="font-body-md text-on-surface-variant">contact@wallpaperhaven.app</p>
       </div>
     </div>
-
-    <div>
-      <label for="id_subject" class="block text-sm font-medium text-gray-300 mb-1.5">Subject</label>
-      <input type="text" name="subject" id="id_subject" required maxlength="200" class="block w-full rounded-xl bg-white/5 border border-white/10 px-4 py-3 text-sm text-white placeholder-gray-600 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-colors" placeholder="What's this about?">
+    <div class="flex items-start gap-4 p-4 glass-panel rounded-xl">
+      <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+        <span class="material-symbols-outlined text-primary">location_on</span>
+      </div>
+      <div>
+        <p class="font-label-md text-on-surface">Global Studio</p>
+        <p class="font-body-md text-on-surface-variant">Digital First &bull; Worldwide</p>
+      </div>
     </div>
-
-    <div>
-      <label for="id_message" class="block text-sm font-medium text-gray-300 mb-1.5">Message</label>
-      <textarea name="message" id="id_message" required rows="6" class="block w-full rounded-xl bg-white/5 border border-white/10 px-4 py-3 text-sm text-white placeholder-gray-600 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-colors resize-y" placeholder="Your message..."></textarea>
-    </div>
-
-    <button type="submit" class="inline-flex items-center justify-center h-12 px-6 rounded-xl bg-blue-600 text-sm font-semibold text-white hover:bg-blue-500 transition-all duration-200 shadow-lg shadow-blue-500/20 gap-2">
-      <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-      Send Message
-    </button>
-  </form>
+  </div>
 </div>
 {% endblock %}

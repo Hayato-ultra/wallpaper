@@ -1,23 +1,103 @@
 <!DOCTYPE html>
 {% load static wallpaper_tags %}
-<html lang="en">
+<html class="dark" lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}Wallpaper Haven — High-Quality Wallpapers{% endblock %}</title>
   <meta name="description" content="{% block description %}Discover and download high-quality wallpapers for your desktop and mobile. Curated collection updated daily.{% endblock %}">
-  <meta name="theme-color" content="#0a0a0a">
+  <meta name="theme-color" content="#151317">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230ea5e9'/><text x='16' y='23' text-anchor='middle' fill='white' font-size='20' font-weight='bold'>W</text></svg>">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            surface: "#151317",
+            "surface-dim": "#151317",
+            "surface-bright": "#3b383d",
+            "surface-container-lowest": "#0f0d11",
+            "surface-container-low": "#1d1b1f",
+            "surface-container": "#211f23",
+            "surface-container-high": "#2c292d",
+            "surface-container-highest": "#373438",
+            "on-surface": "#e7e1e6",
+            "on-surface-variant": "#cbc4ce",
+            "inverse-surface": "#e7e1e6",
+            "inverse-on-surface": "#322f34",
+            outline: "#948f98",
+            "outline-variant": "#49454d",
+            "surface-tint": "#d0bfec",
+            primary: "#d0bfec",
+            "on-primary": "#362a4d",
+            "primary-container": "#7e7098",
+            "on-primary-container": "#ffffff",
+            "inverse-primary": "#65587e",
+            secondary: "#cbc4ce",
+            "on-secondary": "#322f36",
+            "secondary-container": "#49454d",
+            "on-secondary-container": "#b9b3bc",
+            tertiary: "#c7c5cc",
+            "on-tertiary": "#303035",
+            "tertiary-container": "#76767c",
+            "on-tertiary-container": "#ffffff",
+            error: "#ffb4ab",
+            "on-error": "#690005",
+            "error-container": "#93000a",
+            "on-error-container": "#ffdad6",
+            background: "#151317",
+            "on-background": "#e7e1e6",
+            "surface-variant": "#373438"
+          },
+          fontFamily: {
+            display: ["Manrope"],
+            body: ["Manrope"],
+            label: ["Manrope"]
+          },
+          fontSize: {
+            "display-lg": ["48px", { lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "700" }],
+            "display-md": ["36px", { lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "700" }],
+            "headline-lg": ["32px", { lineHeight: "1.2", fontWeight: "600" }],
+            "headline-md": ["24px", { lineHeight: "1.3", fontWeight: "600" }],
+            "body-lg": ["18px", { lineHeight: "1.6", fontWeight: "400" }],
+            "body-md": ["16px", { lineHeight: "1.6", fontWeight: "400" }],
+            "label-md": ["14px", { lineHeight: "1.4", letterSpacing: "0.05em", fontWeight: "500" }],
+            "label-sm": ["12px", { lineHeight: "1.4", fontWeight: "500" }]
+          },
+          borderRadius: {
+            DEFAULT: "0.25rem",
+            lg: "0.5rem",
+            xl: "0.75rem"
+          },
+          spacing: {
+            "margin-mobile": "20px",
+            "margin-desktop": "64px",
+            gutter: "24px"
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%237e7098'/><text x='16' y='23' text-anchor='middle' fill='white' font-size='20' font-weight='bold'>W</text></svg>">
   <link rel="stylesheet" href="{% static 'wallpapers/css/style.css' %}">
   {% if adsense_client_id and ads_enabled %}
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ adsense_client_id }}" crossorigin="anonymous"></script>
   {% endif %}
   {% block extra_head %}{% endblock %}
   <style>
+    .glass-panel {
+      background-color: rgba(42, 39, 46, 0.6);
+      backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
     .fade-in { animation: fadeIn 0.5s ease-out both; }
     .slide-up { animation: slideUp 0.4s ease-out both; }
     .scale-in { animation: scaleIn 0.3s ease-out both; }
@@ -28,26 +108,28 @@
     .stagger-2 { animation-delay: 0.2s; }
     .stagger-3 { animation-delay: 0.3s; }
     .stagger-4 { animation-delay: 0.4s; }
+    .hide-scrollbar::-webkit-scrollbar { display: none; }
+    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
   </style>
 </head>
-<body class="bg-[#0a0a0a] text-white antialiased min-h-screen font-['Inter',sans-serif]">
+<body class="bg-surface text-on-surface font-body antialiased min-h-screen">
   <div class="flex flex-col min-h-screen">
     {% include 'includes/header.html' %}
     <main class="flex-1">
       {% if messages %}
       <div class="mx-auto max-w-7xl px-4 pt-4 space-y-2">
         {% for message in messages %}
-        <div class="toast flex items-center justify-between rounded-xl px-5 py-3.5 text-sm shadow-lg {% if message.tags == 'error' %}bg-red-500/15 text-red-300 border border-red-500/20{% else %}bg-emerald-500/15 text-emerald-300 border border-emerald-500/20{% endif %} slide-up">
+        <div class="toast flex items-center justify-between rounded-xl px-5 py-3.5 text-sm glass-panel slide-up">
           <span class="flex items-center gap-2">
             {% if message.tags == 'error' %}
-            <svg class="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <span class="material-symbols-outlined text-error shrink-0">error</span>
             {% else %}
-            <svg class="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <span class="material-symbols-outlined text-primary shrink-0">check_circle</span>
             {% endif %}
             {{ message }}
           </span>
-          <button class="toast-dismiss ml-4 text-white/40 hover:text-white/80 transition-colors">
-            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+          <button class="toast-dismiss ml-4 text-on-surface-variant hover:text-on-surface transition-colors">
+            <span class="material-symbols-outlined text-sm">close</span>
           </button>
         </div>
         {% endfor %}

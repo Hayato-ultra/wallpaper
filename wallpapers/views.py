@@ -15,16 +15,14 @@ from .utils import upload_to_cloudinary, get_thumbnail_url, file_sha256
 
 DEVICE_PRESETS = {
     'mobile': {'max_width': 768},
-    'tablet': {'min_width': 768, 'max_width': 1366},
-    'desktop': {'min_width': 1366, 'max_width': 2560},
+    'desktop': {'min_width': 768, 'max_width': 2560},
     'ultrawide': {'min_width': 2560, 'max_width': 3840},
     '4k': {'min_width': 3840},
 }
 
 RECIPE_HELPERS = {
     'mobile': 'Portrait & small screens (≤768px)',
-    'tablet': 'Mid-size screens (768–1366px)',
-    'desktop': 'Standard HD (1366–2560px)',
+    'desktop': 'Standard screens (768–2560px)',
     'ultrawide': 'Ultra-wide (2560–3840px)',
     '4k': 'Ultra HD (≥3840px)',
 }
@@ -163,7 +161,7 @@ def wallpaper_detail(request, pk):
         elif wallpaper.width >= 1920:
             device_hint = 'desktop'
         elif wallpaper.width >= 768:
-            device_hint = 'tablet'
+            device_hint = 'desktop'
 
     return render(request, 'wallpapers/detail.html', {
         'wallpaper': wallpaper,

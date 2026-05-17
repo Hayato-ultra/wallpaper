@@ -2,27 +2,27 @@
 {% load wallpaper_tags %}
 {% block title %}{% if current_tags %}#{{ current_tags }} — {% elif current_category %}{{ current_category }} — {% endif %}Explore — Wallpaper Haven{% endblock %}
 {% block content %}
-<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6">
+<div class="mx-auto max-w-7xl px-margin-mobile md:px-margin-desktop py-6">
   <div class="flex flex-col lg:flex-row gap-8">
     <!-- Desktop sidebar -->
     <aside class="hidden lg:block lg:w-60 shrink-0">
       <div class="sticky top-20 space-y-8">
         <div class="space-y-1">
-          <h3 class="text-xs font-semibold uppercase tracking-widest text-gray-500 mb-4 px-1">Browse</h3>
-          <a href="/explore/" class="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm transition-all duration-200 {% if not current_tags and not current_category and current_sort == 'newest' and not current_device %}bg-blue-500/10 text-blue-400 font-medium{% else %}text-gray-400 hover:text-white hover:bg-white/5{% endif %}">
-            <svg class="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+          <h3 class="font-label-sm text-on-surface-variant uppercase tracking-widest mb-4 px-1">Browse</h3>
+          <a href="/explore/" class="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm transition-all duration-200 {% if not current_tags and not current_category and current_sort == 'newest' and not current_device %}bg-primary/10 text-primary font-medium{% else %}text-on-surface-variant hover:text-on-surface hover:bg-white/5{% endif %}">
+            <span class="material-symbols-outlined text-sm shrink-0">grid_view</span>
             All Wallpapers
           </a>
-          <a href="/explore/?sort=featured" class="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm transition-all duration-200 {% if current_sort == 'featured' %}bg-blue-500/10 text-blue-400 font-medium{% else %}text-gray-400 hover:text-white hover:bg-white/5{% endif %}">
-            <svg class="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
+          <a href="/explore/?sort=featured" class="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm transition-all duration-200 {% if current_sort == 'featured' %}bg-primary/10 text-primary font-medium{% else %}text-on-surface-variant hover:text-on-surface hover:bg-white/5{% endif %}">
+            <span class="material-symbols-outlined text-sm shrink-0">star</span>
             Featured
           </a>
-          <a href="/explore/?sort=trending" class="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm transition-all duration-200 {% if current_sort == 'trending' %}bg-blue-500/10 text-blue-400 font-medium{% else %}text-gray-400 hover:text-white hover:bg-white/5{% endif %}">
-            <svg class="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+          <a href="/explore/?sort=trending" class="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm transition-all duration-200 {% if current_sort == 'trending' %}bg-primary/10 text-primary font-medium{% else %}text-on-surface-variant hover:text-on-surface hover:bg-white/5{% endif %}">
+            <span class="material-symbols-outlined text-sm shrink-0">trending_up</span>
             Trending
           </a>
         </div>
-        <hr class="border-white/5">
+        <hr class="border-white/10">
         {% include 'includes/explore_filters.html' %}
         <div>{% include 'includes/ad_slot.html' with format='skyscraper' %}</div>
       </div>
@@ -36,18 +36,25 @@
       <section>
         <div class="flex items-end justify-between mb-6">
           <div>
-            <h2 class="text-2xl sm:text-3xl font-bold text-white">Browse by Category</h2>
-            <p class="text-sm text-gray-500 mt-1">Find your perfect style</p>
+            <h2 class="font-headline-md text-headline-md text-on-surface">Browse by Category</h2>
+            <p class="font-label-md text-on-surface-variant">Find your perfect style</p>
           </div>
         </div>
-        <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+        <div class="columns-2 gap-3 sm:columns-3 lg:columns-4 [column-fill:_balance]">
           {% for cat in categories %}
-          <a href="{% url 'category' slug=cat.slug %}" class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-white/[0.04] to-white/[0.01] p-5 sm:p-6 text-center transition-all duration-300 hover:from-blue-500/10 hover:to-purple-500/10 hover:ring-1 hover:ring-blue-500/30 hover:shadow-lg hover:shadow-blue-500/5 border border-white/[0.04]">
-            <div class="flex items-center justify-center h-9 w-9 mx-auto rounded-xl bg-white/5 group-hover:bg-blue-500/20 transition-all duration-300 mb-2.5">
-              <span class="text-base">{{ cat.name|first|upper }}</span>
+          <a href="{% url 'category' slug=cat.slug %}" class="break-inside-avoid group relative overflow-hidden rounded-xl text-center transition-all duration-300 hover:shadow-lg border border-white/10 mb-3 sm:mb-4" style="background:#1d1b1f">
+            {% with thumb=cat.get_thumbnail %}
+            <div class="relative aspect-[4/3] overflow-hidden">
+              {% if thumb %}
+              <img src="{{ thumb }}" alt="" class="absolute inset-0 w-full h-full object-cover transition-all duration-500 group-hover:scale-110" loading="lazy">
+              {% endif %}
+              <div class="absolute inset-0 bg-gradient-to-t from-surface/95 via-surface/60 to-surface/20"></div>
+              <div class="absolute bottom-0 left-0 right-0 p-4 text-left">
+                <span class="font-headline-md text-headline-md font-bold text-on-surface block group-hover:text-primary transition-colors">{{ cat.name }}</span>
+                <span class="font-label-sm text-on-surface-variant/80">{{ cat.wallpaper_count }}</span>
+              </div>
             </div>
-            <h3 class="text-sm font-semibold text-white/80 group-hover:text-white transition-colors">{{ cat.name }}</h3>
-            <p class="mt-0.5 text-xs text-gray-600 group-hover:text-gray-500 transition-colors">{{ cat.wallpaper_count }}</p>
+            {% endwith %}
           </a>
           {% endfor %}
         </div>
@@ -59,23 +66,25 @@
       <section>
         <div class="flex items-end justify-between mb-6">
           <div>
-            <h2 class="text-2xl sm:text-3xl font-bold text-white">Featured</h2>
-            <p class="text-sm text-gray-500 mt-1">Hand-picked highlights</p>
+            <h2 class="font-headline-md text-headline-md text-on-surface">Featured</h2>
+            <p class="font-label-md text-on-surface-variant">Hand-picked highlights</p>
           </div>
-          <a href="/explore/?sort=featured" class="hidden sm:inline-flex items-center gap-1 text-sm text-blue-400 hover:text-blue-300 transition-colors font-medium">
+          <a href="/explore/?sort=featured" class="hidden sm:inline-flex items-center gap-1 font-label-md text-primary hover:text-primary-dim transition-colors">
             View All
-            <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            <span class="material-symbols-outlined text-sm">arrow_forward</span>
           </a>
         </div>
-        <div class="grid grid-cols-2 gap-3 sm:gap-4 sm:grid-cols-3">
+        <div class="columns-2 gap-3 sm:columns-3 [column-fill:_balance]">
           {% for wp in featured %}
-            {% include 'includes/wallpaper_card.html' with wallpaper=wp %}
+            <div class="break-inside-avoid mb-3 sm:mb-4">
+              {% include 'includes/wallpaper_card.html' with wallpaper=wp masonry=True %}
+            </div>
           {% endfor %}
         </div>
         <div class="mt-6 sm:hidden text-center">
-          <a href="/explore/?sort=featured" class="inline-flex items-center gap-1 text-sm text-blue-400 hover:text-blue-300 transition-colors font-medium">
+          <a href="/explore/?sort=featured" class="inline-flex items-center gap-1 font-label-md text-primary hover:text-primary-dim transition-colors">
             View All Featured
-            <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            <span class="material-symbols-outlined text-sm">arrow_forward</span>
           </a>
         </div>
       </section>
@@ -86,23 +95,25 @@
       <section>
         <div class="flex items-end justify-between mb-6">
           <div>
-            <h2 class="text-2xl sm:text-3xl font-bold text-white">Trending <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-500">Now</span></h2>
-            <p class="text-sm text-gray-500 mt-1">Most popular downloads</p>
+            <h2 class="font-headline-md text-headline-md text-on-surface">Trending <span class="text-primary">Now</span></h2>
+            <p class="font-label-md text-on-surface-variant">Most popular downloads</p>
           </div>
-          <a href="/explore/?sort=trending" class="hidden sm:inline-flex items-center gap-1 text-sm text-orange-400 hover:text-orange-300 transition-colors font-medium">
+          <a href="/explore/?sort=trending" class="hidden sm:inline-flex items-center gap-1 font-label-md text-primary hover:text-primary-dim transition-colors">
             View All
-            <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            <span class="material-symbols-outlined text-sm">arrow_forward</span>
           </a>
         </div>
-        <div class="grid grid-cols-2 gap-3 sm:gap-4 sm:grid-cols-3">
+        <div class="columns-2 gap-3 sm:columns-3 [column-fill:_balance]">
           {% for wp in trending %}
-            {% include 'includes/wallpaper_card.html' with wallpaper=wp %}
+            <div class="break-inside-avoid mb-3 sm:mb-4">
+              {% include 'includes/wallpaper_card.html' with wallpaper=wp masonry=True %}
+            </div>
           {% endfor %}
         </div>
         <div class="mt-6 sm:hidden text-center">
-          <a href="/explore/?sort=trending" class="inline-flex items-center gap-1 text-sm text-orange-400 hover:text-orange-300 transition-colors font-medium">
+          <a href="/explore/?sort=trending" class="inline-flex items-center gap-1 font-label-md text-primary hover:text-primary-dim transition-colors">
             View All Trending
-            <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            <span class="material-symbols-outlined text-sm">arrow_forward</span>
           </a>
         </div>
       </section>
@@ -112,14 +123,14 @@
       <section>
         <div class="flex items-end justify-between mb-6">
           <div>
-            <h2 class="text-2xl sm:text-3xl font-bold text-white">
+            <h2 class="font-headline-md text-headline-md text-on-surface">
               {% if current_tags %}#{{ current_tags }}{% elif current_category %}{{ current_category }}{% else %}All Wallpapers{% endif %}
             </h2>
-            <p class="text-sm text-gray-500 mt-1">{{ page_obj.paginator.count }} result{{ page_obj.paginator.count|pluralize }}</p>
+            <p class="font-label-md text-on-surface-variant">{{ page_obj.paginator.count }} result{{ page_obj.paginator.count|pluralize }}</p>
           </div>
           {% if current_tags or current_category or current_device %}
-          <a href="/explore/" class="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-white transition-colors px-4 py-2 rounded-xl hover:bg-white/5">
-            <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+          <a href="/explore/" class="inline-flex items-center gap-1.5 font-label-md text-on-surface-variant hover:text-on-surface transition-colors px-4 py-2 rounded-xl hover:bg-white/5">
+            <span class="material-symbols-outlined text-sm">close</span>
             Clear filters
           </a>
           {% endif %}
@@ -127,12 +138,12 @@
 
         <!-- Mobile filter toggle -->
         <details id="mobile-filters" class="group lg:hidden mb-4">
-          <summary class="flex items-center gap-2 w-full rounded-xl bg-white/5 px-4 py-3 text-sm text-gray-300 hover:text-white hover:bg-white/10 transition-all border border-white/5 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
-            <svg class="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
+          <summary class="flex items-center gap-2 w-full rounded-xl glass-panel px-4 py-3 text-sm text-on-surface hover:bg-surface-bright transition-all cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+            <span class="material-symbols-outlined text-sm shrink-0">filter_list</span>
             <span class="font-medium">Filters</span>
-            <svg class="h-4 w-4 ml-auto transition-transform duration-200 group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            <span class="material-symbols-outlined text-sm ml-auto transition-transform duration-200 group-open:rotate-180">expand_more</span>
           </summary>
-          <div class="mt-3 space-y-6 rounded-xl bg-white/[0.03] border border-white/5 p-4">
+          <div class="mt-3 space-y-6 rounded-xl glass-panel p-4">
             {% include 'includes/explore_filters.html' %}
           </div>
         </details>
@@ -142,14 +153,14 @@
           {% include 'includes/wallpaper_grid.html' %}
         {% else %}
         <div class="flex flex-col items-center justify-center py-24">
-          <div class="flex h-16 w-16 items-center justify-center rounded-2xl bg-white/5 mb-4">
-            <svg class="h-8 w-8 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          <div class="flex h-16 w-16 items-center justify-center rounded-2xl glass-panel mb-4">
+            <span class="material-symbols-outlined text-on-surface-variant">image</span>
           </div>
-          <p class="text-gray-500 font-medium">No wallpapers found</p>
-          <p class="text-sm text-gray-600 mt-1">Try different filters or browse all</p>
-          <a href="/explore/" class="mt-4 inline-flex items-center gap-1 text-sm text-blue-400 hover:text-blue-300 transition-colors">
+          <p class="text-on-surface-variant font-medium">No wallpapers found</p>
+          <p class="font-label-sm text-on-surface-variant/60 mt-1">Try different filters or browse all</p>
+          <a href="/explore/" class="mt-4 inline-flex items-center gap-1 font-label-md text-primary hover:text-primary-dim transition-colors">
             Browse all wallpapers
-            <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            <span class="material-symbols-outlined text-sm">arrow_forward</span>
           </a>
         </div>
         {% endif %}

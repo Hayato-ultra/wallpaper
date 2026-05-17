@@ -2,23 +2,23 @@
 {% load wallpaper_tags %}
 {% block title %}{{ category.name }} Wallpapers — Wallpaper Haven{% endblock %}
 {% block content %}
-<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6">
+<div class="mx-auto max-w-7xl px-margin-mobile md:px-margin-desktop py-6">
   <div class="flex flex-col lg:flex-row gap-8">
     <!-- Desktop sidebar -->
     <aside class="hidden lg:block lg:w-60 shrink-0">
       <div class="sticky top-20 space-y-8">
         <div class="space-y-1">
-          <h3 class="text-xs font-semibold uppercase tracking-widest text-gray-500 mb-4 px-1">Categories</h3>
+          <h3 class="font-label-sm text-on-surface-variant uppercase tracking-widest mb-4 px-1">Categories</h3>
           {% for cat in sidebar_categories %}
-          <a href="{% url 'category' slug=cat.slug %}" class="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm transition-all duration-200 {% if cat.slug == category.slug %}bg-blue-500/10 text-blue-400 font-medium{% else %}text-gray-400 hover:text-white hover:bg-white/5{% endif %}">
-            <span class="flex items-center justify-center h-6 w-6 rounded-lg bg-white/5 text-xs font-bold shrink-0">{{ cat.name|first|upper }}</span>
+          <a href="{% url 'category' slug=cat.slug %}" class="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm transition-all duration-200 {% if cat.slug == category.slug %}bg-primary/10 text-primary font-medium{% else %}text-on-surface-variant hover:text-on-surface hover:bg-white/5{% endif %}">
+            <span class="flex items-center justify-center h-6 w-6 rounded-full bg-primary/20 text-xs font-bold shrink-0">{{ cat.name|first|upper }}</span>
             {{ cat.name }}
           </a>
           {% endfor %}
         </div>
-        <hr class="border-white/5">
-        <a href="/explore/" class="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-200">
-          <svg class="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        <hr class="border-white/10">
+        <a href="/explore/" class="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm text-on-surface-variant hover:text-on-surface hover:bg-white/5 transition-all duration-200">
+          <span class="material-symbols-outlined text-sm shrink-0">arrow_back</span>
           All Explore
         </a>
       </div>
@@ -27,17 +27,18 @@
     <!-- Main content -->
     <div class="flex-1 min-w-0">
       <div class="mb-8">
-        <h1 class="text-3xl font-bold text-white">{{ category.name }}</h1>
-        {% if category.description %}<p class="mt-2 text-gray-400">{{ category.description }}</p>{% endif %}
-        <p class="mt-1 text-sm text-gray-500">{{ page_obj.paginator.count }} wallpaper{{ page_obj.paginator.count|pluralize }}</p>
+        <span class="font-label-md text-primary uppercase tracking-widest">Collection</span>
+        <h1 class="font-display-md text-display-md text-on-surface mt-1">{{ category.name }}</h1>
+        {% if category.description %}<p class="mt-2 font-body-md text-on-surface-variant max-w-lg">{{ category.description }}</p>{% endif %}
+        <p class="mt-1 font-label-sm text-on-surface-variant/60">{{ page_obj.paginator.count }} wallpaper{{ page_obj.paginator.count|pluralize }}</p>
       </div>
 
       {% if page_obj %}
         {% include 'includes/wallpaper_grid.html' %}
       {% else %}
       <div class="flex flex-col items-center justify-center py-20">
-        <p class="text-gray-500">No wallpapers in this category yet</p>
-        <a href="/explore/" class="mt-4 text-sm text-blue-400 hover:text-blue-300">Browse all wallpapers</a>
+        <p class="text-on-surface-variant">No wallpapers in this category yet</p>
+        <a href="/explore/" class="mt-4 font-label-md text-primary hover:text-primary-dim">Browse all wallpapers</a>
       </div>
       {% endif %}
     </div>

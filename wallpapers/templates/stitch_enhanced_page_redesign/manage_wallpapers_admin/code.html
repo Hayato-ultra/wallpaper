@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(42, 39, 46, 0.6);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .inner-glow {
+            box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface": "#151317",
+                        "surface-dim": "#151317",
+                        "surface-container-high": "#2c292d",
+                        "secondary-fixed-dim": "#cbc4ce",
+                        "on-primary-container": "#ffffff",
+                        "error": "#ffb4ab",
+                        "tertiary-fixed-dim": "#c7c5cc",
+                        "on-tertiary": "#303035",
+                        "tertiary-fixed": "#e3e1e8",
+                        "surface-container-low": "#1d1b1f",
+                        "on-primary": "#362a4d",
+                        "background": "#151317",
+                        "on-primary-fixed-variant": "#4d4065",
+                        "outline-variant": "#49454d",
+                        "on-surface": "#e7e1e6",
+                        "surface-container": "#211f23",
+                        "surface-bright": "#3b383d",
+                        "on-secondary": "#322f36",
+                        "surface-container-highest": "#373438",
+                        "tertiary-container": "#76767c",
+                        "surface-variant": "#373438",
+                        "on-background": "#e7e1e6",
+                        "on-secondary-fixed-variant": "#49454d",
+                        "on-error-container": "#ffdad6",
+                        "tertiary": "#c7c5cc",
+                        "secondary-container": "#49454d",
+                        "inverse-surface": "#e7e1e6",
+                        "primary-fixed-dim": "#d0bfec",
+                        "on-error": "#690005",
+                        "primary-container": "#7e7098",
+                        "on-primary-fixed": "#211537",
+                        "surface-tint": "#d0bfec",
+                        "on-secondary-fixed": "#1d1a21",
+                        "primary": "#d0bfec",
+                        "inverse-primary": "#65587e",
+                        "on-tertiary-fixed": "#1b1b20",
+                        "outline": "#948f98",
+                        "on-surface-variant": "#cbc4ce",
+                        "primary-fixed": "#ebddff",
+                        "error-container": "#93000a",
+                        "secondary": "#cbc4ce",
+                        "on-secondary-container": "#b9b3bc",
+                        "on-tertiary-fixed-variant": "#46464c",
+                        "surface-container-lowest": "#0f0d11",
+                        "secondary-fixed": "#e7e0ea",
+                        "on-tertiary-container": "#ffffff",
+                        "inverse-on-surface": "#322f34"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "lg": "48px",
+                        "sm": "12px",
+                        "base": "8px",
+                        "gutter": "24px",
+                        "md": "24px",
+                        "xl": "80px",
+                        "xs": "4px",
+                        "margin-mobile": "20px",
+                        "margin-desktop": "64px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Manrope"],
+                        "display-lg-mobile": ["Manrope"],
+                        "body-md": ["Manrope"],
+                        "label-sm": ["Manrope"],
+                        "headline-md": ["Manrope"],
+                        "label-md": ["Manrope"],
+                        "body-lg": ["Manrope"],
+                        "display-lg": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "display-lg-mobile": ["36px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface font-body-md selection:bg-primary/30">
+<!-- TopAppBar Shell -->
+<header class="bg-surface/60 backdrop-blur-[24px] fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile h-16 border-b border-white/10">
+<div class="flex items-center gap-base">
+<span class="material-symbols-outlined text-primary" data-icon="menu">menu</span>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile font-bold tracking-tighter text-on-surface">Aura</h1>
+</div>
+<div class="w-10 h-10 rounded-full overflow-hidden border border-white/10">
+<img alt="Admin" class="w-full h-full object-cover" data-alt="A professional high-resolution close-up portrait of a digital system administrator in a dark studio. The lighting is moody and cinematic with purple and blue rim lights catching the edges of the subject. The background is a soft, deep charcoal grey with a hint of lens flare to emphasize a high-end editorial tech aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVmQC30DVrnr8XrN-0CkK2dRiWD4yvdLGeYxwCHhnM439K9RYEopgr6gzVCL1dXEvz5kYZJ5CdpHMlZlQQVIJXZaTt7eovyezNgsjOyq7rL9Iu8XAAr532E8ywKXzEiUr8_e75iH-DBsyMWyNEw82voTNN9EybQQnAYnfYQL_yei0KeRov9xp0aq5nBf_3z4u2hU6VERLSJfPh7MhPso-sxIGQ2Yl-s8VoEaxO4NMfXovKgAJ9lEkAZAxO260P8ler02yP3wDhXyuY"/>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="pt-24 pb-32 px-margin-mobile max-w-md mx-auto">
+<!-- Header Section -->
+<section class="mb-lg">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface mb-xs">Manage Wallpapers</h2>
+<p class="font-body-md text-on-surface-variant">Update, curate, and moderate your digital gallery.</p>
+</section>
+<!-- Search & Filter Bar -->
+<div class="mb-md flex gap-base">
+<div class="flex-1 glass-panel rounded-lg flex items-center px-md py-sm">
+<span class="material-symbols-outlined text-on-surface-variant mr-base" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-label-md w-full placeholder:text-on-surface-variant/50" placeholder="Search files..." type="text"/>
+</div>
+<button class="glass-panel w-12 h-12 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="filter_list">filter_list</span>
+</button>
+</div>
+<!-- Wallpaper List View -->
+<div class="space-y-md">
+<!-- Wallpaper Item 1 -->
+<div class="glass-panel rounded-xl overflow-hidden p-base inner-glow">
+<div class="flex gap-md">
+<div class="w-20 h-24 rounded-lg overflow-hidden shrink-0 border border-white/10">
+<img alt="Wallpaper" class="w-full h-full object-cover" data-alt="An abstract 3D digital art piece featuring flowing ribbons of iridescent silk in deep violet and charcoal tones. The lighting is soft and atmospheric, highlighting the smooth textures and elegant curves. The aesthetic is luxurious, minimalist, and editorial, designed for a high-end wallpaper gallery." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbtEPEabmZRE2wNnCR42o_rJ5wKgn9YtEv4-IiRYkGs29zj950keCp4XHC6NxiiRQ0JueJ0Y3omQP-kXD5Aq9hUNdqqFK092XureTjDWMdnLcSLRBuqfVeq_uUlmzmeOJjTSf6wSg1WSB91-Tpzktkqrs1WBTP8slyjfRpu3k7T7RJpZxrXWaEcTQi6_FinfFXcNpKrgkVhlCpMG92BfiGQNdaPej1alUo98Clh-5_-ADB_1sFxQNdmXhZevnXfO-7v9BS2lshLHaQ"/>
+</div>
+<div class="flex-1 flex flex-col justify-between py-xs">
+<div>
+<div class="flex justify-between items-start">
+<h3 class="font-label-md text-on-surface font-semibold truncate max-w-[120px]">Ethereal Flow</h3>
+<span class="bg-primary/20 text-primary text-[10px] uppercase tracking-widest px-2 py-0.5 rounded-full font-bold">Featured</span>
+</div>
+<div class="flex gap-md mt-sm">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant" data-icon="visibility">visibility</span>
+<span class="text-label-sm text-on-surface-variant">1.2k</span>
+</div>
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant" data-icon="download">download</span>
+<span class="text-label-sm text-on-surface-variant">450</span>
+</div>
+</div>
+</div>
+<div class="flex justify-end gap-sm">
+<button class="w-8 h-8 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-white/5 transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="visibility">visibility</span>
+</button>
+<button class="w-8 h-8 rounded-full flex items-center justify-center text-error hover:bg-error/10 transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="delete">delete</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Wallpaper Item 2 -->
+<div class="glass-panel rounded-xl overflow-hidden p-base inner-glow">
+<div class="flex gap-md">
+<div class="w-20 h-24 rounded-lg overflow-hidden shrink-0 border border-white/10">
+<img alt="Wallpaper" class="w-full h-full object-cover" data-alt="A minimalist digital landscape depicting stylized crystalline mountains under a starry, deep indigo sky. The lighting is cool and ethereal, with subtle glows emanating from the mountain peaks. The style is sharp, clean, and modern with a focus on geometric simplicity and atmospheric depth." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMHv9I6yEP3FRLIhM0RezCpguXoWvsy1NLacb4PcJFA_f4govxfqr0aaqmW88pxRhlCEkTXlN4BmJmK4MSMNn3Q5MqRs56FtTrjPClIJzUq_yipirvbOJTXXpDx5VRP5aSfuW3Bh814i9rPaaODgu_-uzUMSmDdLA2MXCn_DMCVzPC0kRKHTBqHdhzTIKDe0trLoqpFdRG5mvkdi5AuYzV8eqWZepDfbG-8hj5YM7LiZ2Mg3mH73jqHWRTX4DNscG3Rut2Nul3stp6"/>
+</div>
+<div class="flex-1 flex flex-col justify-between py-xs">
+<div>
+<div class="flex justify-between items-start">
+<h3 class="font-label-md text-on-surface font-semibold truncate max-w-[120px]">Crystal Peaks</h3>
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px] text-primary" data-icon="check_circle" data-weight="fill">check_circle</span>
+<span class="text-label-sm text-on-surface-variant">Published</span>
+</div>
+</div>
+<div class="flex gap-md mt-sm">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant" data-icon="visibility">visibility</span>
+<span class="text-label-sm text-on-surface-variant">892</span>
+</div>
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant" data-icon="download">download</span>
+<span class="text-label-sm text-on-surface-variant">210</span>
+</div>
+</div>
+</div>
+<div class="flex justify-end gap-sm">
+<button class="w-8 h-8 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-white/5 transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="visibility">visibility</span>
+</button>
+<button class="w-8 h-8 rounded-full flex items-center justify-center text-error hover:bg-error/10 transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="delete">delete</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Wallpaper Item 3 -->
+<div class="glass-panel rounded-xl overflow-hidden p-base inner-glow opacity-80">
+<div class="flex gap-md">
+<div class="w-20 h-24 rounded-lg overflow-hidden shrink-0 border border-white/10 grayscale">
+<img alt="Wallpaper" class="w-full h-full object-cover" data-alt="Highly detailed macro photography of liquid glass ripples. The surface is reflective and dark, with subtle amber highlights dancing across the peaks of the waves. The mood is tranquil and sophisticated, utilizing extreme close-up focus to create an abstract sense of movement and luxury material." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCctukjfbQECWcTqRwIAN6-jS8hGbrGZfhpmdloWwC5jyX1rpElhLS79rIgD1wYQWqFfoNHUySzSogaXgVjplFVg9oF8ddcO_JBlcDeXv7TEbo7sFKLsOWQuDF8RokxupZgD96op0TK3-5ldxQURpIr8qkGp8DjyOM1VwhIN8XTvhmMlcU_c_aNitmUce9kVQeKzBVUC8FSDSA6q-qbnbZtog6JDXja0HhYyg7v4VO3l7MUbAAUyCdpytRiexGuu5l4XMu77vqEx-9L"/>
+</div>
+<div class="flex-1 flex flex-col justify-between py-xs">
+<div>
+<div class="flex justify-between items-start">
+<h3 class="font-label-md text-on-surface font-semibold truncate max-w-[120px]">Liquid Glass</h3>
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant" data-icon="pause_circle">pause_circle</span>
+<span class="text-label-sm text-on-surface-variant">Draft</span>
+</div>
+</div>
+<div class="flex gap-md mt-sm">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant" data-icon="visibility">visibility</span>
+<span class="text-label-sm text-on-surface-variant">0</span>
+</div>
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant" data-icon="download">download</span>
+<span class="text-label-sm text-on-surface-variant">0</span>
+</div>
+</div>
+</div>
+<div class="flex justify-end gap-sm">
+<button class="w-8 h-8 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-white/5 transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="edit">edit</span>
+</button>
+<button class="w-8 h-8 rounded-full flex items-center justify-center text-error hover:bg-error/10 transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="delete">delete</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Wallpaper Item 4 -->
+<div class="glass-panel rounded-xl overflow-hidden p-base inner-glow">
+<div class="flex gap-md">
+<div class="w-20 h-24 rounded-lg overflow-hidden shrink-0 border border-white/10">
+<img alt="Wallpaper" class="w-full h-full object-cover" data-alt="A vibrant digital abstract composition of swirling neon clouds in electric blue and magenta against a pitch-black background. The lighting is intense and high-contrast, creating a sense of energy and motion. The aesthetic is modern synthwave, featuring clean lines and a premium digital glow." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTpX_lTCL03dTOrh1dbotCl_nG4glrHONEYS86Ws_NurxaSfrMTv0RLamhoIKpDgjD0iXc1PpUIdG-jrCk93GXMrrPc-t5fNaPmMxcSvi6gU76piAhFbb-L2CZY-8kwYDAcQhRlrOG0lBrbdYZmrX88a6Mt-7pqb-8hYudg2NihzIQkwNkXddd3-WJ9kxADlUR6pkeFZR8kpbXHgfdM2nBFd_yAqtnp-LymeD2ICW1cDDHuQq2zA0d1dqfkVJwrMEfITQ5Q8X3_dSx"/>
+</div>
+<div class="flex-1 flex flex-col justify-between py-xs">
+<div>
+<div class="flex justify-between items-start">
+<h3 class="font-label-md text-on-surface font-semibold truncate max-w-[120px]">Neon Nebula</h3>
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px] text-primary" data-icon="check_circle" data-weight="fill">check_circle</span>
+<span class="text-label-sm text-on-surface-variant">Published</span>
+</div>
+</div>
+<div class="flex gap-md mt-sm">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant" data-icon="visibility">visibility</span>
+<span class="text-label-sm text-on-surface-variant">3.5k</span>
+</div>
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant" data-icon="download">download</span>
+<span class="text-label-sm text-on-surface-variant">1.1k</span>
+</div>
+</div>
+</div>
+<div class="flex justify-end gap-sm">
+<button class="w-8 h-8 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-white/5 transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="visibility">visibility</span>
+</button>
+<button class="w-8 h-8 rounded-full flex items-center justify-center text-error hover:bg-error/10 transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="delete">delete</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Add New FAB -->
+<button class="fixed right-margin-mobile bottom-28 w-14 h-14 bg-primary text-on-primary rounded-xl shadow-2xl flex items-center justify-center transition-transform active:scale-90 z-40">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+</button>
+</main>
+<!-- BottomNavBar Shell -->
+<nav class="bg-surface/60 backdrop-blur-[24px] fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-base pb-safe h-20 border-t border-white/10">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+<span class="font-label-sm text-label-sm">Explore</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="grid_view">grid_view</span>
+<span class="font-label-sm text-label-sm">Categories</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+<span class="font-label-sm text-label-sm">Search</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary/20 text-primary rounded-full px-4 py-1 active:scale-95 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="admin_panel_settings">admin_panel_settings</span>
+<span class="font-label-sm text-label-sm">Admin</span>
+</a>
+</nav>
+</body></html>

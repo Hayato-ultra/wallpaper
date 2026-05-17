@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Aura - Wallpaper Detail</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface": "#151317",
+                    "surface-dim": "#151317",
+                    "surface-container-high": "#2c292d",
+                    "secondary-fixed-dim": "#cbc4ce",
+                    "on-primary-container": "#ffffff",
+                    "error": "#ffb4ab",
+                    "tertiary-fixed-dim": "#c7c5cc",
+                    "on-tertiary": "#303035",
+                    "tertiary-fixed": "#e3e1e8",
+                    "surface-container-low": "#1d1b1f",
+                    "on-primary": "#362a4d",
+                    "background": "#151317",
+                    "on-primary-fixed-variant": "#4d4065",
+                    "outline-variant": "#49454d",
+                    "on-surface": "#e7e1e6",
+                    "surface-container": "#211f23",
+                    "surface-bright": "#3b383d",
+                    "on-secondary": "#322f36",
+                    "surface-container-highest": "#373438",
+                    "tertiary-container": "#76767c",
+                    "surface-variant": "#373438",
+                    "on-background": "#e7e1e6",
+                    "on-secondary-fixed-variant": "#49454d",
+                    "on-error-container": "#ffdad6",
+                    "tertiary": "#c7c5cc",
+                    "secondary-container": "#49454d",
+                    "inverse-surface": "#e7e1e6",
+                    "primary-fixed-dim": "#d0bfec",
+                    "on-error": "#690005",
+                    "primary-container": "#7e7098",
+                    "on-primary-fixed": "#211537",
+                    "surface-tint": "#d0bfec",
+                    "on-secondary-fixed": "#1d1a21",
+                    "primary": "#d0bfec",
+                    "inverse-primary": "#65587e",
+                    "on-tertiary-fixed": "#1b1b20",
+                    "outline": "#948f98",
+                    "on-surface-variant": "#cbc4ce",
+                    "primary-fixed": "#ebddff",
+                    "error-container": "#93000a",
+                    "secondary": "#cbc4ce",
+                    "on-secondary-container": "#b9b3bc",
+                    "on-tertiary-fixed-variant": "#46464c",
+                    "surface-container-lowest": "#0f0d11",
+                    "secondary-fixed": "#e7e0ea",
+                    "on-tertiary-container": "#ffffff",
+                    "inverse-on-surface": "#322f34"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "lg": "48px",
+                    "sm": "12px",
+                    "base": "8px",
+                    "gutter": "24px",
+                    "md": "24px",
+                    "xl": "80px",
+                    "xs": "4px",
+                    "margin-mobile": "20px",
+                    "margin-desktop": "64px"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Manrope"],
+                    "display-lg-mobile": ["Manrope"],
+                    "body-md": ["Manrope"],
+                    "label-sm": ["Manrope"],
+                    "headline-md": ["Manrope"],
+                    "label-md": ["Manrope"],
+                    "body-lg": ["Manrope"],
+                    "display-lg": ["Manrope"]
+            },
+            "fontSize": {
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                    "display-lg-mobile": ["36px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background-color: rgba(42, 39, 46, 0.6);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .inner-glow {
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface font-body-md overflow-x-hidden">
+<!-- TopAppBar (JSON Mapping) -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile h-16 bg-surface/60 backdrop-blur-[24px] border-b border-white/10">
+<div class="flex items-center gap-base">
+<span class="material-symbols-outlined text-primary" data-icon="menu">menu</span>
+<span class="font-headline-lg-mobile text-headline-lg-mobile font-bold tracking-tighter text-on-surface">Aura</span>
+</div>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-white/10">
+<img alt="Admin User Profile" class="w-full h-full object-cover" data-alt="A professional headshot of a person with a clean, minimalist aesthetic. The lighting is soft and cinematic, coming from the side to create subtle depth. The background is a muted, dark charcoal gray that complements the high-end digital design environment. The individual has a serene expression, fitting the premium atmospheric minimalist theme of the application." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAvPtWwzkfEsOe4Hkys69u1jPFIr-TrqBNz3ksXXkBNBqh-B4dAx5sCHWYFBuztHdWfxnRmCtHtDWOi0YJtTZC8QQYbFvVPT6j2XRFc835qdqU7NXHsVC9tw0Q7HEk8UozJtSix7_0OAGqplirGrg4AjsAfDuV7npb_53VlkJJvdIQsQSUarpIFWecZskxmXrOKptE6KEFT0RlM8Ce7Yryocy8BpoLI40IjdlDy427XZJTsnUm_F83B_AQOxJh5WQUUei5npddgg4B"/>
+</div>
+</header>
+<main class="pt-16 pb-lg">
+<!-- Hero Image Preview -->
+<section class="px-margin-mobile mt-base">
+<div class="relative w-full aspect-[3/4] rounded-xl overflow-hidden glass-panel">
+<img alt="Main Preview" class="w-full h-full object-cover" data-alt="A high-fidelity digital art wallpaper featuring soft, flowing waves of deep violet and charcoal gray. The composition is minimalist and abstract, with subtle gradients and a sense of depth created by atmospheric lighting. The mood is calm, sophisticated, and premium, perfectly aligned with a luxury digital art collection. Highlights are rendered in a soft lavender that matches the primary brand color." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-CkK28IOD-Ktkk1wWUaIpaDkoiu0RyQxhPs6FUzyMJieSpU2gLWwyiatIKuHADxrjOOXdeCXAdbXzEDOocfLKeWPPbEm4lZvWFwp_BvmNMNFaS4Tfys5WQuuq-s_7ZM2q9tKj36Szb3bCJ5OFxxYFn0_sT4G9Pn49FnnuicX5mhe6CgeElTrOvV2nsamGn6lFmkuuvYFQHRZdd3PcutY-qOxs3DB2tJtuxvejUZGSb_JhjswsIev_GCc3a3DS_rzhwJ_CioVNn2fM"/>
+<!-- Floating Metadata Action -->
+<div class="absolute bottom-base left-base right-base glass-panel rounded-lg p-md flex justify-between items-center">
+<div class="flex flex-col">
+<span class="font-label-sm text-on-surface-variant">Vivid Nebula</span>
+<span class="font-headline-md text-primary">Abstract Art</span>
+</div>
+<button class="bg-primary-container text-on-primary-container p-sm rounded-full flex items-center justify-center hover:bg-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="download">download</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Stats & Actions Section -->
+<section class="px-margin-mobile mt-md grid grid-cols-2 gap-gutter">
+<div class="glass-panel p-md rounded-xl flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary" data-icon="visibility">visibility</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-on-surface-variant">Views</span>
+<span class="font-headline-md">12.4k</span>
+</div>
+</div>
+<div class="glass-panel p-md rounded-xl flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary" data-icon="download_done">download_done</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-on-surface-variant">Downloads</span>
+<span class="font-headline-md">4.8k</span>
+</div>
+</div>
+</section>
+<!-- Technical Details -->
+<section class="px-margin-mobile mt-lg">
+<h2 class="font-headline-md text-on-surface mb-md">Technical Info</h2>
+<div class="flex flex-col gap-base">
+<div class="flex justify-between items-center py-sm border-b border-white/5">
+<span class="font-body-md text-on-surface-variant">Resolution</span>
+<span class="font-body-md text-on-surface">3840 x 2160</span>
+</div>
+<div class="flex justify-between items-center py-sm border-b border-white/5">
+<span class="font-body-md text-on-surface-variant">File Format</span>
+<span class="font-body-md text-on-surface">WEBP (Lossless)</span>
+</div>
+<div class="flex justify-between items-center py-sm border-b border-white/5">
+<span class="font-body-md text-on-surface-variant">Color Depth</span>
+<span class="font-body-md text-on-surface">10-bit HDR</span>
+</div>
+<div class="flex justify-between items-center py-sm border-b border-white/5">
+<span class="font-body-md text-on-surface-variant">Size</span>
+<span class="font-body-md text-on-surface">4.2 MB</span>
+</div>
+</div>
+</section>
+<!-- Tags -->
+<section class="px-margin-mobile mt-lg">
+<div class="flex flex-wrap gap-sm">
+<span class="px-md py-xs rounded-full bg-primary/20 text-primary font-label-md">Abstract</span>
+<span class="px-md py-xs rounded-full bg-primary/20 text-primary font-label-md">Dark</span>
+<span class="px-md py-xs rounded-full bg-primary/20 text-primary font-label-md">4K</span>
+<span class="px-md py-xs rounded-full bg-primary/20 text-primary font-label-md">Minimal</span>
+</div>
+</section>
+<!-- Similar Wallpapers Asymmetric Grid -->
+<section class="px-margin-mobile mt-xl mb-xl">
+<h2 class="font-headline-md text-on-surface mb-lg">Similar Wallpapers</h2>
+<div class="grid grid-cols-2 gap-md items-start">
+<!-- Col 1 -->
+<div class="flex flex-col gap-md">
+<div class="w-full aspect-[9/16] rounded-xl overflow-hidden border border-white/10 glass-panel">
+<img alt="Similar 1" class="w-full h-full object-cover" data-alt="An ethereal digital composition of floating silk-like structures in a void. The color palette is composed of deep indigo and muted violet, with soft glows emanating from the core of the structures. The image is clean, sharp, and embodies a futuristic, atmospheric minimalist aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDcMd8ApA6a64E4tcUGeZpL3zm5r3xDr2C0YH747AcnTtXhFPjabqNSdRTBm4zyVpjaWD06ko9AoEog4R8R-GlzhBymUARHeSIJWYXoWPhHkRVDMSJj5scsbjr_InQbDXZhNrqFcN3qYHRrFPp21YyYpLyWUdmwooXPg0eDlQg1ZGUiosTjZZ63120ZDFLb5Xqh-80OlIqu5SDnRxWnTJemGy9Pq38gqAS5tGH7ppwGvkIeyl3HoLc05jCxfWgmIOCOfhbD69mPzHn6"/>
+</div>
+<div class="w-full aspect-square rounded-xl overflow-hidden border border-white/10 glass-panel">
+<img alt="Similar 2" class="w-full h-full object-cover" data-alt="A minimalist architectural detail of a brutalist building at dusk. The sharp concrete angles are softened by a deep purple twilight sky. The composition uses high contrast and deep shadows to create a moody, sophisticated atmosphere that aligns with a high-end digital art aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRu35t65oGEUlciVzmgg-C2fBsNV2piv_QsD2gSXqUnYLgj-KBwPQoLefYuytbeIcMfhZ-FUk0pHfYjrgnejOV5AQPdSCnoYQml3ozeeO767fcDeaAwCOB3PnDLOUqZ95Yow2QM82tdqZOpQZmlTigeX2LjKbQU9KSKTuvW3Ac5Lzk0fXp1kigPqQrY2td8Ems89KbgSXLIun_Tpas_iI3wiA4oIuBXEHbm7tkG-2dPDHUKJhcrYk0bGMWB1scNGfTca-vQTbn0k1-"/>
+</div>
+</div>
+<!-- Col 2 -->
+<div class="flex flex-col gap-md mt-lg">
+<div class="w-full aspect-square rounded-xl overflow-hidden border border-white/10 glass-panel">
+<img alt="Similar 3" class="w-full h-full object-cover" data-alt="A top-down view of a dark, crystalline formation with vibrant violet facets. The lighting is dramatic, highlighting the sharp edges and complex geometry of the minerals. The overall feel is organic yet high-tech, fitting for a premium digital art display." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUjIm9c75jxraSGyKP4dGaiVqKPsRqvxOd_kB-m3PJtTDpmxHrhFZ3NoDf8hBH0LV3LrUgWFeD5ybLOmslbn4EyU_8tpzGpFyw_tU948Md9MjNHCZmzjxmGCRv2xUGzNGCJ4Rmg8Xm2gWaCpGTyk-nZui03ECh8IHIyZfKMJG7iJRUuauGzsWlU3lTlxPld5mJFoaFIZ7u2JjxvWzyqS3m2htQ5wYVVoltv9JpXWwLFxNm83trcLxLjQ51U87R1svLYX_gbJDqUbD3"/>
+</div>
+<div class="w-full aspect-[9/16] rounded-xl overflow-hidden border border-white/10 glass-panel">
+<img alt="Similar 4" class="w-full h-full object-cover" data-alt="A macro shot of fluid motion art featuring metallic silver and deep purple liquids swirling together. The texture is smooth and glossy, with realistic reflections. The mood is hypnotic and premium, highlighting the high-fidelity focus of the Aura brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSxqYCEMq89u42kPM3UKavVFShwvN-OGVxNCH_cr6ap0-csQWNzNL9F71KeFQrqGomnHbL6MIc0yDuV2JSfe7imrTA94sdQgF396Z2M_7jdECxIENJNNwaLYdj-MOj7dSrRXxoIhZeYHPf7tnxgPHVCDQsxQ_wXheGdvK09av_mGQnrrVBybmMBPU6eGG30Sf9G5vbD4psWn1xVqdVSTtPI78MX7SR80Zj1TU4ejSb8gVF5PMnWsVinNByMT_-VK46xYGic80G4C7l"/>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (JSON Mapping - Suppressed but contextually relevant if navigation is required) -->
+<!-- Applying the 'Task-Focused Suppression' rule as this is a Detail screen. No BottomNav. -->
+</body></html>

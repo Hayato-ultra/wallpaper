@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface": "#151317",
+                    "surface-dim": "#151317",
+                    "surface-container-high": "#2c292d",
+                    "secondary-fixed-dim": "#cbc4ce",
+                    "on-primary-container": "#ffffff",
+                    "error": "#ffb4ab",
+                    "tertiary-fixed-dim": "#c7c5cc",
+                    "on-tertiary": "#303035",
+                    "tertiary-fixed": "#e3e1e8",
+                    "surface-container-low": "#1d1b1f",
+                    "on-primary": "#362a4d",
+                    "background": "#151317",
+                    "on-primary-fixed-variant": "#4d4065",
+                    "outline-variant": "#49454d",
+                    "on-surface": "#e7e1e6",
+                    "surface-container": "#211f23",
+                    "surface-bright": "#3b383d",
+                    "on-secondary": "#322f36",
+                    "surface-container-highest": "#373438",
+                    "tertiary-container": "#76767c",
+                    "surface-variant": "#373438",
+                    "on-background": "#e7e1e6",
+                    "on-secondary-fixed-variant": "#49454d",
+                    "on-error-container": "#ffdad6",
+                    "tertiary": "#c7c5cc",
+                    "secondary-container": "#49454d",
+                    "inverse-surface": "#e7e1e6",
+                    "primary-fixed-dim": "#d0bfec",
+                    "on-error": "#690005",
+                    "primary-container": "#7e7098",
+                    "on-primary-fixed": "#211537",
+                    "surface-tint": "#d0bfec",
+                    "on-secondary-fixed": "#1d1a21",
+                    "primary": "#d0bfec",
+                    "inverse-primary": "#65587e",
+                    "on-tertiary-fixed": "#1b1b20",
+                    "outline": "#948f98",
+                    "on-surface-variant": "#cbc4ce",
+                    "primary-fixed": "#ebddff",
+                    "error-container": "#93000a",
+                    "secondary": "#cbc4ce",
+                    "on-secondary-container": "#b9b3bc",
+                    "on-tertiary-fixed-variant": "#46464c",
+                    "surface-container-lowest": "#0f0d11",
+                    "secondary-fixed": "#e7e0ea",
+                    "on-tertiary-container": "#ffffff",
+                    "inverse-on-surface": "#322f34"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "lg": "48px",
+                    "sm": "12px",
+                    "base": "8px",
+                    "gutter": "24px",
+                    "md": "24px",
+                    "xl": "80px",
+                    "xs": "4px",
+                    "margin-mobile": "20px",
+                    "margin-desktop": "64px"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Manrope"],
+                    "display-lg-mobile": ["Manrope"],
+                    "body-md": ["Manrope"],
+                    "label-sm": ["Manrope"],
+                    "headline-md": ["Manrope"],
+                    "label-md": ["Manrope"],
+                    "body-lg": ["Manrope"],
+                    "display-lg": ["Manrope"],
+                    "headline-lg-mobile": ["Manrope"],
+                    "label-sm-mobile": ["Manrope"],
+                    "label-md-mobile": ["Manrope"]
+            },
+            "fontSize": {
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "display-lg-mobile": ["36px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                    "label-sm-mobile": ["11px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "label-md-mobile": ["13px", {"lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .glass-panel {
+            background-color: rgba(42, 39, 46, 0.6);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface font-body-md min-h-screen pb-20">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile h-16 bg-surface/60 backdrop-blur-[24px] border-b border-white/10">
+<div class="flex items-center gap-base">
+<span class="material-symbols-outlined text-primary" data-icon="menu">menu</span>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile font-bold tracking-tighter text-on-surface">Aura</h1>
+</div>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-white/10">
+<img alt="Admin User Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmAPFTsF_iu9F1bUPr3faECOTXz_8mr2fU1Q1Td3ws1a8ADwOfcZptX0rrfUgJpmYNL5nJUFlx_jRsEtd1DVGujcmUOsNL-2xW4yhutoTEHnRySfdnTSmc10efoRIAUu1aOFs8tQdoCLfVOBEPit5KZjps-xIWEY7s5oyPjLIgDyR4L2q9YyYOLph0-C8IYdVXIM8Y8Npr7A1ZIQeDAHR0DALc7aRjv1C-_4t0Jcyg3YeU-8mitDMBU15G2HRx1rfHs6sqY9MXeSMt"/>
+</div>
+</header>
+<main class="pt-24 px-margin-mobile">
+<!-- Search Section -->
+<section class="space-y-md mb-lg">
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant" data-icon="search">search</span>
+<input class="w-full h-14 pl-12 pr-4 bg-surface-container border-b border-outline-variant focus:border-primary focus:ring-0 text-body-md text-on-surface transition-all outline-none rounded-t-lg" placeholder="Search wallpapers..." type="text" value="Abstract Ethereal"/>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant cursor-pointer" data-icon="close">close</span>
+</div>
+<div class="flex justify-between items-end">
+<div>
+<p class="font-label-md text-on-surface-variant uppercase tracking-widest">Results</p>
+<h2 class="font-headline-md text-on-surface">12 Wallpapers found</h2>
+</div>
+<button class="flex items-center gap-xs font-label-md text-primary bg-primary/10 px-3 py-1.5 rounded-full">
+<span class="material-symbols-outlined text-sm" data-icon="filter_list">filter_list</span>
+                    Refine
+                </button>
+</div>
+</section>
+<!-- Search Results Grid (Bento Style) -->
+<div class="grid grid-cols-2 gap-md">
+<!-- Result 1 (Large) -->
+<div class="col-span-2 glass-panel rounded-xl overflow-hidden aspect-[4/3] relative">
+<img class="w-full h-full object-cover" data-alt="A high-fidelity digital art wallpaper showcasing flowing ethereal ribbons of soft violet and deep charcoal. The composition is atmospheric and minimalist with smooth gradients and a soft volumetric light source from the top-left. Fine grain textures add a premium editorial feel, maintaining a sophisticated moody aesthetic consistent with the Aura brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAaA9tfIf7Z0OCJ9cGD74aQNj63p9nDDMTCKrDaLwdHI9pFPYYlIfWnmRQ2qX_MfjQEbjUBx41gVXSAEcGqNPZHI-5-2ebrftASlQTqSXF-XnqsA7v40aWPwkvmhjSfTW1PSxLCSwa0X8xW2XPtJdoJB5c8wsT5ig9ILYUPzdjS29PmqkVyGxcHpgJBO3pFsnD4OKj4-7Ju4MvefCIn7nQjnDfY_00p8YoxyEcCFOu5gjYIp1A6lRLy83X4yKak6XF2b9Y_4GmH_84x"/>
+<div class="absolute bottom-0 left-0 w-full p-md bg-gradient-to-t from-surface-container-lowest/80 to-transparent">
+<span class="bg-primary/20 text-primary px-2 py-0.5 rounded-full font-label-sm text-[10px] uppercase tracking-wider mb-xs inline-block">Featured</span>
+<h3 class="font-headline-md text-on-surface leading-tight">Violet Nebula</h3>
+</div>
+</div>
+<!-- Result 2 -->
+<div class="glass-panel rounded-xl overflow-hidden aspect-[3/4]">
+<img class="w-full h-full object-cover" data-alt="An abstract 3D render of organic, liquid-like shapes in muted lavender and matte black. The lighting is low-key with sharp rim highlights that define the edges of the undulating surfaces. The overall mood is serene and technologically advanced, echoing the minimalist luxury of the Aura design system." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBf_hxsBPi8dK46Kkg0V31NjXproZE6srZQBX5O4uISykuY69g5gzS72FEeDTJyJboXs-bY3IoBkcctx9LSrKBQwmN1bUC3mN-MSZeKt5OoA6YYwy0PRl2J6cqlW2o9LMaYp2Vpz8B8FG6Ul0m2JxuSBHlFfcD-R6HIjpHI-klpcsVobfPEmMEFiiUUJ0QBu58stbs8yUSg9ZgIR-VT1rzr-VkNaIX3DA4uztjD4yIzPRMo8Tb8pODBbNKDdJxAAeo_8w861iCU5IlO"/>
+<div class="p-sm">
+<p class="font-label-sm text-on-surface-variant">Liquid Flow</p>
+</div>
+</div>
+<!-- Result 3 -->
+<div class="glass-panel rounded-xl overflow-hidden aspect-[3/4]">
+<img class="w-full h-full object-cover" data-alt="A minimalist wallpaper featuring a subtle mesh gradient transitioning from deep obsidian to a muted, dusty purple. The texture is smooth with a slight noise floor to suggest high-resolution digital craftsmanship. The visual style is calm and focused, designed to recede into the background while maintaining a premium feel." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMzmRxqyW6aZnSNcdIkuqYcWwRlmxYn33w4P_4qa4UuIejCk0Ycaho3u--2NjhxghJAelOaWizM9Dqh548A-vDYgeQ32-HTonkBDBdHo2QNpaa8cBx_ivMTOeNSns4-D5uXdw35szgi04cXaf10HJP3IPUYgrZg8Ai4WJtZXIBaaJPXeogqifxohDYbhuK8yf2GPTP-cK_9M7bpB7_sAmCY63tNE39n7vvOFn0AquiGl0FExwdmGlm-hCYXKzwztR4z_XyJ8ctKVo9"/>
+<div class="p-sm">
+<p class="font-label-sm text-on-surface-variant">Obsidian Dusk</p>
+</div>
+</div>
+<!-- Result 4 -->
+<div class="glass-panel rounded-xl overflow-hidden aspect-square col-span-1">
+<img class="w-full h-full object-cover" data-alt="A dark digital landscape with geometric crystalline structures glowing softly from within. The color palette centers on the Aura brand's muted purple and deep charcoal tones. High-density backdrop blurs and semi-transparent layers create a sense of physical stacks and depth without using harsh shadows." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQYPzHBM6qAeZD1S0q09N24qh0pf2Aqeh2dWjj8dkx0kglB-9JJX3KZ1IfNEFZAbFZYrQDCAQ9DpPl7cOczwbOECjx_vYOyBl0S6i8QyxJh0Y249Tr90Ll24j7awZdNLBOQRpEfpAAnupYft8So2kRNVl2fiJcP9mrAYvC8bjsEc63z6Onmf_uXm0CkMsCX7nBAuZem7meMXABVA3fGhftqQbU8-5XZHm8IFTlNqctFOm5QlRbEbZM_qcoqEefzHHwzIfCZx9eMCTU"/>
+<div class="p-sm">
+<p class="font-label-sm text-on-surface-variant">Crystal Void</p>
+</div>
+</div>
+<!-- Result 5 -->
+<div class="glass-panel rounded-xl overflow-hidden aspect-square col-span-1">
+<img class="w-full h-full object-cover" data-alt="Soft, unfocused spheres of light floating in a deep purple space, creating a bokeh effect that feels like digital luxury art. The lighting is sophisticated and atmospheric, providing a moody backdrop for high-fidelity devices. Every detail is rendered with clarity to emphasize a high-end editorial digital experience." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDALJWf-aXj1clCqtwLMBW7ugKMx2rbk2iNtI50YzDZuCPS-tcqbK1tZ5lJ9LOp5DFDUXQygL7TT3RsPQcdLjz9oB3mkiZNoPl2EbGzdIs6AzTnHYcFRIVICDEhcFOqclorbreGyD5Sa3FtJ5SwzqkVSYqpFd9_q18pwHQSZDLeMGa33BKkmPCGH3In4IhoRM10CEn7K8bhfc1UFDJboB8rEAPq5Y5bCKgga9xRAjre3B59qf4rNkCbYjeheZWrXayG8F3XpkNkF41p"/>
+<div class="p-sm">
+<p class="font-label-sm text-on-surface-variant">Soft Bokeh</p>
+</div>
+</div>
+</div>
+<!-- Empty State (Hidden by default, shown for visual demonstration of the request) -->
+<div class="hidden flex flex-col items-center justify-center py-xl text-center space-y-md">
+<div class="w-24 h-24 rounded-full bg-surface-container flex items-center justify-center border border-white/5">
+<span class="material-symbols-outlined text-4xl text-on-surface-variant" data-icon="search_off">search_off</span>
+</div>
+<div class="space-y-xs">
+<h3 class="font-headline-md text-on-surface">No results found</h3>
+<p class="text-on-surface-variant max-w-[240px]">We couldn't find anything matching your search. Try different keywords.</p>
+</div>
+<button class="px-md py-sm bg-primary text-on-primary rounded-lg font-label-md">Clear Search</button>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-base pb-safe h-20 bg-surface/60 backdrop-blur-[24px] border-t border-white/10">
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+<span class="font-label-sm text-label-sm">Explore</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all">
+<span class="material-symbols-outlined" data-icon="grid_view">grid_view</span>
+<span class="font-label-sm text-label-sm">Categories</span>
+</button>
+<button class="flex flex-col items-center justify-center bg-primary/20 text-primary rounded-full px-4 py-1 scale-95 transition-transform duration-150">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+<span class="font-label-sm text-label-sm">Search</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all">
+<span class="material-symbols-outlined" data-icon="admin_panel_settings">admin_panel_settings</span>
+<span class="font-label-sm text-label-sm">Admin</span>
+</button>
+</nav>
+</body></html>

@@ -3,43 +3,43 @@
 {% block title %}Tags — Admin — Wallpaper Haven{% endblock %}
 {% block content %}
 {% include 'includes/admin_nav.html' %}
-<div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-8">
+<div class="mx-auto max-w-4xl px-margin-mobile md:px-margin-desktop py-8">
   <div class="flex items-center justify-between gap-4 mb-8">
     <div>
-      <h1 class="text-2xl sm:text-3xl font-bold text-white">Tags</h1>
-      <p class="text-sm text-gray-500 mt-1">{{ tags|length }} unique tags across all wallpapers</p>
+      <h1 class="font-headline-md text-headline-md text-on-surface">Tags</h1>
+      <p class="font-label-md text-on-surface-variant mt-1">{{ tags|length }} unique tags across all wallpapers</p>
     </div>
-    <a href="{% url 'admin_dashboard' %}" class="inline-flex items-center h-10 px-4 rounded-xl bg-white/5 text-sm font-medium text-gray-300 hover:text-white hover:bg-white/10 transition-all border border-white/10 gap-2">
-      <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+    <a href="{% url 'admin_dashboard' %}" class="inline-flex items-center h-10 px-4 rounded-xl bg-white/5 font-label-md text-on-surface-variant hover:text-on-surface hover:bg-white/10 transition-all border border-white/10 gap-2">
+      <span class="material-symbols-outlined text-sm">arrow_back</span>
       Dashboard
     </a>
   </div>
 
-  <div class="rounded-2xl bg-white/[0.02] border border-white/[0.06] overflow-hidden">
+  <div class="glass-panel rounded-xl overflow-hidden">
     {% if tags %}
     <table class="w-full">
       <thead>
-        <tr class="border-b border-white/[0.06] bg-white/[0.02]">
-          <th class="text-left text-xs font-semibold uppercase tracking-wider text-gray-500 py-3.5 px-4">#</th>
-          <th class="text-left text-xs font-semibold uppercase tracking-wider text-gray-500 py-3.5 px-4">Tag</th>
-          <th class="text-right text-xs font-semibold uppercase tracking-wider text-gray-500 py-3.5 px-4">Wallpapers</th>
-          <th class="text-right text-xs font-semibold uppercase tracking-wider text-gray-500 py-3.5 px-4 w-48">Usage</th>
+        <tr class="border-b border-white/10 bg-white/[0.02]">
+          <th class="text-left font-label-sm text-on-surface-variant py-3.5 px-4">#</th>
+          <th class="text-left font-label-sm text-on-surface-variant py-3.5 px-4">Tag</th>
+          <th class="text-right font-label-sm text-on-surface-variant py-3.5 px-4">Wallpapers</th>
+          <th class="text-right font-label-sm text-on-surface-variant py-3.5 px-4 w-48">Usage</th>
         </tr>
       </thead>
       <tbody class="divide-y divide-white/[0.04]">
         {% for tag, count in tags %}
         <tr class="hover:bg-white/[0.02] transition-colors">
-          <td class="py-3.5 px-4 text-sm text-gray-500 font-mono">{{ forloop.counter }}</td>
+          <td class="py-3.5 px-4 font-label-md text-outline font-mono">{{ forloop.counter }}</td>
           <td class="py-3.5 px-4">
-            <span class="inline-flex items-center rounded-full bg-blue-500/10 text-blue-400 px-3 py-1 text-xs font-medium">#{{ tag }}</span>
+            <span class="inline-flex items-center rounded-full bg-primary/20 text-primary px-3 py-1 font-label-sm">#{{ tag }}</span>
           </td>
-          <td class="py-3.5 px-4 text-right text-sm text-white font-mono">{{ count }}</td>
+          <td class="py-3.5 px-4 text-right font-label-md text-on-surface font-mono">{{ count }}</td>
           <td class="py-3.5 px-4 text-right">
             <div class="flex items-center justify-end gap-3">
               <div class="w-24 h-2 rounded-full bg-white/5 overflow-hidden">
-                <div class="h-full rounded-full bg-blue-500 transition-all" style="width:{% widthratio count max_count 100 %}%"></div>
+                <div class="h-full rounded-full bg-primary transition-all" style="width:{% widthratio count max_count 100 %}%"></div>
               </div>
-              <span class="text-xs text-gray-500 w-10 text-right">{% widthratio count max_count 100 %}%</span>
+              <span class="font-label-sm text-on-surface-variant w-10 text-right">{% widthratio count max_count 100 %}%</span>
             </div>
           </td>
         </tr>
@@ -48,8 +48,9 @@
     </table>
     {% else %}
     <div class="flex flex-col items-center justify-center py-20">
-      <p class="text-gray-500">No tags found</p>
-      <p class="text-sm text-gray-600 mt-1">Tags are added when you upload wallpapers</p>
+      <span class="material-symbols-outlined text-on-surface-variant text-3xl mb-2">local_offer</span>
+      <p class="text-on-surface-variant">No tags found</p>
+      <p class="font-label-sm text-on-surface-variant/60 mt-1">Tags are added when you upload wallpapers</p>
     </div>
     {% endif %}
   </div>

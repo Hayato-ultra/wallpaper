@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Aura Admin Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface": "#151317",
+                        "surface-dim": "#151317",
+                        "surface-container-high": "#2c292d",
+                        "secondary-fixed-dim": "#cbc4ce",
+                        "on-primary-container": "#ffffff",
+                        "error": "#ffb4ab",
+                        "tertiary-fixed-dim": "#c7c5cc",
+                        "on-tertiary": "#303035",
+                        "tertiary-fixed": "#e3e1e8",
+                        "surface-container-low": "#1d1b1f",
+                        "on-primary": "#362a4d",
+                        "background": "#151317",
+                        "on-primary-fixed-variant": "#4d4065",
+                        "outline-variant": "#49454d",
+                        "on-surface": "#e7e1e6",
+                        "surface-container": "#211f23",
+                        "surface-bright": "#3b383d",
+                        "on-secondary": "#322f36",
+                        "surface-container-highest": "#373438",
+                        "tertiary-container": "#76767c",
+                        "surface-variant": "#373438",
+                        "on-background": "#e7e1e6",
+                        "on-secondary-fixed-variant": "#49454d",
+                        "on-error-container": "#ffdad6",
+                        "tertiary": "#c7c5cc",
+                        "secondary-container": "#49454d",
+                        "inverse-surface": "#e7e1e6",
+                        "primary-fixed-dim": "#d0bfec",
+                        "on-error": "#690005",
+                        "primary-container": "#7e7098",
+                        "on-primary-fixed": "#211537",
+                        "surface-tint": "#d0bfec",
+                        "on-secondary-fixed": "#1d1a21",
+                        "primary": "#d0bfec",
+                        "inverse-primary": "#65587e",
+                        "on-tertiary-fixed": "#1b1b20",
+                        "outline": "#948f98",
+                        "on-surface-variant": "#cbc4ce",
+                        "primary-fixed": "#ebddff",
+                        "error-container": "#93000a",
+                        "secondary": "#cbc4ce",
+                        "on-secondary-container": "#b9b3bc",
+                        "on-tertiary-fixed-variant": "#46464c",
+                        "surface-container-lowest": "#0f0d11",
+                        "secondary-fixed": "#e7e0ea",
+                        "on-tertiary-container": "#ffffff",
+                        "inverse-on-surface": "#322f34"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "lg": "48px",
+                        "sm": "12px",
+                        "base": "8px",
+                        "gutter": "24px",
+                        "md": "24px",
+                        "xl": "80px",
+                        "xs": "4px",
+                        "margin-mobile": "20px",
+                        "margin-desktop": "64px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Manrope"],
+                        "display-lg-mobile": ["Manrope"],
+                        "body-md": ["Manrope"],
+                        "label-sm": ["Manrope"],
+                        "headline-md": ["Manrope"],
+                        "label-md": ["Manrope"],
+                        "body-lg": ["Manrope"],
+                        "display-lg": ["Manrope"],
+                        "headline-lg-mobile": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "display-lg-mobile": ["36px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-panel {
+            background-color: rgba(42, 39, 46, 0.6);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface font-body-md selection:bg-primary/30 min-h-screen">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile h-16 bg-surface/60 backdrop-blur-[24px] border-b border-white/10">
+<div class="flex items-center gap-base">
+<span class="material-symbols-outlined text-primary" data-icon="menu">menu</span>
+<span class="font-headline-lg-mobile text-headline-lg-mobile font-bold tracking-tighter text-on-surface">Aura</span>
+</div>
+<div class="flex items-center">
+<img alt="Admin User Profile" class="w-8 h-8 rounded-full border border-white/10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9QaumKx3kpQCYz7U1CHgapohAuGMZTJYh0ENOhCcgNg9GU6MhRvWktvS3UURbbtWe9hXILoB49OcuEAHVZWx0d6Uog_njmZTWVilVVrb_AQEq5nHHWcrsvoMRkdYKhcutrmIg2g-1iZsXyQ3V7iYGEG17cw7iN8mDgx2LGqSDdZGvdkC1fStG1jf_2wWJjLjGh-PWaSqzO7NSFVK44sativbJEd0Yy_Z-6e4kI-D38AE6ADjpU6RgDlCFCjODZ4X4tHr6k7GdeYa1"/>
+</div>
+</header>
+<main class="pt-24 pb-32 px-margin-mobile max-w-md mx-auto">
+<!-- Dashboard Header -->
+<section class="mb-lg">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile mb-xs">System Controller</h1>
+<p class="text-on-surface-variant font-label-md">Overview of WallpaperHaven activity</p>
+</section>
+<!-- Stats Grid -->
+<section class="grid grid-cols-2 gap-gutter mb-lg">
+<div class="glass-panel p-md rounded-xl">
+<span class="material-symbols-outlined text-primary mb-base" data-icon="visibility">visibility</span>
+<p class="text-on-surface-variant font-label-sm uppercase tracking-wider">Views</p>
+<h3 class="font-headline-md text-headline-md mt-xs">124.8K</h3>
+</div>
+<div class="glass-panel p-md rounded-xl">
+<span class="material-symbols-outlined text-primary mb-base" data-icon="download">download</span>
+<p class="text-on-surface-variant font-label-sm uppercase tracking-wider">Downloads</p>
+<h3 class="font-headline-md text-headline-md mt-xs">42.2K</h3>
+</div>
+<div class="glass-panel p-md rounded-xl">
+<span class="material-symbols-outlined text-primary mb-base" data-icon="image">image</span>
+<p class="text-on-surface-variant font-label-sm uppercase tracking-wider">Wallpapers</p>
+<h3 class="font-headline-md text-headline-md mt-xs">8,421</h3>
+</div>
+<div class="glass-panel p-md rounded-xl">
+<span class="material-symbols-outlined text-primary mb-base" data-icon="group">group</span>
+<p class="text-on-surface-variant font-label-sm uppercase tracking-wider">Users</p>
+<h3 class="font-headline-md text-headline-md mt-xs">15.9K</h3>
+</div>
+</section>
+<!-- Chart Area Mockup -->
+<section class="glass-panel p-md rounded-xl mb-lg">
+<div class="flex justify-between items-center mb-md">
+<h2 class="font-label-md text-on-surface font-semibold">Activity: Last 30 Days</h2>
+<span class="text-primary font-label-sm">+12.5%</span>
+</div>
+<div class="h-40 w-full relative flex items-end gap-1">
+<!-- CSS Simulated Bar Chart with high-fidelity visual -->
+<div class="flex-1 bg-primary/10 rounded-t-sm h-[30%]"></div>
+<div class="flex-1 bg-primary/20 rounded-t-sm h-[45%]"></div>
+<div class="flex-1 bg-primary/30 rounded-t-sm h-[25%]"></div>
+<div class="flex-1 bg-primary/40 rounded-t-sm h-[60%]"></div>
+<div class="flex-1 bg-primary/50 rounded-t-sm h-[80%]"></div>
+<div class="flex-1 bg-primary/70 rounded-t-sm h-[55%]"></div>
+<div class="flex-1 bg-primary rounded-t-sm h-[95%]"></div>
+<div class="flex-1 bg-primary/60 rounded-t-sm h-[40%]"></div>
+<div class="flex-1 bg-primary/30 rounded-t-sm h-[70%]"></div>
+<div class="flex-1 bg-primary/20 rounded-t-sm h-[50%]"></div>
+</div>
+<div class="flex justify-between mt-sm text-on-surface-variant font-label-sm">
+<span>Oct 01</span>
+<span>Oct 15</span>
+<span>Oct 30</span>
+</div>
+</section>
+<!-- Quick Actions -->
+<section class="flex gap-gutter mb-lg">
+<button class="flex-1 bg-primary-container text-on-primary-container py-md rounded-xl flex flex-col items-center gap-xs transition-opacity active:opacity-80">
+<span class="material-symbols-outlined" data-icon="cloud_upload">cloud_upload</span>
+<span class="font-label-md">New Upload</span>
+</button>
+<button class="flex-1 glass-panel py-md rounded-xl flex flex-col items-center gap-xs transition-opacity active:opacity-80">
+<span class="material-symbols-outlined text-on-surface" data-icon="settings_suggest">settings_suggest</span>
+<span class="font-label-md">Manage</span>
+</button>
+</section>
+<!-- Top Performing Wallpapers -->
+<section class="mb-lg">
+<div class="flex justify-between items-center mb-md">
+<h2 class="font-headline-md text-on-surface">Top Performing</h2>
+<button class="text-primary font-label-md">View All</button>
+</div>
+<div class="space-y-gutter">
+<!-- Item 1 -->
+<div class="flex items-center gap-md p-xs glass-panel rounded-xl">
+<div class="w-20 h-20 rounded-lg overflow-hidden shrink-0 border border-white/10">
+<img class="w-full h-full object-cover" data-alt="A moody digital art piece featuring deep purple and charcoal fluid gradients. The lighting is soft and atmospheric, highlighting organic, liquid-like shapes in a minimalist dark environment. The visual style is premium and sophisticated, adhering to a high-fidelity editorial digital experience with subtle light-tinted white edges." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDGO00KAeE76xtxC9uwZnJoi-MCgIqHzl56R2EOKmkOQ78CPsNVy3fO7Jw3yq2_NcM3_b636heeEVg4kYWsdwPXLYOO7UV9QJJr87crQaaf1mCo5DFfSsVFOUjv0Kf0ICf5MBkG1qJnDRGdSRjW6wys7_R_X_It_2oGsB_qTPXLYeRMojVEZpWS-v0_Vrww-Yw01oz8u8y47mCGgCuE05u-qOKRz-SQ1a07_pTaD_TvqO3StB4k5sXafvlHLlqn1wosxMMEMJd5kg0y"/>
+</div>
+<div class="flex-1">
+<h4 class="font-label-md font-bold text-on-surface truncate">Ethereal Dusk</h4>
+<div class="flex gap-md mt-xs text-on-surface-variant font-label-sm">
+<span class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[14px]" data-icon="visibility">visibility</span> 12.4K
+                            </span>
+<span class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[14px]" data-icon="download">download</span> 3.1K
+                            </span>
+</div>
+</div>
+<div class="pr-md">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="more_vert">more_vert</span>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="flex items-center gap-md p-xs glass-panel rounded-xl">
+<div class="w-20 h-20 rounded-lg overflow-hidden shrink-0 border border-white/10">
+<img class="w-full h-full object-cover" data-alt="Abstract geometric composition with architectural minimalist lines. The color palette is dominated by deep charcoal grays and accented with soft lavender light sources. High density backdrop blur effects are suggested by the smooth depth of field. The mood is calm and quiet luxury, emphasizing physical stacks of translucent layers." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsaIgGUinqD7q9oEaCxiG6VmsyPOL3BQ1JiLt9jDbtXM6BLZ442P_-ohfAgZ2eJSpJ_5jaK0amAGryCbPh_W_-XTrVAk_rUSo5ytHq4BT2ewHU-lEl-EPJU2oNoQMitAMJ5_1-g4Hf2fk9Bj4XRnLqGPE8g1nykeTdn-WeMo-JlejpggM1u17b8i5V6wFZ67QKUYheWENf5ycVOjkQsxI0kJRleab9oLa9axsDozNiMYNz8nt7jiGDp3SIchrCt6b0-tQoILzPOLzb"/>
+</div>
+<div class="flex-1">
+<h4 class="font-label-md font-bold text-on-surface truncate">Obsidian Flow</h4>
+<div class="flex gap-md mt-xs text-on-surface-variant font-label-sm">
+<span class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[14px]" data-icon="visibility">visibility</span> 9.8K
+                            </span>
+<span class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[14px]" data-icon="download">download</span> 2.2K
+                            </span>
+</div>
+</div>
+<div class="pr-md">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="more_vert">more_vert</span>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="flex items-center gap-md p-xs glass-panel rounded-xl">
+<div class="w-20 h-20 rounded-lg overflow-hidden shrink-0 border border-white/10">
+<img class="w-full h-full object-cover" data-alt="A vibrant yet sophisticated mesh gradient wallpaper showcasing a spectrum of soft purples and deep blacks. The composition feels atmospheric and minimalist, utilizing purposeful whitespace and semi-transparent layers. The lighting is editorial-grade, creating a sense of serene focus and sophisticated digital artistry." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAvsszWSx9lfz2atp_NQaD73EQW_dx61eLNFt513T-746r4qyyrlQEUT1BZYPT1egrZ4ttXwBoqBqNh_ZCDMXZm5F11-7kq-qbKeGzfrckoFa0gb3lgyWWtPOLKSYtRDobifgLWXJPyZgDI8Lo1wJojVKMFjB9hD1ToHrSqmIIGAzXayH_M4ZMHtgFbt49s2YwdUKZA_4Glk-PkCdURgJzYdw3GWKQBoe3khMAHQtRw2_Ji-ZmCApWLYFbVEgvc1da2yIfp8QBIQjmW"/>
+</div>
+<div class="flex-1">
+<h4 class="font-label-md font-bold text-on-surface truncate">Neon Mist</h4>
+<div class="flex gap-md mt-xs text-on-surface-variant font-label-sm">
+<span class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[14px]" data-icon="visibility">visibility</span> 7.5K
+                            </span>
+<span class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-[14px]" data-icon="download">download</span> 1.8K
+                            </span>
+</div>
+</div>
+<div class="pr-md">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="more_vert">more_vert</span>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-base pb-safe h-20 bg-surface/60 backdrop-blur-[24px] border-t border-white/10">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+<span class="font-label-sm mt-xs">Explore</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="grid_view">grid_view</span>
+<span class="font-label-sm mt-xs">Categories</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+<span class="font-label-sm mt-xs">Search</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary/20 text-primary rounded-full px-4 py-1 scale-95 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="admin_panel_settings" style="font-variation-settings: 'FILL' 1;">admin_panel_settings</span>
+<span class="font-label-sm">Admin</span>
+</a>
+</nav>
+</body></html>

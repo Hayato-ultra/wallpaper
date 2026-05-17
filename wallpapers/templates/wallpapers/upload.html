@@ -6,75 +6,74 @@
 {% endblock %}
 {% block content %}
 {% include 'includes/admin_nav.html' %}
-<div class="mx-auto max-w-2xl py-8 px-4 sm:px-6">
+<div class="mx-auto max-w-2xl px-margin-mobile md:px-margin-desktop py-8">
   <div class="mb-8">
-    <h1 class="text-2xl sm:text-3xl font-bold text-white">Upload Wallpaper</h1>
-    <p class="text-sm text-gray-500 mt-1">Upload an image to Cloudinary and save it to the database</p>
+    <h1 class="font-headline-md text-headline-md text-on-surface">Upload Wallpaper</h1>
+    <p class="font-body-md text-on-surface-variant mt-1">Add a new high-resolution visual to the library.</p>
   </div>
 
   <form method="post" enctype="multipart/form-data" class="space-y-6">
     {% csrf_token %}
 
     <!-- Drop Zone -->
-    <div id="drop-zone" class="relative rounded-2xl border-2 border-dashed border-white/10 p-10 text-center transition-all duration-300 cursor-pointer hover:border-blue-500/50 hover:bg-blue-500/[0.03]">
-      <div class="upload-placeholder flex flex-col items-center gap-3">
-        <div class="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500/20 to-purple-500/20 border border-blue-500/10">
-          <svg class="h-8 w-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+    <div id="drop-zone" class="group relative">
+      <div class="glass-panel rounded-xl p-lg flex flex-col items-center justify-center border-dashed border-2 border-white/20 group-hover:border-primary/50 transition-all cursor-pointer min-h-[200px]">
+        <div class="upload-placeholder flex flex-col items-center gap-3">
+          <span class="material-symbols-outlined text-primary text-4xl">cloud_upload</span>
+          <div>
+            <p class="font-headline-md text-headline-md text-on-surface mb-xs"><span class="text-primary">Click to upload</span> or drag and drop</p>
+            <p class="font-label-md text-on-surface-variant">Supports PNG, JPG, WebP (Max 20MB)</p>
+          </div>
         </div>
-        <div>
-          <p class="text-base font-medium text-gray-300"><span class="text-blue-400">Click to upload</span> or drag and drop</p>
-          <p class="mt-1 text-sm text-gray-600">PNG, JPG, WebP up to 20MB</p>
+        <div class="upload-info hidden flex-col items-center gap-3">
+          <img id="preview" class="mx-auto max-h-64 rounded-xl object-contain border border-white/10" />
+          <p class="font-label-md text-on-surface-variant"><span id="file-name" class="text-primary"></span> selected</p>
         </div>
+        <input type="file" name="file" id="id_file" accept="image/png,image/jpeg,image/webp" required class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" multiple>
       </div>
-      <div class="upload-info hidden flex-col items-center gap-3">
-        <img id="preview" class="mx-auto max-h-64 rounded-xl object-contain border border-white/10" />
-        <p class="text-sm text-gray-400"><span id="file-name" class="text-blue-400"></span> selected</p>
-      </div>
-      <input type="file" name="file" id="id_file" accept="image/png,image/jpeg,image/webp" required class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" multiple>
     </div>
 
     <!-- Fields -->
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
       <div>
-        <label class="block text-sm font-medium text-gray-300 mb-1.5">Title</label>
-        <input type="text" name="title" maxlength="255" required placeholder="Mountain Sunset" class="w-full h-11 rounded-xl border border-white/10 bg-white/5 px-4 text-sm text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
+        <label class="block font-label-md text-primary ml-1 mb-1.5">Title</label>
+        <input type="text" name="title" maxlength="255" required placeholder="e.g. Midnight Aurora" class="w-full h-12 bg-[#1a181d] border-b border-white/10 focus:border-primary text-on-surface font-body-md py-3 transition-colors outline-none px-1">
       </div>
       <div>
-        <label class="block text-sm font-medium text-gray-300 mb-1.5">Category</label>
+        <label class="block font-label-md text-primary ml-1 mb-1.5">Category</label>
         <div id="category-dropdown" class="relative">
-          <input type="text" id="category-search" autocomplete="off" placeholder="Search or type new category..." class="w-full h-11 rounded-xl border border-white/10 bg-white/5 px-4 text-sm text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
+          <input type="text" id="category-search" autocomplete="off" placeholder="Search or type new..." class="w-full h-12 bg-[#1a181d] border-b border-white/10 focus:border-primary text-on-surface font-body-md py-3 transition-colors outline-none px-1">
           <input type="hidden" name="category" id="category-value">
-          <div id="category-options" class="hidden absolute z-20 top-full mt-1 w-full rounded-xl border border-white/10 bg-[#141414] shadow-2xl overflow-hidden max-h-48 overflow-y-auto"></div>
+          <div id="category-options" class="hidden absolute z-20 top-full mt-1 w-full rounded-xl glass-panel overflow-hidden max-h-48 overflow-y-auto"></div>
         </div>
       </div>
     </div>
 
     <div>
-      <label class="block text-sm font-medium text-gray-300 mb-1.5">Description</label>
-      <textarea name="description" rows="3" placeholder="A brief description of the wallpaper..." class="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none"></textarea>
+      <label class="block font-label-md text-primary ml-1 mb-1.5">Description</label>
+      <textarea name="description" rows="3" placeholder="Describe the mood and visual style..." class="w-full bg-[#1a181d] border-b border-white/10 focus:border-primary text-on-surface font-body-md py-3 transition-colors outline-none px-1 resize-none"></textarea>
     </div>
 
     <div>
-      <label class="block text-sm font-medium text-gray-300 mb-1.5">Tags</label>
-      <input type="text" name="tags" placeholder="dark, minimalist, 4k (comma-separated)" class="w-full h-11 rounded-xl border border-white/10 bg-white/5 px-4 text-sm text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
-      <p class="mt-1.5 text-xs text-gray-600">Separate tags with commas</p>
+      <label class="block font-label-md text-primary ml-1 mb-1.5">Tags</label>
+      <input type="text" name="tags" placeholder="dark, minimalist, 4k (comma-separated)" class="w-full h-12 bg-[#1a181d] border-b border-white/10 focus:border-primary text-on-surface font-body-md py-3 transition-colors outline-none px-1">
+      <p class="mt-1.5 font-label-sm text-on-surface-variant/60">Separate tags with commas</p>
     </div>
 
     <label class="flex items-center gap-3 cursor-pointer group">
       <div class="relative">
         <input type="checkbox" name="is_featured" class="sr-only peer">
-        <div class="w-10 h-6 rounded-full bg-white/10 peer-checked:bg-blue-600 transition-colors duration-300"></div>
-        <div class="absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white peer-checked:translate-x-4 transition-transform duration-300 shadow-sm"></div>
+        <div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
       </div>
-      <span class="text-sm text-gray-300 group-hover:text-white transition-colors">Feature this wallpaper</span>
+      <span class="font-label-md text-on-surface group-hover:text-on-surface transition-colors">Feature this wallpaper</span>
     </label>
 
     <div class="flex flex-wrap gap-3 pt-2">
-      <button type="submit" class="inline-flex items-center justify-center h-12 px-6 rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 text-sm font-semibold text-white hover:from-blue-500 hover:to-blue-400 transition-all duration-300 shadow-lg shadow-blue-500/20 hover:shadow-blue-500/30 btn-press gap-2">
-        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+      <button type="submit" class="inline-flex items-center justify-center h-12 px-8 rounded-xl bg-primary-container text-on-primary-container font-label-md hover:opacity-90 transition-opacity active:scale-[0.98] transition-transform shadow-lg shadow-primary/10 gap-2">
+        <span class="material-symbols-outlined">cloud_upload</span>
         Upload to Cloudinary
       </button>
-      <a href="{% url 'admin_dashboard' %}" class="inline-flex items-center justify-center h-12 px-6 rounded-xl bg-white/5 text-sm font-medium text-gray-300 hover:text-white hover:bg-white/10 transition-all border border-white/10 gap-2">
+      <a href="{% url 'admin_dashboard' %}" class="inline-flex items-center justify-center h-12 px-8 rounded-xl bg-transparent border border-white/10 text-on-surface font-label-md backdrop-blur-xl hover:bg-white/5 transition-colors">
         Cancel
       </a>
     </div>

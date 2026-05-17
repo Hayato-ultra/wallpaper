@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface": "#151317",
+            "surface-dim": "#151317",
+            "surface-container-high": "#2c292d",
+            "secondary-fixed-dim": "#cbc4ce",
+            "on-primary-container": "#ffffff",
+            "error": "#ffb4ab",
+            "tertiary-fixed-dim": "#c7c5cc",
+            "on-tertiary": "#303035",
+            "tertiary-fixed": "#e3e1e8",
+            "surface-container-low": "#1d1b1f",
+            "on-primary": "#362a4d",
+            "background": "#151317",
+            "on-primary-fixed-variant": "#4d4065",
+            "outline-variant": "#49454d",
+            "on-surface": "#e7e1e6",
+            "surface-container": "#211f23",
+            "surface-bright": "#3b383d",
+            "on-secondary": "#322f36",
+            "surface-container-highest": "#373438",
+            "tertiary-container": "#76767c",
+            "surface-variant": "#373438",
+            "on-background": "#e7e1e6",
+            "on-secondary-fixed-variant": "#49454d",
+            "on-error-container": "#ffdad6",
+            "tertiary": "#c7c5cc",
+            "secondary-container": "#49454d",
+            "inverse-surface": "#e7e1e6",
+            "primary-fixed-dim": "#d0bfec",
+            "on-error": "#690005",
+            "primary-container": "#7e7098",
+            "on-primary-fixed": "#211537",
+            "surface-tint": "#d0bfec",
+            "on-secondary-fixed": "#1d1a21",
+            "primary": "#d0bfec",
+            "inverse-primary": "#65587e",
+            "on-tertiary-fixed": "#1b1b20",
+            "outline": "#948f98",
+            "on-surface-variant": "#cbc4ce",
+            "primary-fixed": "#ebddff",
+            "error-container": "#93000a",
+            "secondary": "#cbc4ce",
+            "on-secondary-container": "#b9b3bc",
+            "on-tertiary-fixed-variant": "#46464c",
+            "surface-container-lowest": "#0f0d11",
+            "secondary-fixed": "#e7e0ea",
+            "on-tertiary-container": "#ffffff",
+            "inverse-on-surface": "#322f34"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "lg": "48px",
+            "sm": "12px",
+            "base": "8px",
+            "gutter": "24px",
+            "md": "24px",
+            "xl": "80px",
+            "xs": "4px",
+            "margin-mobile": "20px",
+            "margin-desktop": "64px"
+          },
+          "fontFamily": {
+            "headline-lg": ["Manrope"],
+            "display-lg-mobile": ["Manrope"],
+            "body-md": ["Manrope"],
+            "label-sm": ["Manrope"],
+            "headline-md": ["Manrope"],
+            "label-md": ["Manrope"],
+            "body-lg": ["Manrope"],
+            "display-lg": ["Manrope"],
+            "headline-lg-mobile": ["Manrope"],
+            "label-md-mobile": ["Manrope"]
+          },
+          "fontSize": {
+            "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+            "headline-lg-mobile": ["28px", {"lineHeight": "1.2", "fontWeight": "600"}],
+            "display-lg-mobile": ["36px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+            "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+            "label-sm": ["12px", {"lineHeight": "1.4", "fontWeight": "500"}],
+            "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+            "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500"}],
+            "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+            "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .glass-panel {
+      background-color: rgba(42, 39, 46, 0.6);
+      backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface font-body-md min-h-screen selection:bg-primary-container selection:text-white">
+<!-- Shared TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile h-16 bg-surface/60 backdrop-blur-[24px] border-b border-white/10">
+<div class="flex items-center gap-4">
+<button class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-white/5 transition-colors">
+<span class="material-symbols-outlined text-primary" data-icon="close">close</span>
+</button>
+<span class="font-headline-lg-mobile text-headline-lg-mobile font-bold tracking-tighter text-on-surface">Aura</span>
+</div>
+<div class="w-10 h-10 rounded-full bg-surface-container overflow-hidden border border-white/10">
+<img alt="Profile" class="w-full h-full object-cover" data-alt="A professional close-up portrait of an administrative user with a clean, minimalist aesthetic. The lighting is soft and editorial, casting gentle shadows across a neutral, dark background. The overall mood is sophisticated and high-end, matching a premium digital art platform’s visual identity with subtle purple and charcoal tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCeV4D61NwwaV-EqMlIZDnKIbvcqRFH2308YaH43euKSvdNjdh0ylT02pFmGoAYBoP8CX7-FMaTm5c8TT3ue7JmgVhH_jvqCmTzTRDTHoo2Bp5isxPv1bDuMHHbej6cLqMg1WNFJANQMGUf8gYZ0CAZDNogWFFtosSGbeu6tR8prRjEP1966rGpqur_vtZVH7KqBaJ4pqhJcQ5MaxIfxuOX8Zh7lohhR48j8qSzYEpNIJvZpheJb9i3hNTt0hxa4M-X_jhJ6VlESKAR"/>
+</div>
+</header>
+<main class="pt-24 pb-12 px-margin-mobile max-w-lg mx-auto">
+<!-- Hero Section -->
+<section class="mb-12">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile mb-4 text-on-surface">Get in Touch</h1>
+<p class="font-body-md text-on-surface-variant leading-relaxed">
+        Have a question about our wallpapers or a technical inquiry? Our team is here to help you craft your perfect digital environment.
+      </p>
+</section>
+<!-- Contact Form Card -->
+<div class="glass-panel p-md rounded-xl space-y-gutter mb-xl">
+<form class="space-y-gutter">
+<div class="space-y-base">
+<label class="font-label-md text-label-md text-primary block" for="name">Name</label>
+<input class="w-full bg-[#1a181d] border-0 border-b border-white/10 text-on-surface focus:ring-0 focus:border-primary-container transition-colors py-sm px-0 placeholder:text-on-surface-variant/40" id="name" placeholder="Your full name" type="text"/>
+</div>
+<div class="space-y-base">
+<label class="font-label-md text-label-md text-primary block" for="email">Email</label>
+<input class="w-full bg-[#1a181d] border-0 border-b border-white/10 text-on-surface focus:ring-0 focus:border-primary-container transition-colors py-sm px-0 placeholder:text-on-surface-variant/40" id="email" placeholder="you@example.com" type="email"/>
+</div>
+<div class="space-y-base">
+<label class="font-label-md text-label-md text-primary block" for="subject">Subject</label>
+<select class="w-full bg-[#1a181d] border-0 border-b border-white/10 text-on-surface focus:ring-0 focus:border-primary-container transition-colors py-sm px-0 appearance-none" id="subject">
+<option class="bg-surface" value="general">General Inquiry</option>
+<option class="bg-surface" value="support">Technical Support</option>
+<option class="bg-surface" value="billing">Billing</option>
+<option class="bg-surface" value="artist">Artist Partnership</option>
+</select>
+</div>
+<div class="space-y-base">
+<label class="font-label-md text-label-md text-primary block" for="message">Message</label>
+<textarea class="w-full bg-[#1a181d] border-0 border-b border-white/10 text-on-surface focus:ring-0 focus:border-primary-container transition-colors py-sm px-0 placeholder:text-on-surface-variant/40 resize-none" id="message" placeholder="How can we help you?" rows="4"></textarea>
+</div>
+<button class="w-full h-14 bg-primary-container text-white font-label-md text-label-md rounded-lg flex items-center justify-center gap-2 hover:opacity-90 active:scale-[0.98] transition-all" type="submit">
+<span>Send Message</span>
+<span class="material-symbols-outlined text-base" data-icon="send">send</span>
+</button>
+</form>
+</div>
+<!-- Secondary Info Blocks -->
+<div class="grid grid-cols-1 gap-md">
+<div class="flex items-start gap-md p-md glass-panel rounded-xl">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary" data-icon="mail">mail</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Email Support</p>
+<p class="font-body-md text-on-surface-variant">hello@aura-digital.art</p>
+</div>
+</div>
+<div class="flex items-start gap-md p-md glass-panel rounded-xl">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary" data-icon="location_on">location_on</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Global Studio</p>
+<p class="font-body-md text-on-surface-variant">Digital First • Stockholm, SE</p>
+</div>
+</div>
+</div>
+<!-- Map Placeholder (Atmospheric Visual) -->
+<div class="mt-lg rounded-xl overflow-hidden glass-panel h-48 relative">
+<img class="w-full h-full object-cover opacity-40 mix-blend-luminosity" data-alt="A dark, high-contrast satellite view of a coastal city at night, showcasing shimmering urban lights against deep black water. The image is filtered with a moody charcoal and muted purple tint to match the Aura brand aesthetic. The lighting is atmospheric, creating a sense of sophisticated, quiet luxury and modern minimalism." data-location="Stockholm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDeC00vvNY3xbIKXM1GFFWkzkDfq221q6FXlfdzk79tq3GflVsPfCIMjwVcL-RBMZyz5mioZCA1vD8Iyt9LKDXh_CmR0EhnBp9KYYVhnTFnUX7lNPb2HzRlv5Xw6blBDfdBpXbOEuhYB7s4-bms_lrtgIKoy-xjzogIup5hWNNhsEcosNPJSFEMFC-0kXZmJ6aG8kC7440ZtEukca5gVZ9YIbErXoPkvjuSKmWjtLkf1bXBA0lBKpcj_ld0h7mHFWKCsDA6kwXf-azG"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface to-transparent"></div>
+<div class="absolute bottom-base left-base right-base flex justify-between items-center px-sm">
+<span class="font-label-sm text-label-sm text-primary">Map view</span>
+<span class="material-symbols-outlined text-white" data-icon="open_in_new">open_in_new</span>
+</div>
+</div>
+</main>
+<!-- BottomNavBar Suppressed per UX Goal: Task-focused journey/Contact form -->
+</body></html>

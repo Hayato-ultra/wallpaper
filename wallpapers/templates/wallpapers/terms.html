@@ -1,44 +1,38 @@
 {% extends 'base.html' %}
 {% block title %}Terms of Service — Wallpaper Haven{% endblock %}
 {% block content %}
-<div class="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:px-8">
-  <h1 class="text-3xl font-bold text-white mb-2">Terms of Service</h1>
-  <p class="text-sm text-gray-500 mb-8">Last updated: {% now "F d, Y" %}</p>
+<div class="mx-auto max-w-3xl px-margin-mobile md:px-margin-desktop py-12">
+  <h1 class="font-headline-md text-headline-md text-on-surface mb-2">Terms of Service</h1>
+  <p class="font-label-md text-on-surface-variant mb-8">Last updated: {% now "F d, Y" %}</p>
 
-  <div class="prose prose-invert max-w-none space-y-6 text-gray-300 text-sm leading-relaxed">
-    <section>
-      <h2 class="text-lg font-semibold text-white mb-3">1. Acceptance of Terms</h2>
+  <div class="space-y-6 text-on-surface-variant font-body-md leading-relaxed">
+    <section class="glass-panel p-6 rounded-xl">
+      <h2 class="font-headline-md text-headline-md text-on-surface mb-3">1. Acceptance of Terms</h2>
       <p>By accessing and using Wallpaper Haven, you agree to be bound by these Terms of Service. If you do not agree with any part of these terms, you may not use our service.</p>
     </section>
-
-    <section>
-      <h2 class="text-lg font-semibold text-white mb-3">2. Use of Content</h2>
+    <section class="glass-panel p-6 rounded-xl">
+      <h2 class="font-headline-md text-headline-md text-on-surface mb-3">2. Use of Content</h2>
       <p>All wallpapers available for download on this platform are provided for personal, non-commercial use. You may download and use wallpapers as desktop backgrounds, mobile wallpapers, and other personal display purposes. Redistribution, resale, or commercial use of any content without explicit permission is strictly prohibited.</p>
     </section>
-
-    <section>
-      <h2 class="text-lg font-semibold text-white mb-3">3. User Conduct</h2>
+    <section class="glass-panel p-6 rounded-xl">
+      <h2 class="font-headline-md text-headline-md text-on-surface mb-3">3. User Conduct</h2>
       <p>You agree not to use the service for any unlawful purpose or in violation of any applicable laws. You may not attempt to disrupt, damage, or impair the service, its servers, or networks connected to the service.</p>
     </section>
-
-    <section>
-      <h2 class="text-lg font-semibold text-white mb-3">4. Intellectual Property</h2>
+    <section class="glass-panel p-6 rounded-xl">
+      <h2 class="font-headline-md text-headline-md text-on-surface mb-3">4. Intellectual Property</h2>
       <p>All content, trademarks, and intellectual property displayed on Wallpaper Haven are owned by their respective creators. The Wallpaper Haven name and logo are our trademarks. You may not use these without prior written consent.</p>
     </section>
-
-    <section>
-      <h2 class="text-lg font-semibold text-white mb-3">5. Limitation of Liability</h2>
+    <section class="glass-panel p-6 rounded-xl">
+      <h2 class="font-headline-md text-headline-md text-on-surface mb-3">5. Limitation of Liability</h2>
       <p>Wallpaper Haven is provided on an "as is" and "as available" basis. We make no warranties regarding the availability, accuracy, or reliability of the service. We shall not be liable for any damages arising from your use of the service.</p>
     </section>
-
-    <section>
-      <h2 class="text-lg font-semibold text-white mb-3">6. Termination</h2>
+    <section class="glass-panel p-6 rounded-xl">
+      <h2 class="font-headline-md text-headline-md text-on-surface mb-3">6. Termination</h2>
       <p>We reserve the right to terminate or suspend access to our service immediately, without prior notice, for any conduct that we believe violates these Terms or is harmful to other users, third parties, or us.</p>
     </section>
-
-    <section>
-      <h2 class="text-lg font-semibold text-white mb-3">7. Contact</h2>
-      <p>For any questions about these terms, please <a href="{% url 'contact' %}" class="text-blue-400 hover:text-blue-300">contact us</a>.</p>
+    <section class="glass-panel p-6 rounded-xl">
+      <h2 class="font-headline-md text-headline-md text-on-surface mb-3">7. Contact</h2>
+      <p>For any questions about these terms, please <a href="{% url 'contact' %}" class="text-primary hover:text-primary-dim">contact us</a>.</p>
     </section>
   </div>
 </div>

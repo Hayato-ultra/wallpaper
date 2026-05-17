@@ -1,4 +1,4 @@
-// Wallpaper Haven - Main JavaScript
+// Wallpaper Haven - Aura Design System
 
 document.addEventListener('DOMContentLoaded', function () {
   initMobileMenu()
@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', function () {
   initSmoothScroll()
   initToastDismiss()
   initScrollReveal()
-  initParallaxHero()
   initSkeletonLoader()
   initPageTransition()
   initCountUp()
@@ -30,9 +29,8 @@ function initMobileMenu() {
 
   toggle.addEventListener('click', function () {
     const isHidden = menu.classList.toggle('hidden')
-    toggle.innerHTML = isHidden
-      ? '<svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>'
-      : '<svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>'
+    const icon = toggle.querySelector('.material-symbols-outlined')
+    if (icon) icon.textContent = isHidden ? 'menu' : 'close'
   })
 }
 
@@ -50,9 +48,10 @@ function initImagePreview() {
     const reader = new FileReader()
     reader.onload = function (ev) {
       preview.src = ev.target.result
-      preview.classList.remove('hidden')
       const placeholder = dropZone.querySelector('.upload-placeholder')
       if (placeholder) placeholder.style.display = 'none'
+      const info = dropZone.querySelector('.upload-info')
+      if (info) info.classList.remove('hidden')
       if (fileName) fileName.textContent = file.name
     }
     reader.readAsDataURL(file)
@@ -60,14 +59,14 @@ function initImagePreview() {
 
   dropZone.addEventListener('dragover', function (e) {
     e.preventDefault()
-    dropZone.classList.add('border-blue-500', 'bg-blue-500/10', 'scale-[1.02]')
+    dropZone.classList.add('border-primary', 'bg-primary/10', 'scale-[1.02]')
   })
   dropZone.addEventListener('dragleave', function () {
-    dropZone.classList.remove('border-blue-500', 'bg-blue-500/10', 'scale-[1.02]')
+    dropZone.classList.remove('border-primary', 'bg-primary/10', 'scale-[1.02]')
   })
   dropZone.addEventListener('drop', function (e) {
     e.preventDefault()
-    dropZone.classList.remove('border-blue-500', 'bg-blue-500/10', 'scale-[1.02]')
+    dropZone.classList.remove('border-primary', 'bg-primary/10', 'scale-[1.02]')
     if (e.dataTransfer.files.length) {
       fileInput.files = e.dataTransfer.files
       fileInput.dispatchEvent(new Event('change'))
@@ -75,10 +74,9 @@ function initImagePreview() {
   })
 }
 
-/* ── Lazy Loading with Intersection Observer ── */
+/* ── Lazy Loading ── */
 function initLazyLoading() {
   if (!('IntersectionObserver' in window)) return
-
   const lazyImages = document.querySelectorAll('img[data-src]')
   lazyImages.forEach(function (img) { observeImage(img) })
 
@@ -148,10 +146,10 @@ function initCopyColor() {
       navigator.clipboard.writeText(text).then(function () {
         const orig = el.textContent
         el.textContent = 'Copied!'
-        el.classList.add('text-green-400')
+        el.classList.add('text-primary')
         setTimeout(function () {
           el.textContent = orig
-          el.classList.remove('text-green-400')
+          el.classList.remove('text-primary')
         }, 1500)
       })
     })
@@ -199,7 +197,6 @@ function initScrollReveal() {
       }
     })
   }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' })
-
   els.forEach(function (el) { observer.observe(el) })
 }
 
@@ -299,7 +296,7 @@ function initImageZoom() {
   })
 }
 
-/* ── Progressive Image: blur placeholder -> full image ── */
+/* ── Progressive Image ── */
 function initProgressiveImage() {
   var img = document.querySelector('.progressive-img img.full[data-progressive]')
   if (!img) return
@@ -341,12 +338,12 @@ function initCategoryDropdown() {
     var q = (filter || '').toLowerCase()
     var matches = categories.filter(function (c) { return c.toLowerCase().includes(q) })
     if (matches.length === 0) {
-      optionsContainer.innerHTML = '<div class="px-4 py-3 text-sm text-gray-500">No matching categories</div>'
+      optionsContainer.innerHTML = '<div class="px-4 py-3 text-sm text-on-surface-variant">No matching categories</div>'
       return
     }
     var html = ''
     for (var i = 0; i < matches.length; i++) {
-      html += '<div class="category-option px-4 py-2.5 text-sm text-gray-300 hover:bg-white/5 hover:text-white cursor-pointer transition-colors" data-value="' + matches[i] + '">' + matches[i] + '</div>'
+      html += '<div class="category-option px-4 py-2.5 text-sm text-on-surface-variant hover:bg-white/5 hover:text-on-surface cursor-pointer transition-colors" data-value="' + matches[i] + '">' + matches[i] + '</div>'
     }
     optionsContainer.innerHTML = html
     optionsContainer.querySelectorAll('.category-option').forEach(function (opt) {
@@ -505,7 +502,6 @@ function initInfiniteScroll() {
     var url = new URL(window.location.href)
     url.searchParams.set('page', page)
     url.searchParams.set('ajax', '1')
-    // keep the path clean — use the current URL's path + params
     return url.pathname + '?' + url.searchParams.toString()
   }
 
