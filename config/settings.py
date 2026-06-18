@@ -120,7 +120,6 @@ EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', 'True') == 'True'
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-        'LOCATION': BASE_DIR / 'cache',
     }
 }
 WALLPAPER_CACHE_TIMEOUT = 60 * 15  # 15 minutes
