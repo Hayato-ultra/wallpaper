@@ -1,6 +1,5 @@
 {
   "buildCommand": "bash vercel_build.sh",
-  "outputDirectory": "staticfiles",
   "installCommand": "pip install -r requirements.txt",
   "framework": null,
   "builds": [
