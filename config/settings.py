@@ -56,20 +56,15 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASE_URL = os.getenv('DATABASE_URL')
 if DATABASE_URL:
     try:
-        from urllib.parse import urlparse
-        url = urlparse(DATABASE_URL)
+        import dj_database_url
+        from urllib.parse import urlparse, parse_qs, urlencode, urlunparse
+        parsed = urlparse(DATABASE_URL)
+        params = parse_qs(parsed.query)
+        params.pop('channel_binding', None)
+        clean_query = urlencode(params, doseq=True)
+        clean_url = urlunparse(parsed._replace(query=clean_query))
         DATABASES = {
-            'default': {
-                'ENGINE': 'django.db.backends.postgresql',
-                'NAME': url.path.lstrip('/'),
-                'USER': url.username,
-                'PASSWORD': url.password,
-                'HOST': url.hostname,
-                'PORT': url.port or 5432,
-                'OPTIONS': {
-                    'sslmode': 'require',
-                },
-            }
+            'default': dj_database_url.parse(clean_url, conn_max_age=600, ssl_require=True)
         }
     except Exception:
         DATABASES = {'default': {'ENGINE': 'django.db.backends.sqlite3', 'NAME': BASE_DIR / 'db.sqlite3'}}
@@ -89,8 +84,12 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_DIRS = []
+import os as _os
+_static_dir = BASE_DIR / 'static'
+if _os.path.isdir(_static_dir) and _os.listdir(_static_dir):
+    STATICFILES_DIRS = [_static_dir]
 STORAGES = {
     "default": {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
