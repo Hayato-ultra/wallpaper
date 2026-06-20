@@ -1,6 +1,7 @@
 import uuid
 import json
 from django.db import models
+from django.db.models import F
 from django.contrib.auth.models import User
 
 
@@ -74,6 +75,12 @@ class Wallpaper(models.Model):
     def __str__(self):
         return self.title
 
+    @property
+    def is_portrait(self):
+        if self.width and self.height:
+            return self.height > self.width
+        return False
+
 
 class Category(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -89,8 +96,23 @@ class Category(models.Model):
     def get_thumbnail(self):
         if self.thumbnail_url:
             return self.thumbnail_url
-        wp = Wallpaper.objects.filter(is_published=True, category__iexact=self.name).order_by('-views').first()
+        wp = Wallpaper.objects.filter(
+            is_published=True,
+            category__iexact=self.name,
+            width__gte=F('height'),
+        ).order_by('-views').first()
+        if not wp:
+            wp = Wallpaper.objects.filter(is_published=True, category__iexact=self.name).order_by('-views').first()
         return wp.thumbnail_url if wp else ''
+
+    def get_thumbnail_obj(self):
+        if self.thumbnail_url:
+            return None
+        return Wallpaper.objects.filter(
+            is_published=True,
+            category__iexact=self.name,
+            width__gte=F('height'),
+        ).order_by('-views').first()
 
     def __str__(self):
         return self.name

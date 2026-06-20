@@ -13,6 +13,7 @@ urlpatterns = [
     path('contact/', views.contact, name='contact'),
     path('upload/', views.upload_wallpaper, name='upload_wallpaper'),
     path('api/check-hash/', views.check_wallpaper_hash, name='check_wallpaper_hash'),
+    path('api/wallpapers/', views.api_wallpapers, name='api_wallpapers'),
     # Admin
     path('admin/dashboard/', views.admin_dashboard, name='admin_dashboard'),
     path('admin/wallpapers/', views.admin_wallpapers_list, name='admin_wallpapers_list'),

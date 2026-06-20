@@ -1,10 +1,13 @@
 import uuid
 import json
+import random
+import re
 from datetime import datetime, timedelta
 from django.utils.safestring import mark_safe
 from django.shortcuts import render, get_object_or_404, redirect
-from django.db.models import Q, Count, Sum
+from django.db.models import Q, Count, Sum, F
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.views.decorators.http import require_POST
 from django.core.paginator import Paginator
 from django.core.cache import cache
 from django.contrib import messages
@@ -34,6 +37,32 @@ def home(request):
         featured = list(Wallpaper.objects.filter(is_featured=True, is_published=True).order_by('-created_at')[:16])
         cache.set('home_featured', featured, settings.WALLPAPER_CACHE_TIMEOUT)
 
+    hero_pool = cache.get('hero_pool')
+    if hero_pool is None:
+        hero_pool = list(Wallpaper.objects.filter(
+            is_published=True,
+            width__isnull=False,
+            height__isnull=False,
+        ).order_by('-created_at')[:200])
+        cache.set('hero_pool', hero_pool, settings.WALLPAPER_CACHE_TIMEOUT)
+
+    portrait_pool = [img for img in hero_pool if img.height > img.width]
+    landscape_pool = [img for img in hero_pool if img.width >= img.height]
+
+    if len(portrait_pool) < 2 or len(landscape_pool) < 2:
+        extra_pool = list(Wallpaper.objects.filter(
+            is_published=True,
+            width__isnull=False,
+            height__isnull=False,
+        ).order_by('-created_at')[:500])
+        extra_portrait = [img for img in extra_pool if img.height > img.width]
+        extra_landscape = [img for img in extra_pool if img.width >= img.height]
+        portrait_pool = list({img.pk: img for img in portrait_pool + extra_portrait}.values())
+        landscape_pool = list({img.pk: img for img in landscape_pool + extra_landscape}.values())
+
+    hero_portrait_images = random.sample(portrait_pool, min(2, len(portrait_pool))) if portrait_pool else []
+    hero_landscape_images = random.sample(landscape_pool, min(2, len(landscape_pool))) if landscape_pool else []
+
     trending = cache.get('home_trending')
     if trending is None:
         trending = list(Wallpaper.objects.filter(is_published=True, downloads__gte=1000).order_by('-downloads', '-views')[:16])
@@ -42,6 +71,8 @@ def home(request):
     categories = Category.objects.all().order_by('-wallpaper_count')
     return render(request, 'wallpapers/home.html', {
         'featured': featured,
+        'hero_portrait_images': hero_portrait_images,
+        'hero_landscape_images': hero_landscape_images,
         'trending': trending,
         'categories': categories,
         'total_wallpapers': Wallpaper.objects.filter(is_published=True).count(),
@@ -172,10 +203,11 @@ def wallpaper_detail(request, pk):
 
 def wallpaper_download(request, pk):
     wallpaper = get_object_or_404(Wallpaper, pk=pk, is_published=True)
-    wallpaper.downloads += 1
-    wallpaper.save(update_fields=['downloads'])
+    Wallpaper.objects.filter(pk=pk).update(downloads=F('downloads') + 1)
     Download.objects.create(wallpaper=wallpaper)
-    return redirect(wallpaper.secure_url)
+    if wallpaper.secure_url.startswith('https://res.cloudinary.com/'):
+        return redirect(wallpaper.secure_url)
+    return redirect('/')
 
 
 def search(request):
@@ -212,9 +244,14 @@ def category_view(request, slug):
     })
 
 
+@login_required
+@user_passes_test(lambda u: u.is_staff)
 def check_wallpaper_hash(request):
     h = request.GET.get('hash', '').strip().lower()
-    exists = Wallpaper.objects.filter(sha256=h).exists() if h else False
+    if not h or not re.match(r'^[a-f0-9]{64}$', h):
+        from django.http import JsonResponse
+        return JsonResponse({'exists': False, 'error': 'Invalid hash format'}, status=400)
+    exists = Wallpaper.objects.filter(sha256=h).exists()
     from django.http import JsonResponse
     return JsonResponse({'exists': exists})
 
@@ -280,69 +317,84 @@ def admin_dashboard(request):
 @login_required
 @user_passes_test(lambda u: u.is_staff)
 def upload_wallpaper(request):
+    ALLOWED_EXTENSIONS = {'.png', '.jpg', '.jpeg', '.webp', '.gif', '.bmp'}
+    MAX_FILE_SIZE = 20 * 1024 * 1024
+    MAX_FILES = 20
+
     if request.method == 'POST':
         form = WallpaperUploadForm(request.POST)
         files = request.FILES.getlist('file')
         if form.is_valid() and files:
-            cd = form.cleaned_data
-            tag_list = [t.strip().lower() for t in cd['tags'].split(',') if t.strip()]
-            uploaded = 0
-            errors = []
+            if len(files) > MAX_FILES:
+                messages.error(request, f'Too many files. Maximum is {MAX_FILES}.')
+            else:
+                cd = form.cleaned_data
+                tag_list = [t.strip().lower() for t in cd['tags'].split(',') if t.strip()]
+                uploaded = 0
+                errors = []
 
-            for f in files:
-                try:
-                    fhash = cd.get('sha256', '')
-                    if not fhash:
-                        fhash = file_sha256(f)
-                    if Wallpaper.objects.filter(sha256=fhash).exists():
-                        errors.append(f'{f.name}: duplicate (already uploaded)')
+                for f in files:
+                    ext = '.' + f.name.rsplit('.', 1)[-1].lower() if '.' in f.name else ''
+                    if ext not in ALLOWED_EXTENSIONS:
+                        errors.append(f'{f.name}: unsupported file type (allowed: {", ".join(ALLOWED_EXTENSIONS)})')
+                        continue
+                    if f.size > MAX_FILE_SIZE:
+                        errors.append(f'{f.name}: file too large (max 20MB)')
                         continue
 
-                    result = upload_to_cloudinary(f, tags=tag_list)
-                    if hasattr(f, 'temporary_file_path') and f.temporary_file_path():
-                        import os
-                        try:
-                            os.unlink(f.temporary_file_path())
-                        except OSError:
-                            pass
-                except Exception as e:
-                    errors.append(f'{f.name}: {e}')
-                    continue
+                    try:
+                        fhash = cd.get('sha256', '')
+                        if not fhash:
+                            fhash = file_sha256(f)
+                        if Wallpaper.objects.filter(sha256=fhash).exists():
+                            errors.append(f'{f.name}: duplicate (already uploaded)')
+                            continue
 
-                title = cd.get('title', '') or f.name.rsplit('.', 1)[0]
-                if len(files) > 1:
-                    title = f'{title}-{uploaded + 1}' if cd.get('title') else f.name.rsplit('.', 1)[0]
+                        result = upload_to_cloudinary(f, tags=tag_list)
+                        if hasattr(f, 'temporary_file_path') and f.temporary_file_path():
+                            import os
+                            try:
+                                os.unlink(f.temporary_file_path())
+                            except OSError:
+                                pass
+                    except Exception as e:
+                        errors.append(f'{f.name}: {e}')
+                        continue
 
-                Wallpaper.objects.create(
-                    title=title,
-                    description=cd.get('description', ''),
-                    cloudinary_id=result['public_id'],
-                    secure_url=result['secure_url'],
-                    thumbnail_url=get_thumbnail_url(result['public_id']),
-                    tags=tag_list,
-                    category=cd.get('category', ''),
-                    width=result.get('width'),
-                    height=result.get('height'),
-                    file_size=result.get('bytes'),
-                    format=result.get('format'),
-                    is_featured=cd.get('is_featured', False),
-                    sha256=fhash,
-                    uploaded_by=request.user,
-                )
-                uploaded += 1
+                    title = cd.get('title', '') or f.name.rsplit('.', 1)[0]
+                    if len(files) > 1:
+                        title = f'{title}-{uploaded + 1}' if cd.get('title') else f.name.rsplit('.', 1)[0]
 
-            for tag in tag_list:
-                from django.utils.text import slugify
-                Category.objects.get_or_create(
-                    slug=slugify(tag),
-                    defaults={'name': tag.title()},
-                )
+                    Wallpaper.objects.create(
+                        title=title,
+                        description=cd.get('description', ''),
+                        cloudinary_id=result['public_id'],
+                        secure_url=result['secure_url'],
+                        thumbnail_url=get_thumbnail_url(result['public_id']),
+                        tags=tag_list,
+                        category=cd.get('category', ''),
+                        width=result.get('width'),
+                        height=result.get('height'),
+                        file_size=result.get('bytes'),
+                        format=result.get('format'),
+                        is_featured=cd.get('is_featured', False),
+                        sha256=fhash,
+                        uploaded_by=request.user,
+                    )
+                    uploaded += 1
 
-            if uploaded:
-                messages.success(request, f'{uploaded} wallpaper{"s" if uploaded > 1 else ""} uploaded successfully!')
-            for err in errors:
-                messages.error(request, err)
-            return redirect('admin_dashboard')
+                for tag in tag_list:
+                    from django.utils.text import slugify
+                    Category.objects.get_or_create(
+                        slug=slugify(tag),
+                        defaults={'name': tag.title()},
+                    )
+
+                if uploaded:
+                    messages.success(request, f'{uploaded} wallpaper{"s" if uploaded > 1 else ""} uploaded successfully!')
+                for err in errors:
+                    messages.error(request, err)
+                return redirect('admin_dashboard')
 
         if not files:
             messages.error(request, 'No file selected.')
@@ -350,7 +402,7 @@ def upload_wallpaper(request):
         form = WallpaperUploadForm()
 
     cats = list(Category.objects.values_list('name', flat=True).order_by('name'))
-    return render(request, 'wallpapers/upload.html', {'form': form, 'categories_json': mark_safe(json.dumps(cats))})
+    return render(request, 'wallpapers/upload.html', {'form': form, 'categories_json': json.dumps(cats)})
 
 
 @login_required
@@ -378,6 +430,7 @@ def admin_wallpapers_list(request):
 
 @login_required
 @user_passes_test(lambda u: u.is_staff)
+@require_POST
 def admin_wallpaper_toggle_feature(request, pk):
     wp = get_object_or_404(Wallpaper, pk=pk)
     wp.is_featured = not wp.is_featured
@@ -388,6 +441,7 @@ def admin_wallpaper_toggle_feature(request, pk):
 
 @login_required
 @user_passes_test(lambda u: u.is_staff)
+@require_POST
 def admin_wallpaper_toggle_publish(request, pk):
     wp = get_object_or_404(Wallpaper, pk=pk)
     wp.is_published = not wp.is_published
@@ -493,5 +547,75 @@ def admin_users(request):
         'recent_downloads': recent_downloads,
         'days': days,
     })
+
+
+from django.http import JsonResponse
+
+def api_wallpapers(request):
+    ip = request.META.get('HTTP_X_FORWARDED_FOR', request.META.get('REMOTE_ADDR', '')).split(',')[0].strip()
+    cache_key = f'api_rate_{ip}'
+    request_count = cache.get(cache_key, 0)
+    if request_count > 60:
+        return JsonResponse({'error': 'Rate limit exceeded. Try again later.'}, status=429)
+    cache.set(cache_key, request_count + 1, 60)
+
+    wallpapers = Wallpaper.objects.filter(is_published=True).order_by('-created_at')
+    category = request.GET.get('category', '').strip()
+    tag = request.GET.get('tag', '').strip()
+    search = request.GET.get('search', '').strip()
+    try:
+        limit = min(max(int(request.GET.get('limit', 100)), 1), 500)
+    except (ValueError, TypeError):
+        limit = 100
+    try:
+        offset = max(int(request.GET.get('offset', 0)), 0)
+    except (ValueError, TypeError):
+        offset = 0
+
+    if category:
+        wallpapers = wallpapers.filter(category__iexact=category)
+    if tag:
+        wallpapers = wallpapers.filter(tags__icontains=tag)
+    if search:
+        wallpapers = wallpapers.filter(
+            Q(title__icontains=search) |
+            Q(category__icontains=search) |
+            Q(tags__icontains=search)
+        )
+
+    total = wallpapers.count()
+    wallpapers = wallpapers[offset:offset + limit]
+
+    data = []
+    for w in wallpapers:
+        data.append({
+            'id': str(w.id),
+            'title': w.title,
+            'description': w.description,
+            'cloudinary_id': w.cloudinary_id,
+            'secure_url': w.secure_url,
+            'thumbnail_url': w.thumbnail_url,
+            'tags': w.tags if isinstance(w.tags, list) else [],
+            'category': w.category,
+            'width': w.width,
+            'height': w.height,
+            'format': w.format,
+            'dominant_color': w.dominant_color,
+            'downloads': w.downloads,
+            'views': w.views,
+            'is_featured': w.is_featured,
+            'created_at': w.created_at.isoformat() if w.created_at else '',
+        })
+
+    response = JsonResponse({
+        'wallpapers': data,
+        'total': total,
+        'offset': offset,
+        'limit': limit,
+    })
+    response['Access-Control-Allow-Origin'] = '*'
+    response['Access-Control-Allow-Methods'] = 'GET, OPTIONS'
+    response['Access-Control-Allow-Headers'] = 'Content-Type'
+    return response
 
 

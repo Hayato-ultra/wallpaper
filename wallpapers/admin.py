@@ -22,7 +22,7 @@ class WallpaperAdmin(admin.ModelAdmin):
 
     def thumbnail_preview(self, obj):
         if obj.thumbnail_url:
-            return format_html('<img src="{}" width="80" height="50" style="object-fit:cover;border-radius:4px" />', obj.thumbnail_url)
+            return format_html('<img src="{}" width="80" height="50" style="object-fit:contain;border-radius:4px;background:#1d1b1f" />', obj.thumbnail_url)
         return '-'
     thumbnail_preview.short_description = 'Preview'
 

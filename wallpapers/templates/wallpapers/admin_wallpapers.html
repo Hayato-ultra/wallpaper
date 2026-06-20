@@ -51,7 +51,7 @@
           <td class="py-3 px-4">
             <div class="h-12 w-20 rounded-lg bg-white/5 overflow-hidden border border-white/5">
               {% if wp.thumbnail_url %}
-              <img src="{{ wp.thumbnail_url }}" alt="{{ wp.title }}" class="h-full w-full object-cover">
+              <img src="{{ wp.thumbnail_url }}" alt="{{ wp.title }}" class="h-full w-full object-contain">
               {% else %}
               <div class="h-full w-full flex items-center justify-center text-outline font-label-sm">No img</div>
               {% endif %}
@@ -77,12 +77,18 @@
           <td class="py-3 px-4 text-right font-label-md text-on-surface font-mono">{{ wp.downloads|format_number }}</td>
           <td class="py-3 px-4 text-center">
             <div class="flex items-center justify-center gap-1.5">
-              <a href="{% url 'admin_wallpaper_toggle_feature' pk=wp.pk %}" class="p-1.5 rounded-lg transition-all {% if wp.is_featured %}text-primary bg-primary/10{% else %}text-outline hover:text-on-surface-variant hover:bg-white/5{% endif %}" title="{% if wp.is_featured %}Unfeature{% else %}Feature{% endif %}">
-                <span class="material-symbols-outlined text-sm">{% if wp.is_featured %}star{% else %}star_outline{% endif %}</span>
-              </a>
-              <a href="{% url 'admin_wallpaper_toggle_publish' pk=wp.pk %}" class="p-1.5 rounded-lg transition-all {% if wp.is_published %}text-primary bg-primary/10{% else %}text-error bg-error/10{% endif %}" title="{% if wp.is_published %}Unpublish{% else %}Publish{% endif %}">
-                <span class="material-symbols-outlined text-sm">{% if wp.is_published %}visibility{% else %}visibility_off{% endif %}</span>
-              </a>
+              <form method="post" action="{% url 'admin_wallpaper_toggle_feature' pk=wp.pk %}" class="inline">
+                {% csrf_token %}
+                <button type="submit" class="p-1.5 rounded-lg transition-all {% if wp.is_featured %}text-primary bg-primary/10{% else %}text-outline hover:text-on-surface-variant hover:bg-white/5{% endif %}" title="{% if wp.is_featured %}Unfeature{% else %}Feature{% endif %}">
+                  <span class="material-symbols-outlined text-sm">{% if wp.is_featured %}star{% else %}star_outline{% endif %}</span>
+                </button>
+              </form>
+              <form method="post" action="{% url 'admin_wallpaper_toggle_publish' pk=wp.pk %}" class="inline">
+                {% csrf_token %}
+                <button type="submit" class="p-1.5 rounded-lg transition-all {% if wp.is_published %}text-primary bg-primary/10{% else %}text-error bg-error/10{% endif %}" title="{% if wp.is_published %}Unpublish{% else %}Publish{% endif %}">
+                  <span class="material-symbols-outlined text-sm">{% if wp.is_published %}visibility{% else %}visibility_off{% endif %}</span>
+                </button>
+              </form>
             </div>
           </td>
           <td class="py-3 px-4 text-right">
@@ -90,9 +96,12 @@
               <a href="{% url 'wallpaper_detail' pk=wp.pk %}" target="_blank" class="p-2 rounded-lg text-outline hover:text-on-surface hover:bg-white/5 transition-all" title="View">
                 <span class="material-symbols-outlined text-sm">open_in_new</span>
               </a>
-              <a href="{% url 'admin_wallpaper_delete' pk=wp.pk %}" class="p-2 rounded-lg text-outline hover:text-error hover:bg-error/10 transition-all" title="Delete">
-                <span class="material-symbols-outlined text-sm">delete</span>
-              </a>
+              <form method="post" action="{% url 'admin_wallpaper_delete' pk=wp.pk %}" class="inline" onsubmit="return confirm('Delete this wallpaper?')">
+                {% csrf_token %}
+                <button type="submit" class="p-2 rounded-lg text-outline hover:text-error hover:bg-error/10 transition-all" title="Delete">
+                  <span class="material-symbols-outlined text-sm">delete</span>
+                </button>
+              </form>
             </div>
           </td>
         </tr>

@@ -1,6 +1,5 @@
 import json
 from django.conf import settings
-from django.utils.safestring import mark_safe
 from .models import SiteConfig, Category
 
 
@@ -10,5 +9,6 @@ def site_config(request):
     return {
         'ads_enabled': ads_enabled,
         'adsense_client_id': settings.ADSENSE_CLIENT_ID,
-        'all_categories': mark_safe(json.dumps(cats)),
+        'all_categories_json': json.dumps(cats),
+        'all_categories': cats,
     }

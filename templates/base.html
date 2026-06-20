@@ -139,7 +139,8 @@
     </main>
     {% include 'includes/footer.html' %}
   </div>
-  <script>window.SEARCH_CATEGORIES = {{ all_categories }}</script>
+  {% json_script all_categories "search-categories" %}
+  <script>window.SEARCH_CATEGORIES = JSON.parse(document.getElementById('search-categories').textContent);</script>
   <script src="{% static 'wallpapers/js/main.js' %}"></script>
 </body>
 </html>

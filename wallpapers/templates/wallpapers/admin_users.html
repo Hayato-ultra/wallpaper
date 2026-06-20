@@ -72,7 +72,7 @@
         <div class="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/[0.02] transition-colors">
           <div class="h-10 w-16 rounded-lg bg-white/5 overflow-hidden shrink-0 border border-white/5">
             {% if d.wallpaper.thumbnail_url %}
-            <img src="{{ d.wallpaper.thumbnail_url }}" alt="{{ d.wallpaper.title }}" class="h-full w-full object-cover">
+            <img src="{{ d.wallpaper.thumbnail_url }}" alt="{{ d.wallpaper.title }}" class="h-full w-full object-contain">
             {% endif %}
           </div>
           <div class="flex-1 min-w-0">

@@ -1,7 +1,12 @@
 {% load wallpaper_tags %}
 <a href="{% url 'wallpaper_detail' pk=wallpaper.pk %}" class="wp-card group relative overflow-hidden rounded-xl glass-panel transition-all duration-500 hover:bg-surface-bright hover:-translate-y-0.5 block">
-  <div class="relative overflow-hidden bg-surface-container-low" style="aspect-ratio:{% if wallpaper.width and wallpaper.height %}{% if wallpaper.width >= wallpaper.height %}{{ wallpaper.width }}/{{ wallpaper.height }}{% else %}3/4{% endif %}{% else %}4/3{% endif %}">
-    <img src="{{ wallpaper.thumbnail_url }}" alt="{{ wallpaper.title }}" class="h-full w-full object-cover transition-all duration-700 group-hover:scale-105" loading="lazy">
+  {% if wallpaper.width and wallpaper.height and wallpaper.width < wallpaper.height %}
+    {% cloudinary_url wallpaper.cloudinary_id c='fill' g='auto' w=600 h=1067 f='auto' q='auto' as card_thumbnail_url %}
+  {% else %}
+    {% cloudinary_url wallpaper.cloudinary_id c='fill' g='auto' w=600 h=343 f='auto' q='auto' as card_thumbnail_url %}
+  {% endif %}
+  <div class="relative overflow-hidden bg-surface-container-low" style="aspect-ratio:{% if wallpaper.width and wallpaper.height %}{{ wallpaper.width }}/{{ wallpaper.height }}{% else %}16/9{% endif %}">
+    <img src="{% if card_thumbnail_url %}{{ card_thumbnail_url }}{% else %}{{ wallpaper.thumbnail_url }}{% endif %}" alt="{{ wallpaper.title }}" class="h-full w-full object-cover transition-all duration-700 group-hover:scale-105" loading="lazy">
     <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
     <div class="absolute bottom-0 left-0 right-0 p-4 translate-y-6 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-400">

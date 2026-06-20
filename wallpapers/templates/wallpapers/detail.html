@@ -48,6 +48,31 @@
         Download Wallpaper
       </a>
 
+      <div class="flex gap-2">
+        <a href="wallpapershowdown://wallpaper/{{ wallpaper.pk }}" class="flex-1 flex items-center justify-center gap-2 h-10 rounded-xl bg-primary text-on-primary font-label-sm hover:opacity-90 transition-opacity">
+          <span class="material-symbols-outlined text-sm">open_in_new</span>
+          Open in App
+        </a>
+        <button onclick="shareWallpaper()" class="flex-1 flex items-center justify-center gap-2 h-10 rounded-xl glass-panel font-label-sm hover:opacity-90 transition-colors">
+          <span class="material-symbols-outlined text-sm">share</span>
+          Share
+        </button>
+      </div>
+      <script>
+        function shareWallpaper() {
+          const url = window.location.href;
+          const title = '{{ wallpaper.title|escapejs }}';
+          if (navigator.share) {
+            navigator.share({ title: title + ' — Wallpaper', url: url });
+          } else {
+            navigator.clipboard.writeText(url);
+            const btn = event.target.closest('button');
+            btn.innerHTML = '<span class="material-symbols-outlined text-sm">check</span> Copied!';
+            setTimeout(() => { btn.innerHTML = '<span class="material-symbols-outlined text-sm">share</span> Share'; }, 2000);
+          }
+        }
+      </script>
+
       <div class="grid grid-cols-2 gap-4">
         <div class="glass-panel p-4 rounded-xl text-center">
           <span class="material-symbols-outlined text-primary">visibility</span>

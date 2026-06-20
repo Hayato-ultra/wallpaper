@@ -99,7 +99,7 @@
       <div class="flex items-center gap-4 p-3 rounded-xl hover:bg-white/[0.02] transition-colors">
         <span class="font-label-md text-outline w-6 text-center">#{{ forloop.counter }}</span>
         <div class="h-12 w-20 rounded-lg bg-white/5 overflow-hidden shrink-0 border border-white/5">
-          <img src="{{ wp.thumbnail_url }}" alt="{{ wp.title }}" class="h-full w-full object-cover">
+          <img src="{{ wp.thumbnail_url }}" alt="{{ wp.title }}" class="h-full w-full object-contain">
         </div>
         <div class="flex-1 min-w-0">
           <p class="font-label-md text-on-surface truncate">{{ wp.title }}</p>

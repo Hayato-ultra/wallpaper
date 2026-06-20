@@ -2,7 +2,8 @@
 {% load wallpaper_tags %}
 {% block title %}Upload Wallpaper — Admin — Wallpaper Haven{% endblock %}
 {% block extra_head %}
-<script>window.CATEGORIES = {{ categories_json }};</script>
+<script id="categories-data" type="application/json">{{ categories_json }}</script>
+<script>window.CATEGORIES = JSON.parse(document.getElementById('categories-data').textContent);</script>
 {% endblock %}
 {% block content %}
 {% include 'includes/admin_nav.html' %}

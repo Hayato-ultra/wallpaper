@@ -6,8 +6,14 @@ load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-dev-key-change-in-production')
-DEBUG = os.getenv('DEBUG', 'True') == 'True'
+SECRET_KEY = os.environ.get('SECRET_KEY')
+if not SECRET_KEY:
+    if os.getenv('DEBUG', 'False') == 'True':
+        SECRET_KEY = 'django-insecure-dev-only-key-not-for-production'
+    else:
+        raise ValueError('SECRET_KEY environment variable is required in production')
+
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
 
 INSTALLED_APPS = [
@@ -22,6 +28,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'config.middleware.ContentSecurityPolicyMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -69,8 +76,8 @@ if DATABASE_URL:
             }
         else:
             raise ValueError('Could not parse DATABASE_URL')
-    except Exception as e:
-        print(f'[WARN] Falling back to SQLite: {e}')
+    except Exception:
+        print('[WARN] Falling back to SQLite')
         DATABASES = {'default': {'ENGINE': 'django.db.backends.sqlite3', 'NAME': BASE_DIR / 'db.sqlite3'}}
 else:
     DATABASES = {'default': {'ENGINE': 'django.db.backends.sqlite3', 'NAME': BASE_DIR / 'db.sqlite3'}}
@@ -116,12 +123,38 @@ EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', '')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
 EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', 'True') == 'True'
 
-# Cache — file-based for dev, can swap to Redis for production
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
         'LOCATION': BASE_DIR / 'cache',
     }
 }
-WALLPAPER_CACHE_TIMEOUT = 60 * 15  # 15 minutes
-WALLPAPER_LIST_CACHE_TIMEOUT = 60 * 5  # 5 minutes
+WALLPAPER_CACHE_TIMEOUT = 60 * 15
+WALLPAPER_LIST_CACHE_TIMEOUT = 60 * 5
+
+# Security settings for production
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SECURE_BROWSER_XSS_FILTER = True
+    SESSION_COOKIE_SECURE = True
+    SESSION_COOKIE_HTTPONLY = True
+    CSRF_COOKIE_SECURE = True
+    CSRF_COOKIE_HTTPONLY = True
+    X_FRAME_OPTIONS = 'DENY'
+    SECURE_REFERRER_POLICY = 'strict-origin-when-cross-origin'
+
+    CSP_DEFAULT_SRC = ("'self'",)
+    CSP_SCRIPT_SRC = ("'self'", "'unsafe-inline'", "https://pagead2.googlesyndication.com", "https://adservice.google.com", "https://adservice.google.co.in")
+    CSP_STYLE_SRC = ("'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "https://fonts.gstatic.com")
+    CSP_FONT_SRC = ("'self'", "https://fonts.gstatic.com", "data:")
+    CSP_IMG_SRC = ("'self'", "data:", "https://res.cloudinary.com", "https://*.cloudinary.com")
+    CSP_CONNECT_SRC = ("'self'", "https://res.cloudinary.com")
+    CSP_FRAME_SRC = ("https://googleads.g.doubleclick.net", "https://tpc.googlesyndication.com", "https://www.google.com")
+else:
+    SECURE_SSL_REDIRECT = False
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
