@@ -143,7 +143,7 @@ if not DEBUG:
     SECURE_REFERRER_POLICY = 'strict-origin-when-cross-origin'
 
     CSP_DEFAULT_SRC = ("'self'",)
-    CSP_SCRIPT_SRC = ("'self'", "'unsafe-inline'", "https://pagead2.googlesyndication.com", "https://adservice.google.com", "https://adservice.google.co.in")
+    CSP_SCRIPT_SRC = ("'self'", "'unsafe-inline'", "https://cdn.tailwindcss.com", "https://pagead2.googlesyndication.com", "https://adservice.google.com", "https://adservice.google.co.in")
     CSP_STYLE_SRC = ("'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "https://fonts.gstatic.com")
     CSP_FONT_SRC = ("'self'", "https://fonts.gstatic.com", "data:")
     CSP_IMG_SRC = ("'self'", "data:", "https://res.cloudinary.com", "https://*.cloudinary.com")

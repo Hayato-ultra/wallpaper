@@ -179,8 +179,7 @@ img:not([data-src]), img.loaded { opacity: 1; }
     </main>
     {% include 'includes/footer.html' %}
   </div>
-  {% json_script all_categories "search-categories" %}
-  <script>window.SEARCH_CATEGORIES = JSON.parse(document.getElementById('search-categories').textContent);</script>
+  <script id="search-categories" type="application/json">{{ all_categories|safe }}</script>
   <script>
   // Wallpaper Haven - Aura Design System
   document.addEventListener('DOMContentLoaded', function () {
