@@ -84,7 +84,47 @@
     }
   </script>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%237e7098'/><text x='16' y='23' text-anchor='middle' fill='white' font-size='20' font-weight='bold'>W</text></svg>">
-  <link rel="stylesheet" href="{% static 'wallpapers/css/style.css' %}">
+  <style>/* Wallpaper Haven - Aura Design System Styles */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #151317; }
+::-webkit-scrollbar-thumb { background: #373438; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #49454d; }
+* { scrollbar-width: thin; scrollbar-color: #373438 #151317; }
+::selection { background: rgba(208, 191, 236, 0.3); color: white; }
+img { transition: opacity 0.4s ease, transform 0.4s ease; }
+img[data-src] { opacity: 0; }
+img:not([data-src]), img.loaded { opacity: 1; }
+.wp-card::before { content: ''; position: absolute; top: 0; left: -75%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent); transform: skewX(-25deg); transition: left 0.6s ease; pointer-events: none; z-index: 1; }
+.wp-card:hover::before { left: 125%; }
+.wp-card::after { content: ''; position: absolute; inset: -1px; border-radius: inherit; background: linear-gradient(135deg, rgba(208,191,236,0), rgba(208,191,236,0.1), rgba(208,191,236,0)); opacity: 0; transition: opacity 0.4s ease; pointer-events: none; }
+.wp-card:hover::after { opacity: 1; }
+.glass { background: rgba(42, 39, 46, 0.6); backdrop-filter: blur(24px); border: 1px solid rgba(255, 255, 255, 0.1); }
+.skeleton-loader { position: relative; overflow: hidden; border-radius: 0.75rem; }
+.skeleton-loader::before { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(255,255,255,0.03) 25%, rgba(255,255,255,0.06) 50%, rgba(255,255,255,0.03) 75%); background-size: 200% 100%; animation: skeletonShimmer 1.8s ease infinite; z-index: 2; }
+@keyframes skeletonShimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+.skeleton-text { display: inline-block; height: 0.8em; border-radius: 4px; background: rgba(255,255,255,0.05); animation: skeletonPulse 1.5s ease infinite; }
+@keyframes skeletonPulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.6; } }
+.btn-press:active { transform: scale(0.96); }
+.reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.revealed { opacity: 1; transform: translateY(0); }
+.reveal-left { opacity: 0; transform: translateX(-30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal-left.revealed { opacity: 1; transform: translateX(0); }
+.reveal-right { opacity: 0; transform: translateX(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal-right.revealed { opacity: 1; transform: translateX(0); }
+.reveal-up { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.reveal-up.revealed { opacity: 1; transform: translateY(0); }
+.lazy-card { opacity: 0; transform: translateY(20px) scale(0.98); transition: opacity 0.5s ease, transform 0.5s ease; }
+.lazy-card.animate-in { opacity: 1; transform: translateY(0) scale(1); }
+.page-exit { opacity: 0; transform: translateY(10px); transition: opacity 0.25s ease, transform 0.25s ease; }
+.image-zoom-container { cursor: zoom-in; overflow: hidden; position: relative; }
+.image-zoom-container img { transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+.image-zoom-container.zoomed { cursor: zoom-out; }
+.image-zoom-container.zoomed img { transform: scale(2); }
+.count-up { font-variant-numeric: tabular-nums; }
+.device-badge { display: inline-flex; align-items: center; gap: 0.375rem; padding: 0.25rem 0.625rem; border-radius: 9999px; font-size: 0.6875rem; font-weight: 500; background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.06); transition: all 0.2s ease; }
+.device-badge:hover { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.8); }
+@media (max-width: 640px) { .wp-card .aspect-\[4\/3\] { aspect-ratio: 3/2; } }
+</style>
   {% if adsense_client_id and ads_enabled %}
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ adsense_client_id }}" crossorigin="anonymous"></script>
   {% endif %}
