@@ -7,6 +7,8 @@ from django.core.wsgi import get_wsgi_application
 
 application = get_wsgi_application()
 
-if os.environ.get('VERCEL'):
+try:
     from django.core.management import call_command
     call_command('migrate', '--noinput', verbosity=0)
+except Exception:
+    pass
