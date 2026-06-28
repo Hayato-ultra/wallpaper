@@ -22,6 +22,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'config.middleware.ContentSecurityPolicyMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -90,7 +91,7 @@ STORAGES = {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
     },
     "staticfiles": {
-        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
 WHITENOISE_AUTOREFRESH = False
@@ -143,9 +144,9 @@ if not DEBUG:
     SECURE_REFERRER_POLICY = 'strict-origin-when-cross-origin'
 
     CSP_DEFAULT_SRC = ("'self'",)
-    CSP_SCRIPT_SRC = ("'self'", "'unsafe-inline'", "https://cdn.tailwindcss.com", "https://pagead2.googlesyndication.com", "https://adservice.google.com", "https://adservice.google.co.in")
-    CSP_STYLE_SRC = ("'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "https://fonts.gstatic.com")
-    CSP_FONT_SRC = ("'self'", "https://fonts.gstatic.com", "data:")
+    CSP_SCRIPT_SRC = ("'self'", "'unsafe-inline'", "https://pagead2.googlesyndication.com", "https://adservice.google.com", "https://adservice.google.co.in")
+    CSP_STYLE_SRC = ("'self'", "'unsafe-inline'")
+    CSP_FONT_SRC = ("'self'", "data:")
     CSP_IMG_SRC = ("'self'", "data:", "https://res.cloudinary.com", "https://*.cloudinary.com")
     CSP_CONNECT_SRC = ("'self'", "https://res.cloudinary.com")
     CSP_FRAME_SRC = ("https://googleads.g.doubleclick.net", "https://tpc.googlesyndication.com", "https://www.google.com")
