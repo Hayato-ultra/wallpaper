@@ -9,13 +9,11 @@
   <meta name="theme-color" content="#151317">
   <link rel="preconnect" href="https://res.cloudinary.com">
   <link rel="dns-prefetch" href="https://res.cloudinary.com">
-  <link rel="preload" href="{% static 'wallpapers/fonts/manrope-v20-latin-regular.woff2' %}" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="{% static 'wallpapers/fonts/material-symbols-outlined.woff2' %}" as="font" type="font/woff2" crossorigin>
   <style>
-    @font-face { font-family: 'Manrope'; font-style: normal; font-weight: 400 800; font-display: swap; src: url("{% static 'wallpapers/fonts/manrope-v20-latin-regular.woff2' %}") format("woff2"); }
-    @font-face { font-family: 'Material Symbols Outlined'; font-style: normal; font-weight: 400; font-display: swap; src: url("{% static 'wallpapers/fonts/material-symbols-outlined.woff2' %}") format("woff2"); }
+    @font-face { font-family: 'Manrope'; font-style: normal; font-weight: 400 800; font-display: swap; src: url("{% inline_static 'wallpapers/fonts/manrope-v20-latin-regular.woff2' %}") format("woff2"); }
+    @font-face { font-family: 'Material Symbols Outlined'; font-style: normal; font-weight: 400; font-display: swap; src: url("{% inline_static 'wallpapers/fonts/material-symbols-outlined.woff2' %}") format("woff2"); }
   </style>
-  <link rel="stylesheet" href="{% static 'wallpapers/css/tailwind.css' %}">
+  <style>{% inline_static 'wallpapers/css/tailwind.css' %}</style>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%237e7098'/><text x='16' y='23' text-anchor='middle' fill='white' font-size='20' font-weight='bold'>W</text></svg>">
   <style>/* Wallpaper Haven - Aura Design System Styles */
 ::-webkit-scrollbar { width: 8px; }
