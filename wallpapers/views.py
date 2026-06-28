@@ -173,9 +173,12 @@ def wallpaper_detail(request, pk):
         wallpaper = get_object_or_404(Wallpaper, pk=pk, is_published=True)
         cache.set(cache_key, wallpaper, settings.WALLPAPER_CACHE_TIMEOUT)
 
-    wallpaper.views += 1
-    wallpaper.save(update_fields=['views'])
-    PageView.objects.create(wallpaper=wallpaper)
+    viewed_key = f'viewed_{pk}'
+    if not request.session.get(viewed_key):
+        Wallpaper.objects.filter(pk=pk).update(views=F('views') + 1)
+        PageView.objects.create(wallpaper=wallpaper)
+        request.session[viewed_key] = True
+        request.session.set_expiry(3600)
 
     related_key = f'wallpaper_related_{pk}'
     related = cache.get(related_key)
@@ -205,8 +208,9 @@ def wallpaper_download(request, pk):
     wallpaper = get_object_or_404(Wallpaper, pk=pk, is_published=True)
     Wallpaper.objects.filter(pk=pk).update(downloads=F('downloads') + 1)
     Download.objects.create(wallpaper=wallpaper)
-    if wallpaper.secure_url.startswith('https://res.cloudinary.com/'):
-        download_url = wallpaper.secure_url + '?fl_attachment'
+    cloud_name = settings.CLOUDINARY_CLOUD_NAME
+    if cloud_name and wallpaper.cloudinary_id:
+        download_url = f'https://res.cloudinary.com/{cloud_name}/image/upload/fl_attachment/{wallpaper.cloudinary_id}'
         return redirect(download_url)
     return redirect('/')
 
@@ -518,6 +522,28 @@ def admin_toggle_ads(request):
     config.save()
     status = 'enabled' if config.value == 'true' else 'disabled'
     messages.success(request, f'Google Ads {status}')
+    return redirect('admin_dashboard')
+
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def admin_dedup(request):
+    from django.db.models import Count as C
+    dupes = (
+        Wallpaper.objects.exclude(sha256='')
+        .values('sha256')
+        .annotate(count=C('id'))
+        .filter(count__gt=1)
+    )
+    removed = 0
+    for d in dupes:
+        wps = Wallpaper.objects.filter(sha256=d['sha256']).order_by('-views', '-downloads')
+        keep = wps.first()
+        delete_qs = wps.exclude(pk=keep.pk)
+        count = delete_qs.count()
+        delete_qs.delete()
+        removed += count
+    messages.success(request, f'Removed {removed} duplicate wallpapers')
     return redirect('admin_dashboard')
 
 

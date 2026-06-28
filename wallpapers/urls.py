@@ -23,5 +23,6 @@ urlpatterns = [
     path('admin/categories/', views.admin_categories, name='admin_categories'),
     path('admin/tags/', views.admin_tags, name='admin_tags'),
     path('admin/toggle-ads/', views.admin_toggle_ads, name='admin_toggle_ads'),
+    path('admin/dedup/', views.admin_dedup, name='admin_dedup'),
     path('admin/users/', views.admin_users, name='admin_users'),
 ]

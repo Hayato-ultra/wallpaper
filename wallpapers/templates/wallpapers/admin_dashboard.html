@@ -4,15 +4,21 @@
 {% block content %}
 {% include 'includes/admin_nav.html' %}
 <div class="mx-auto max-w-7xl px-margin-mobile md:px-margin-desktop py-8 space-y-8">
-  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
     <div>
       <h1 class="font-headline-md text-headline-md text-on-surface">Dashboard</h1>
       <p class="font-label-md text-on-surface-variant mt-1">Analytics and site overview</p>
     </div>
-    <a href="{% url 'upload_wallpaper' %}" class="inline-flex items-center justify-center h-11 px-5 rounded-xl bg-primary-container text-on-primary-container font-label-md hover:opacity-90 transition-all shadow-lg shadow-primary/10 btn-press gap-2 shrink-0">
-      <span class="material-symbols-outlined text-sm">add</span>
-      Upload Wallpaper
-    </a>
+    <div class="flex gap-2">
+      <a href="{% url 'admin_dedup' %}" onclick="return confirm('Remove all duplicate wallpapers?')" class="inline-flex items-center justify-center h-11 px-5 rounded-xl bg-white/5 text-on-surface-variant font-label-md hover:bg-white/10 transition-all border border-white/10 gap-2 shrink-0">
+        <span class="material-symbols-outlined text-sm">content_copy_off</span>
+        Dedup
+      </a>
+      <a href="{% url 'upload_wallpaper' %}" class="inline-flex items-center justify-center h-11 px-5 rounded-xl bg-primary-container text-on-primary-container font-label-md hover:opacity-90 transition-all shadow-lg shadow-primary/10 btn-press gap-2 shrink-0">
+        <span class="material-symbols-outlined text-sm">add</span>
+        Upload Wallpaper
+      </a>
+    </div>
   </div>
 
   <!-- Stats -->
