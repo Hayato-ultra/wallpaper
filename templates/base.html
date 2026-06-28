@@ -585,6 +585,8 @@ img:not([data-src]), img.loaded { opacity: 1; }
     if (!sentinel || !grid) return
     if (!sentinel.dataset.next) return
     var loading = false
+    var loadedPages = {}
+    loadedPages[sentinel.dataset.page] = true
     function buildUrl(page) {
       var url = new URL(window.location.href)
       url.searchParams.set('page', page)
@@ -595,8 +597,9 @@ img:not([data-src]), img.loaded { opacity: 1; }
       if (!entries[0].isIntersecting) return
       if (loading) return
       var next = sentinel.dataset.next
-      if (!next) return
+      if (!next || loadedPages[next]) return
       loading = true
+      loadedPages[next] = true
       var xhr = new XMLHttpRequest()
       xhr.onreadystatechange = function () {
         if (xhr.readyState !== 4) return
@@ -621,6 +624,25 @@ img:not([data-src]), img.loaded { opacity: 1; }
       xhr.send()
     }, { rootMargin: '400px' })
     observer.observe(sentinel)
+  }
+  var _explorePath = '/explore/'
+  if (window.location.pathname === _explorePath || window.location.pathname.startsWith('/category/')) {
+    var _scrollKey = 'scroll_' + window.location.pathname + window.location.search
+    var _saved = sessionStorage.getItem(_scrollKey)
+    if (_saved) { setTimeout(function () { window.scrollTo(0, parseInt(_saved)) }, 50) }
+    window.addEventListener('beforeunload', function () {
+      sessionStorage.setItem(_scrollKey, window.scrollY)
+    })
+  }
+  document.querySelectorAll('a[href*="/wallpaper/"]').forEach(function (a) {
+    a.addEventListener('click', function () {
+      sessionStorage.setItem('_returnScroll', window.scrollY)
+      sessionStorage.setItem('_returnUrl', window.location.href)
+    })
+  })
+  var _backScroll = sessionStorage.getItem('_returnScroll')
+  if (_backScroll && window.location.pathname.match(/^\/(explore|category)/)) {
+    setTimeout(function () { window.scrollTo(0, parseInt(_backScroll)); sessionStorage.removeItem('_returnScroll') }, 50)
   }
   </script>
 </body>

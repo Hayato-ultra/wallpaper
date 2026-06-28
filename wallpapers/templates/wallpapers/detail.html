@@ -17,7 +17,7 @@
 {% block description %}{{ wallpaper.description|default:wallpaper.title }}{% endblock %}
 {% block content %}
 <div class="mx-auto max-w-7xl px-margin-mobile md:px-margin-desktop py-6">
-  <a href="/explore/" class="inline-flex items-center gap-1 font-label-md text-on-surface-variant hover:text-on-surface transition-colors mb-4">
+  <a href="/explore/" onclick="var s=sessionStorage.getItem('_returnScroll');if(s)this.href=sessionStorage.getItem('_returnUrl')||'/explore/'" class="inline-flex items-center gap-1 font-label-md text-on-surface-variant hover:text-on-surface transition-colors mb-4">
     <span class="material-symbols-outlined text-sm">arrow_back</span>
     Back to explore
   </a>

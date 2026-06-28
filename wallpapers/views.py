@@ -529,20 +529,32 @@ def admin_toggle_ads(request):
 @user_passes_test(lambda u: u.is_staff)
 def admin_dedup(request):
     from django.db.models import Count as C
-    dupes = (
-        Wallpaper.objects.exclude(sha256='')
-        .values('sha256')
-        .annotate(count=C('id'))
-        .filter(count__gt=1)
-    )
     removed = 0
-    for d in dupes:
+
+    # Dedup by cloudinary_id
+    for d in Wallpaper.objects.values('cloudinary_id').annotate(count=C('id')).filter(count__gt=1):
+        wps = Wallpaper.objects.filter(cloudinary_id=d['cloudinary_id']).order_by('-views', '-downloads')
+        keep = wps.first()
+        count = wps.exclude(pk=keep.pk).count()
+        wps.exclude(pk=keep.pk).delete()
+        removed += count
+
+    # Dedup by title
+    for d in Wallpaper.objects.values('title').annotate(count=C('id')).filter(count__gt=1):
+        wps = Wallpaper.objects.filter(title=d['title']).order_by('-views', '-downloads')
+        keep = wps.first()
+        count = wps.exclude(pk=keep.pk).count()
+        wps.exclude(pk=keep.pk).delete()
+        removed += count
+
+    # Dedup by sha256
+    for d in Wallpaper.objects.exclude(sha256='').values('sha256').annotate(count=C('id')).filter(count__gt=1):
         wps = Wallpaper.objects.filter(sha256=d['sha256']).order_by('-views', '-downloads')
         keep = wps.first()
-        delete_qs = wps.exclude(pk=keep.pk)
-        count = delete_qs.count()
-        delete_qs.delete()
+        count = wps.exclude(pk=keep.pk).count()
+        wps.exclude(pk=keep.pk).delete()
         removed += count
+
     messages.success(request, f'Removed {removed} duplicate wallpapers')
     return redirect('admin_dashboard')
 
