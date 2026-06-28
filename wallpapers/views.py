@@ -206,7 +206,8 @@ def wallpaper_download(request, pk):
     Wallpaper.objects.filter(pk=pk).update(downloads=F('downloads') + 1)
     Download.objects.create(wallpaper=wallpaper)
     if wallpaper.secure_url.startswith('https://res.cloudinary.com/'):
-        return redirect(wallpaper.secure_url)
+        download_url = wallpaper.secure_url + '?fl_attachment'
+        return redirect(download_url)
     return redirect('/')
 
 
