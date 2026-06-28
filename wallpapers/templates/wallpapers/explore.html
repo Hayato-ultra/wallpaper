@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load wallpaper_tags %}
-{% block title %}{% if current_tags %}#{{ current_tags }} — {% elif current_category %}{{ current_category }} — {% endif %}Explore — Wallpaper Haven{% endblock %}
+{% block title %}{% if current_tags %}#{{ current_tags }} — {% elif current_category %}{{ current_category }} — {% endif %}Explore — Wallpaper World{% endblock %}
 {% block content %}
 <div class="mx-auto max-w-7xl px-margin-mobile md:px-margin-desktop py-6">
   <div class="flex flex-col lg:flex-row gap-8">
@@ -9,17 +9,9 @@
       <div class="sticky top-20 space-y-8">
         <div class="space-y-1">
           <h3 class="font-label-sm text-on-surface-variant uppercase tracking-widest mb-4 px-1">Browse</h3>
-          <a href="/explore/" class="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm transition-all duration-200 {% if not current_tags and not current_category and current_sort == 'newest' and not current_device %}bg-primary/10 text-primary font-medium{% else %}text-on-surface-variant hover:text-on-surface hover:bg-white/5{% endif %}">
+          <a href="/explore/" class="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm transition-all duration-200 {% if not current_tags and not current_category and not current_device %}bg-primary/10 text-primary font-medium{% else %}text-on-surface-variant hover:text-on-surface hover:bg-white/5{% endif %}">
             <span class="material-symbols-outlined text-sm shrink-0">grid_view</span>
             All Wallpapers
-          </a>
-          <a href="/explore/?sort=featured" class="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm transition-all duration-200 {% if current_sort == 'featured' %}bg-primary/10 text-primary font-medium{% else %}text-on-surface-variant hover:text-on-surface hover:bg-white/5{% endif %}">
-            <span class="material-symbols-outlined text-sm shrink-0">star</span>
-            Featured
-          </a>
-          <a href="/explore/?sort=trending" class="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm transition-all duration-200 {% if current_sort == 'trending' %}bg-primary/10 text-primary font-medium{% else %}text-on-surface-variant hover:text-on-surface hover:bg-white/5{% endif %}">
-            <span class="material-symbols-outlined text-sm shrink-0">trending_up</span>
-            Trending
           </a>
         </div>
         <hr class="border-white/10">
@@ -66,64 +58,6 @@
             {% endwith %}
           </a>
           {% endfor %}
-        </div>
-      </section>
-      {% endif %}
-
-      <!-- Featured -->
-      {% if featured %}
-      <section>
-        <div class="flex items-end justify-between mb-6">
-          <div>
-            <h2 class="font-headline-md text-headline-md text-on-surface">Featured</h2>
-            <p class="font-label-md text-on-surface-variant">Hand-picked highlights</p>
-          </div>
-          <a href="/explore/?sort=featured" class="hidden sm:inline-flex items-center gap-1 font-label-md text-primary hover:text-primary-dim transition-colors">
-            View All
-            <span class="material-symbols-outlined text-sm">arrow_forward</span>
-          </a>
-        </div>
-        <div class="columns-2 gap-3 sm:columns-3 [column-fill:_balance]">
-          {% for wp in featured %}
-            <div class="break-inside-avoid mb-3 sm:mb-4">
-              {% include 'includes/wallpaper_card.html' with wallpaper=wp masonry=True %}
-            </div>
-          {% endfor %}
-        </div>
-        <div class="mt-6 sm:hidden text-center">
-          <a href="/explore/?sort=featured" class="inline-flex items-center gap-1 font-label-md text-primary hover:text-primary-dim transition-colors">
-            View All Featured
-            <span class="material-symbols-outlined text-sm">arrow_forward</span>
-          </a>
-        </div>
-      </section>
-      {% endif %}
-
-      <!-- Trending -->
-      {% if trending %}
-      <section>
-        <div class="flex items-end justify-between mb-6">
-          <div>
-            <h2 class="font-headline-md text-headline-md text-on-surface">Trending <span class="text-primary">Now</span></h2>
-            <p class="font-label-md text-on-surface-variant">Most popular downloads</p>
-          </div>
-          <a href="/explore/?sort=trending" class="hidden sm:inline-flex items-center gap-1 font-label-md text-primary hover:text-primary-dim transition-colors">
-            View All
-            <span class="material-symbols-outlined text-sm">arrow_forward</span>
-          </a>
-        </div>
-        <div class="columns-2 gap-3 sm:columns-3 [column-fill:_balance]">
-          {% for wp in trending %}
-            <div class="break-inside-avoid mb-3 sm:mb-4">
-              {% include 'includes/wallpaper_card.html' with wallpaper=wp masonry=True %}
-            </div>
-          {% endfor %}
-        </div>
-        <div class="mt-6 sm:hidden text-center">
-          <a href="/explore/?sort=trending" class="inline-flex items-center gap-1 font-label-md text-primary hover:text-primary-dim transition-colors">
-            View All Trending
-            <span class="material-symbols-outlined text-sm">arrow_forward</span>
-          </a>
         </div>
       </section>
       {% endif %}

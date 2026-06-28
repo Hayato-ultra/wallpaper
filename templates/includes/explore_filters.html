@@ -10,14 +10,6 @@
       <span class="material-symbols-outlined text-sm">visibility</span>
       Most Viewed
     </a>
-    <a href="?sort=trending{% if current_tags %}&tags={{ current_tags }}{% endif %}{% if current_device %}&device={{ current_device }}{% endif %}" class="flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm transition-all duration-200 {% if current_sort == 'trending' %}bg-primary/10 text-primary font-medium{% else %}text-on-surface-variant hover:text-on-surface hover:bg-white/5{% endif %}">
-      <span class="material-symbols-outlined text-sm">trending_up</span>
-      Trending
-    </a>
-    <a href="?sort=featured{% if current_tags %}&tags={{ current_tags }}{% endif %}{% if current_device %}&device={{ current_device }}{% endif %}" class="flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm transition-all duration-200 {% if current_sort == 'featured' %}bg-primary/10 text-primary font-medium{% else %}text-on-surface-variant hover:text-on-surface hover:bg-white/5{% endif %}">
-      <span class="material-symbols-outlined text-sm">star</span>
-      Featured
-    </a>
   </div>
 
   <h3 class="mt-6 font-label-sm text-on-surface-variant uppercase tracking-widest mb-3">Device</h3>
@@ -33,10 +25,6 @@
     <a href="?device=desktop{% if current_tags %}&tags={{ current_tags }}{% endif %}{% if current_sort != 'newest' %}&sort={{ current_sort }}{% endif %}" class="flex items-center gap-2.5 rounded-xl px-4 py-2.5 text-sm transition-all duration-200 {% if current_device == 'desktop' %}bg-primary/10 text-primary font-medium{% else %}text-on-surface-variant hover:text-on-surface hover:bg-white/5{% endif %}">
       <span class="material-symbols-outlined text-sm">desktop_windows</span>
       Desktop
-    </a>
-    <a href="?device=ultrawide{% if current_tags %}&tags={{ current_tags }}{% endif %}{% if current_sort != 'newest' %}&sort={{ current_sort }}{% endif %}" class="flex items-center gap-2.5 rounded-xl px-4 py-2.5 text-sm transition-all duration-200 {% if current_device == 'ultrawide' %}bg-primary/10 text-primary font-medium{% else %}text-on-surface-variant hover:text-on-surface hover:bg-white/5{% endif %}">
-      <span class="material-symbols-outlined text-sm">wide</span>
-      Ultra-wide
     </a>
     <a href="?device=4k{% if current_tags %}&tags={{ current_tags }}{% endif %}{% if current_sort != 'newest' %}&sort={{ current_sort }}{% endif %}" class="flex items-center gap-2.5 rounded-xl px-4 py-2.5 text-sm transition-all duration-200 {% if current_device == '4k' %}bg-primary/10 text-primary font-medium{% else %}text-on-surface-variant hover:text-on-surface hover:bg-white/5{% endif %}">
       <span class="material-symbols-outlined text-sm">4k</span>

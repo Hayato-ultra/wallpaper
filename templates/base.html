@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}Wallpaper Haven — High-Quality Wallpapers{% endblock %}</title>
+  <title>{% block title %}Wallpaper World — High-Quality Wallpapers{% endblock %}</title>
   <meta name="description" content="{% block description %}Discover and download high-quality wallpapers for your desktop and mobile. Curated collection updated daily.{% endblock %}">
   <meta name="theme-color" content="#151317">
   <link rel="preconnect" href="https://res.cloudinary.com">
@@ -16,7 +16,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
   <style>{% inline_static 'wallpapers/css/tailwind.css' %}</style>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%237e7098'/><text x='16' y='23' text-anchor='middle' fill='white' font-size='20' font-weight='bold'>W</text></svg>">
-  <style>/* Wallpaper Haven - Aura Design System Styles */
+  <style>/* Wallpaper World - Aura Design System Styles */
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { background: #151317; }
 ::-webkit-scrollbar-thumb { background: #373438; border-radius: 4px; }
@@ -130,7 +130,7 @@ img:not([data-src]), img.loaded { opacity: 1; }
   <script>
   // requestIdleCallback polyfill for browsers without support
   window.requestIdleCallback = window.requestIdleCallback || function (cb) { var start = Date.now(); return setTimeout(function () { cb({ didTimeout: false, timeRemaining: function () { return Math.max(0, 50 - (Date.now() - start)); } }); }, 1); };
-  // Wallpaper Haven - Aura Design System
+  // Wallpaper World - Aura Design System
   document.addEventListener('DOMContentLoaded', function () {
     // Critical UI init (runs immediately)
     initMobileMenu()
