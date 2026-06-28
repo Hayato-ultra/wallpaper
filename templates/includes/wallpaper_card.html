@@ -1,12 +1,23 @@
 {% load wallpaper_tags %}
 <a href="{% url 'wallpaper_detail' pk=wallpaper.pk %}" class="wp-card group relative overflow-hidden rounded-xl glass-panel transition-all duration-500 hover:bg-surface-bright hover:-translate-y-0.5 block">
   {% if wallpaper.width and wallpaper.height and wallpaper.width < wallpaper.height %}
+    {% cloudinary_url wallpaper.cloudinary_id c='fill' g='auto' w=300 h=534 f='auto' q='auto' as thumb_small %}
     {% cloudinary_url wallpaper.cloudinary_id c='fill' g='auto' w=600 h=1067 f='auto' q='auto' as card_thumbnail_url %}
+    {% cloudinary_url wallpaper.cloudinary_id c='fill' g='auto' w=900 h=1600 f='auto' q='auto' as thumb_large %}
   {% else %}
+    {% cloudinary_url wallpaper.cloudinary_id c='fill' g='auto' w=300 h=172 f='auto' q='auto' as thumb_small %}
     {% cloudinary_url wallpaper.cloudinary_id c='fill' g='auto' w=600 h=343 f='auto' q='auto' as card_thumbnail_url %}
+    {% cloudinary_url wallpaper.cloudinary_id c='fill' g='auto' w=900 h=514 f='auto' q='auto' as thumb_large %}
   {% endif %}
-  <div class="relative overflow-hidden bg-surface-container-low" style="aspect-ratio:{% if wallpaper.width and wallpaper.height %}{{ wallpaper.width }}/{{ wallpaper.height }}{% else %}16/9{% endif %}">
-    <img src="{% if card_thumbnail_url %}{{ card_thumbnail_url }}{% else %}{{ wallpaper.thumbnail_url }}{% endif %}" alt="{{ wallpaper.title }}" class="h-full w-full object-cover transition-all duration-700 group-hover:scale-105" loading="lazy">
+  {% if wallpaper.width and wallpaper.height %}
+    {% with ar_w=wallpaper.width ar_h=wallpaper.height %}
+  <div class="relative overflow-hidden bg-surface-container-low skeleton-loader" style="aspect-ratio:{{ ar_w }}/{{ ar_h }}">
+    <img src="{{ thumb_small }}" data-src="{{ card_thumbnail_url }}" alt="{{ wallpaper.title }}" width="{{ ar_w|default:600 }}" height="{{ ar_h|default:343 }}" class="h-full w-full object-cover transition-all duration-700 group-hover:scale-105" {% if eager %}loading="eager" fetchpriority="high"{% else %}loading="lazy" fetchpriority="low"{% endif %}>
+    {% endwith %}
+  {% else %}
+  <div class="relative overflow-hidden bg-surface-container-low skeleton-loader" style="aspect-ratio:16/9">
+    <img src="{{ thumb_small }}" data-src="{{ card_thumbnail_url }}" alt="{{ wallpaper.title }}" width="600" height="343" class="h-full w-full object-cover transition-all duration-700 group-hover:scale-105" {% if eager %}loading="eager" fetchpriority="high"{% else %}loading="lazy" fetchpriority="low"{% endif %}>
+  {% endif %}
     <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
     <div class="absolute bottom-0 left-0 right-0 p-4 translate-y-6 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-400">

@@ -42,7 +42,7 @@
         </div>
         <div class="columns-2 gap-3 sm:columns-3 lg:columns-4 [column-fill:_balance]">
           {% for cat in categories %}
-          <a href="{% url 'category' slug=cat.slug %}" class="break-inside-avoid group relative overflow-hidden rounded-xl text-center transition-all duration-300 hover:shadow-lg border border-white/10 mb-3 sm:mb-4" style="background:#1d1b1f">
+          <a href="{% url 'category' slug=cat.slug %}" aria-label="Browse {{ cat.name }} wallpapers" class="break-inside-avoid group relative overflow-hidden rounded-xl text-center transition-all duration-300 hover:shadow-lg border border-white/10 mb-3 sm:mb-4" style="background:#1d1b1f">
             {% with thumb=cat.get_thumbnail %}
             {% if thumb %}
             <div class="relative aspect-video overflow-hidden">

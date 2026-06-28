@@ -3,9 +3,16 @@ __pycache__/
 *.sqlite3
 .env
 .DS_Store
+venv/
+node_modules/
+staticfiles/
+cache/
+.agents/
 cloudinary-upload.py
+upload_to_cloudinary.py
+delete_uploaded.py
+bulk_upload.py
 /images/
 /images-mast/
-bulk_upload.py
 new-app/
 w-logo.png

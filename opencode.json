@@ -1,0 +1,8 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "plugin": [
+    "./.opencode/plugins/ponytail.mjs",
+    "@bluelovers/opencode-arise@latest",
+    "@dietrichgebert/ponytail"
+  ]
+}

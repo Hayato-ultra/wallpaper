@@ -5,42 +5,19 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>WallpaperHaven - Discover Beautiful Wallpapers</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link rel="preconnect" href="https://res.cloudinary.com">
+<link rel="dns-prefetch" href="https://res.cloudinary.com">
+
+<link rel="stylesheet" href="{% static 'wallpapers/css/tailwind.css' %}">
+<link rel="preload" href="{% static 'wallpapers/fonts/manrope-v20-latin-regular.woff2' %}" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="{% static 'wallpapers/fonts/material-symbols-outlined.woff2' %}" as="font" type="font/woff2" crossorigin>
+<style>
+  @font-face { font-family: 'Manrope'; font-style: normal; font-weight: 400 800; font-display: swap; src: url("{% static 'wallpapers/fonts/manrope-v20-latin-regular.woff2' %}") format("woff2"); }
+  @font-face { font-family: 'Material Symbols Outlined'; font-style: normal; font-weight: 400; font-display: swap; src: url("{% static 'wallpapers/fonts/material-symbols-outlined.woff2' %}") format("woff2"); }
+</style>
 {% if adsense_client_id and ads_enabled %}
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ adsense_client_id }}" crossorigin="anonymous"></script>
 {% endif %}
-<script>
-  tailwind.config = {
-    darkMode: "class",
-    theme: {
-      extend: {
-        colors: {
-          surface: "#151317", "surface-dim": "#151317", "surface-bright": "#3b383d",
-          "surface-container-lowest": "#0f0d11", "surface-container-low": "#1d1b1f",
-          "surface-container": "#211f23", "surface-container-high": "#2c292d",
-          "surface-container-highest": "#373438", "on-surface": "#e7e1e6",
-          "on-surface-variant": "#cbc4ce", outline: "#948f98", "outline-variant": "#49454d",
-          primary: "#d0bfec", "on-primary": "#362a4d", "primary-container": "#7e7098",
-          "on-primary-container": "#ffffff", background: "#151317", "on-background": "#e7e1e6"
-        },
-        fontFamily: { display: ["Manrope"], body: ["Manrope"], label: ["Manrope"] },
-        fontSize: {
-          "display-lg": ["48px", { lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "700" }],
-          "display-md": ["36px", { lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "700" }],
-          "headline-lg": ["32px", { lineHeight: "1.2", fontWeight: "600" }],
-          "headline-md": ["24px", { lineHeight: "1.3", fontWeight: "600" }],
-          "body-lg": ["18px", { lineHeight: "1.6", fontWeight: "400" }],
-          "body-md": ["16px", { lineHeight: "1.6", fontWeight: "400" }],
-          "label-md": ["14px", { lineHeight: "1.4", letterSpacing: "0.05em", fontWeight: "500" }],
-          "label-sm": ["12px", { lineHeight: "1.4", fontWeight: "500" }]
-        },
-        spacing: { "margin-mobile": "20px", "margin-desktop": "64px", gutter: "24px", "stack-sm": "8px", "stack-md": "24px", "stack-lg": "48px" }
-      }
-    }
-  }
-</script>
 <style>
   .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
   .glass-panel { background: rgba(42, 39, 46, 0.6); backdrop-filter: blur(24px); border: 1px solid rgba(255, 255, 255, 0.1); }
@@ -49,6 +26,7 @@
     background: linear-gradient(135deg, #2c292d 0%, #211f23 50%, #373438 100%);
     background-size: 200% 200%;
     animation: gradientShift 8s ease-in-out infinite;
+    will-change: background-position;
   }
   @keyframes gradientShift {
     0% { background-position: 0% 50%; }
@@ -100,23 +78,23 @@
   {% if hero_portrait_images or hero_landscape_images %}
   <div class="absolute inset-0 overflow-hidden">
     {% if hero_portrait_images.0 %}
-    <a href="{% url 'wallpaper_detail' pk=hero_portrait_images.0.pk %}" class="absolute top-8 right-8 w-24 md:w-32 rounded-xl overflow-hidden glass-panel shadow-xl rotate-[8deg] opacity-35 md:opacity-55 transition-all duration-700 animate-[floatUp_6s_ease-in-out_infinite] hover:opacity-100 hover:scale-105">
-      <img src="{{ hero_portrait_images.0.thumbnail_url }}" alt="" class="w-full aspect-[3/4] object-cover" loading="lazy">
+    <a href="{% url 'wallpaper_detail' pk=hero_portrait_images.0.pk %}" aria-label="View {{ hero_portrait_images.0.title }}" class="absolute top-8 right-8 w-24 md:w-32 rounded-xl overflow-hidden glass-panel shadow-xl rotate-[8deg] opacity-35 md:opacity-55 transition-all duration-700 animate-[floatUp_6s_ease-in-out_infinite] hover:opacity-100 hover:scale-105">
+      <img src="{{ hero_portrait_images.0.thumbnail_url }}" alt="" width="128" height="171" class="w-full aspect-[3/4] object-cover" loading="lazy" fetchpriority="low">
     </a>
     {% endif %}
     {% if hero_landscape_images.0 %}
-    <a href="{% url 'wallpaper_detail' pk=hero_landscape_images.0.pk %}" class="absolute top-24 right-36 w-32 md:w-44 rounded-xl overflow-hidden glass-panel shadow-xl -rotate-[6deg] opacity-30 md:opacity-50 transition-all duration-700 animate-[floatDown_7s_ease-in-out_infinite] hover:opacity-100 hover:scale-105">
-      <img src="{{ hero_landscape_images.0.thumbnail_url }}" alt="" class="w-full aspect-[4/3] object-cover" loading="lazy">
+    <a href="{% url 'wallpaper_detail' pk=hero_landscape_images.0.pk %}" aria-label="View {{ hero_landscape_images.0.title }}" class="absolute top-24 right-36 w-32 md:w-44 rounded-xl overflow-hidden glass-panel shadow-xl -rotate-[6deg] opacity-30 md:opacity-50 transition-all duration-700 animate-[floatDown_7s_ease-in-out_infinite] hover:opacity-100 hover:scale-105">
+      <img src="{{ hero_landscape_images.0.thumbnail_url }}" alt="" width="176" height="132" class="w-full aspect-[4/3] object-cover" loading="lazy" fetchpriority="low">
     </a>
     {% endif %}
     {% if hero_landscape_images.1 %}
-    <a href="{% url 'wallpaper_detail' pk=hero_landscape_images.1.pk %}" class="hidden md:block absolute bottom-14 right-16 w-40 md:w-48 rounded-xl overflow-hidden glass-panel shadow-xl rotate-[10deg] opacity-35 md:opacity-50 transition-all duration-700 animate-[floatUp_8s_ease-in-out_infinite] hover:opacity-100 hover:scale-105">
-      <img src="{{ hero_landscape_images.1.thumbnail_url }}" alt="" class="w-full aspect-[4/3] object-cover" loading="lazy">
+    <a href="{% url 'wallpaper_detail' pk=hero_landscape_images.1.pk %}" aria-label="View {{ hero_landscape_images.1.title }}" class="hidden md:block absolute bottom-14 right-16 w-40 md:w-48 rounded-xl overflow-hidden glass-panel shadow-xl rotate-[10deg] opacity-35 md:opacity-50 transition-all duration-700 animate-[floatUp_8s_ease-in-out_infinite] hover:opacity-100 hover:scale-105">
+      <img src="{{ hero_landscape_images.1.thumbnail_url }}" alt="" width="192" height="144" class="w-full aspect-[4/3] object-cover" loading="lazy" fetchpriority="low">
     </a>
     {% endif %}
     {% if hero_portrait_images.1 %}
-    <a href="{% url 'wallpaper_detail' pk=hero_portrait_images.1.pk %}" class="hidden lg:block absolute bottom-12 right-[22rem] w-24 rounded-xl overflow-hidden glass-panel shadow-xl -rotate-[10deg] opacity-30 transition-all duration-700 animate-[floatDown_5s_ease-in-out_infinite] hover:opacity-100 hover:scale-105">
-      <img src="{{ hero_portrait_images.1.thumbnail_url }}" alt="" class="w-full aspect-[3/4] object-cover" loading="lazy">
+    <a href="{% url 'wallpaper_detail' pk=hero_portrait_images.1.pk %}" aria-label="View {{ hero_portrait_images.1.title }}" class="hidden lg:block absolute bottom-12 right-[22rem] w-24 rounded-xl overflow-hidden glass-panel shadow-xl -rotate-[10deg] opacity-30 transition-all duration-700 animate-[floatDown_5s_ease-in-out_infinite] hover:opacity-100 hover:scale-105">
+      <img src="{{ hero_portrait_images.1.thumbnail_url }}" alt="" width="96" height="128" class="w-full aspect-[3/4] object-cover" loading="lazy" fetchpriority="low">
     </a>
     {% endif %}
   </div>
@@ -154,11 +132,11 @@
 </div>
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 {% for cat in categories %}
-<a href="{% url 'category' slug=cat.slug %}" class="group cursor-pointer transition-all hover:scale-[1.02] block">
+<a href="{% url 'category' slug=cat.slug %}" aria-label="Browse {{ cat.name }} wallpapers" class="group cursor-pointer transition-all hover:scale-[1.02] block">
   {% with thumb=cat.get_thumbnail %}
   {% if thumb %}
   <div class="relative w-full aspect-video rounded-2xl overflow-hidden">
-    <img src="{{ thumb }}" alt="" class="w-full h-full object-cover transition-all duration-500 group-hover:scale-110" loading="lazy">
+    <img src="{{ thumb }}" alt="" width="640" height="360" class="w-full h-full object-cover transition-all duration-500 group-hover:scale-110" loading="lazy">
     <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
     <div class="absolute bottom-0 left-0 right-0 p-4">
       <span class="font-headline-md text-headline-md font-bold text-white block group-hover:text-primary transition-colors">{{ cat.name }}</span>
@@ -204,7 +182,7 @@
 <div class="columns-2 gap-4 sm:columns-3 lg:columns-4 [column-fill:_balance]">
 {% for wp in featured %}
   <div class="break-inside-avoid mb-4">
-    {% include 'includes/wallpaper_card.html' with wallpaper=wp masonry=True %}
+    {% include 'includes/wallpaper_card.html' with wallpaper=wp masonry=True eager=forloop.first %}
   </div>
 {% endfor %}
 </div>
@@ -256,25 +234,25 @@
     <p class="font-body-md text-on-surface-variant max-w-xs mb-6">High-quality wallpapers for every screen. Curated daily by our team of designers.</p>
   </div>
   <div class="flex flex-col gap-3">
-    <span class="font-label-md text-on-surface font-bold uppercase tracking-widest opacity-50 mb-2">Browse</span>
+    <span class="font-label-md text-on-surface font-bold uppercase tracking-widest mb-2">Browse</span>
     <a href="/explore/" class="text-on-surface-variant font-label-md hover:text-on-surface hover:translate-x-1 transition-all duration-200">All Wallpapers</a>
     <a href="/explore/?sort=trending" class="text-on-surface-variant font-label-md hover:text-on-surface hover:translate-x-1 transition-all duration-200">Trending</a>
     <a href="/explore/?sort=featured" class="text-on-surface-variant font-label-md hover:text-on-surface hover:translate-x-1 transition-all duration-200">Featured</a>
     <a href="/search/" class="text-on-surface-variant font-label-md hover:text-on-surface hover:translate-x-1 transition-all duration-200">Search</a>
   </div>
   <div class="flex flex-col gap-3">
-    <span class="font-label-md text-on-surface font-bold uppercase tracking-widest opacity-50 mb-2">Company</span>
+    <span class="font-label-md text-on-surface font-bold uppercase tracking-widest mb-2">Company</span>
     <a href="/privacy/" class="text-on-surface-variant font-label-md hover:text-on-surface hover:translate-x-1 transition-all duration-200">Privacy Policy</a>
     <a href="/terms/" class="text-on-surface-variant font-label-md hover:text-on-surface hover:translate-x-1 transition-all duration-200">Terms of Service</a>
     <a href="/contact/" class="text-on-surface-variant font-label-md hover:text-on-surface hover:translate-x-1 transition-all duration-200">Contact</a>
   </div>
   <div class="flex flex-col gap-3">
-    <span class="font-label-md text-on-surface font-bold uppercase tracking-widest opacity-50 mb-2">Info</span>
+    <span class="font-label-md text-on-surface font-bold uppercase tracking-widest mb-2">Info</span>
     <p class="font-body-md text-on-surface-variant">{{ total_wallpapers }} wallpapers available</p>
   </div>
 </div>
 <div class="border-t border-white/10 py-8 flex flex-col items-center justify-between gap-4 text-center">
-  <p class="font-label-md text-on-surface-variant/60">&copy; {% now "Y" %} Wallpaper Haven. All rights reserved.</p>
+  <p class="font-label-md text-on-surface-variant">&copy; {% now "Y" %} Wallpaper Haven. All rights reserved.</p>
 </div>
 </div>
 </footer>
