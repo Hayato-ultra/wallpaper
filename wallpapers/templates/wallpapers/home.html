@@ -9,10 +9,10 @@
 <link rel="dns-prefetch" href="https://res.cloudinary.com">
 
 <style>{% inline_static 'wallpapers/css/tailwind.css' %}</style>
-<style>
-  @font-face { font-family: 'Manrope'; font-style: normal; font-weight: 400 800; font-display: swap; src: url("{% inline_static 'wallpapers/fonts/manrope-v20-latin-regular.woff2' %}") format("woff2"); }
-  @font-face { font-family: 'Material Symbols Outlined'; font-style: normal; font-weight: 400; font-display: swap; src: url("{% inline_static 'wallpapers/fonts/material-symbols-outlined.woff2' %}") format("woff2"); }
-</style>
+  <style>
+    @font-face { font-family: 'Manrope'; font-style: normal; font-weight: 400 800; font-display: swap; src: url("{% inline_static 'wallpapers/fonts/manrope-v20-latin-regular.woff2' %}") format("woff2"); }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 {% if adsense_client_id and ads_enabled %}
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ adsense_client_id }}" crossorigin="anonymous"></script>
 {% endif %}

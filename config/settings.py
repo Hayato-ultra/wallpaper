@@ -144,8 +144,8 @@ if not DEBUG:
 
     CSP_DEFAULT_SRC = ("'self'",)
     CSP_SCRIPT_SRC = ("'self'", "'unsafe-inline'", "https://pagead2.googlesyndication.com", "https://adservice.google.com", "https://adservice.google.co.in")
-    CSP_STYLE_SRC = ("'self'", "'unsafe-inline'")
-    CSP_FONT_SRC = ("'self'", "data:")
+    CSP_STYLE_SRC = ("'self'", "'unsafe-inline'", "https://fonts.googleapis.com")
+    CSP_FONT_SRC = ("'self'", "https://fonts.gstatic.com", "data:")
     CSP_IMG_SRC = ("'self'", "data:", "https://res.cloudinary.com", "https://*.cloudinary.com")
     CSP_CONNECT_SRC = ("'self'", "https://res.cloudinary.com")
     CSP_FRAME_SRC = ("https://googleads.g.doubleclick.net", "https://tpc.googlesyndication.com", "https://www.google.com")
