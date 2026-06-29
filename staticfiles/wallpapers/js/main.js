@@ -524,6 +524,7 @@ function initInfiniteScroll() {
 
       var newItems = temp.querySelectorAll('#wallpaper-grid > *')
       newItems.forEach(function (el) { grid.appendChild(el) })
+      if (typeof initMasonry === 'function') initMasonry()
 
       var newSentinel = temp.getElementById('scroll-sentinel')
       if (newSentinel) {

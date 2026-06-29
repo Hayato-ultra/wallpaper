@@ -590,5 +590,33 @@
     setTimeout(function () { window.scrollTo(0, parseInt(_backScroll)); sessionStorage.removeItem('_returnScroll') }, 50)
   }
   </script>
+  <script>
+  function initMasonry() {
+    document.querySelectorAll('.masonry').forEach(function(c) {
+      var items = Array.from(c.children);
+      if (!items.length) return;
+      c.style.position = 'relative';
+      var gap = 12, w = c.offsetWidth;
+      var cols = w >= 1024 ? 4 : w >= 640 ? 3 : 2;
+      var colW = (w - gap * (cols - 1)) / cols;
+      var h = new Array(cols).fill(0);
+      items.forEach(function(item) {
+        item.style.position = 'absolute';
+        item.style.width = colW + 'px';
+        var s = 0;
+        for (var i = 1; i < cols; i++) if (h[i] < h[s]) s = i;
+        item.style.left = s * (colW + gap) + 'px';
+        item.style.top = h[s] + 'px';
+        h[s] += item.offsetHeight + gap;
+      });
+      c.style.height = Math.max.apply(null, h) + 'px';
+    });
+  }
+  document.addEventListener('DOMContentLoaded', function() {
+    initMasonry();
+    var t;
+    window.addEventListener('resize', function() { clearTimeout(t); t = setTimeout(initMasonry, 150); });
+  });
+  </script>
 </body>
 </html>
