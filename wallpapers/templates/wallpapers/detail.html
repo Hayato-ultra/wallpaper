@@ -17,7 +17,7 @@
 {% block description %}{{ wallpaper.description|default:wallpaper.title }}{% endblock %}
 {% block content %}
 <div class="mx-auto max-w-7xl px-margin-mobile md:px-margin-desktop py-6">
-  <a href="/explore/" onclick="var s=sessionStorage.getItem('_returnScroll');if(s)this.href=sessionStorage.getItem('_returnUrl')||'/explore/'" class="inline-flex items-center gap-1 font-label-md text-on-surface-variant hover:text-on-surface transition-colors mb-4">
+  <a href="/explore/" onclick="var s=sessionStorage.getItem('_returnScroll');window.location.href=s?(sessionStorage.getItem('_returnUrl')||'/explore/'):'/explore/';return false" class="inline-flex items-center gap-1 font-label-md text-on-surface-variant hover:text-on-surface transition-colors mb-4">
     <span class="material-symbols-outlined text-sm">arrow_back</span>
     Back to explore
   </a>
@@ -34,7 +34,7 @@
     </div>
 
     <!-- Sidebar Info -->
-    <div class="space-y-6 lg:col-start-3 lg:row-start-1 lg:row-end-5">
+    <div class="space-y-4 lg:col-start-3 lg:row-start-1 lg:row-end-5">
       <div>
         <h1 class="font-headline-md text-headline-md text-on-surface leading-tight">{{ wallpaper.title }}</h1>
         {% if wallpaper.description %}<p class="mt-3 font-body-md text-on-surface-variant">{{ wallpaper.description }}</p>{% endif %}

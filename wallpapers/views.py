@@ -20,14 +20,12 @@ DEVICE_PRESETS = {
     'mobile': {'max_width': 768},
     'desktop': {'min_width': 768, 'max_width': 2560},
     'ultrawide': {'min_width': 2560, 'max_width': 3840},
-    '4k': {'min_width': 3840},
 }
 
 RECIPE_HELPERS = {
     'mobile': 'Portrait & small screens (≤768px)',
-    'desktop': 'Standard screens (768–2560px)',
+    'desktop': 'Standard landscape screens (768–2560px)',
     'ultrawide': 'Ultra-wide (2560–3840px)',
-    '4k': 'Ultra HD (≥3840px)',
 }
 
 
@@ -104,6 +102,8 @@ def explore(request):
             wallpapers = wallpapers.filter(width__gte=preset['min_width'])
         elif preset.get('max_width'):
             wallpapers = wallpapers.filter(width__lte=preset['max_width'])
+        if device_param == 'desktop':
+            wallpapers = wallpapers.filter(width__gte=F('height'))
 
     if sort == 'popular':
         wallpapers = wallpapers.order_by('-views')
@@ -188,9 +188,7 @@ def wallpaper_detail(request, pk):
 
     device_hint = 'mobile'
     if wallpaper.width:
-        if wallpaper.width >= 3840:
-            device_hint = '4k'
-        elif wallpaper.width >= 2560:
+        if wallpaper.width >= 2560:
             device_hint = 'ultrawide'
         elif wallpaper.width >= 1920:
             device_hint = 'desktop'
