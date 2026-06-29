@@ -122,9 +122,8 @@
       <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
     </a>
   </div>
-  <div class="columns-2 sm:columns-3 lg:columns-4 gap-3 md:gap-4 [column-fill:_auto]">
+  <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 [grid-auto-rows:1px]">
     {% for wp in featured %}
-    <div class="break-inside-avoid mb-3 md:mb-4">
     <a href="{% url 'wallpaper_detail' pk=wp.pk %}" class="wp-card group relative overflow-hidden rounded-xl glass-panel transition-all duration-500 hover:bg-surface-bright hover:-translate-y-0.5 block">
       {% if wp.width and wp.height %}
       <div class="relative overflow-hidden bg-surface-container-low" style="aspect-ratio:{{ wp.width }}/{{ wp.height }}">
@@ -156,7 +155,6 @@
         </div>
       </div>
     </a>
-    </div>
     {% endfor %}
   </div>
 </section>
@@ -229,9 +227,8 @@
       <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
     </a>
   </div>
-  <div class="columns-2 sm:columns-3 lg:columns-4 gap-3 md:gap-4 [column-fill:_auto]">
+  <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 [grid-auto-rows:1px]">
     {% for wp in trending %}
-    <div class="break-inside-avoid mb-3 md:mb-4">
     <a href="{% url 'wallpaper_detail' pk=wp.pk %}" class="wp-card group relative overflow-hidden rounded-xl glass-panel transition-all duration-500 hover:bg-surface-bright hover:-translate-y-0.5 block">
       {% if wp.width and wp.height %}
       <div class="relative overflow-hidden bg-surface-container-low" style="aspect-ratio:{{ wp.width }}/{{ wp.height }}">
@@ -263,7 +260,6 @@
         </div>
       </div>
     </a>
-    </div>
     {% endfor %}
   </div>
 </section>
