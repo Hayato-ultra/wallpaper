@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load wallpaper_tags %}
-{% block title %}{{ wallpaper.title }} — Wallpaper World{% endblock %}
+{% block title %}{{ wallpaper.title }} — wallpapersworld{% endblock %}
 {% block extra_head %}
 <style>
   .progressive-img { position: relative; overflow: hidden; background: rgba(255,255,255,0.02); }
@@ -12,46 +12,94 @@
   .progressive-img img.full { position: relative; z-index: 1; opacity: 0; transition: opacity 0.6s ease; }
   .progressive-img img.full.loaded { opacity: 1; }
   .progressive-img img.placeholder.hidden { opacity: 0; }
+  .detail-hero { background: linear-gradient(180deg, rgba(21,19,23,0) 0%, rgba(21,19,23,0.8) 100%); }
+  .meta-pill { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 9999px; font-size: 12px; font-weight: 500; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08); }
 </style>
 {% endblock %}
 {% block description %}{{ wallpaper.description|default:wallpaper.title }}{% endblock %}
 {% block content %}
-<div class="mx-auto max-w-7xl px-margin-mobile md:px-margin-desktop py-6">
-  <a href="/explore/" onclick="var s=sessionStorage.getItem('_returnScroll');window.location.href=s?(sessionStorage.getItem('_returnUrl')||'/explore/'):'/explore/';return false" class="inline-flex items-center gap-1 font-label-md text-on-surface-variant hover:text-on-surface transition-colors mb-4">
-    <span class="material-symbols-outlined text-sm">arrow_back</span>
-    Back to explore
+
+<!-- Full-width hero image -->
+<div class="relative w-full" style="max-height: 75vh;">
+  <div class="progressive-img w-full" style="height: 75vh;">
+    {% blur_placeholder wallpaper.cloudinary_id as placeholder_url %}
+    <img src="{{ placeholder_url }}" alt="" class="placeholder" aria-hidden="true">
+    <img src="{{ placeholder_url }}" alt="{{ wallpaper.title }}" class="full w-full h-full object-contain" data-progressive data-src="{{ wallpaper.secure_url }}?fl_lossy=1&q_auto=best" loading="eager">
+  </div>
+  <div class="detail-hero absolute inset-x-0 bottom-0 h-40 pointer-events-none"></div>
+
+  <!-- Floating back button -->
+  <a href="/explore/" onclick="var s=sessionStorage.getItem('_returnScroll');window.location.href=s?(sessionStorage.getItem('_returnUrl')||'/explore/'):'/explore/';return false" class="absolute top-4 left-4 inline-flex items-center gap-1.5 px-4 py-2 rounded-full glass-panel text-on-surface font-label-sm hover:bg-surface-container-high transition-colors z-10">
+    <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+    Back
   </a>
 
-  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+  <!-- Floating download button -->
+  <a href="{% url 'wallpaper_download' pk=wallpaper.pk %}" class="absolute bottom-6 right-6 inline-flex items-center gap-2 px-6 py-3 rounded-full bg-primary text-on-primary font-label-md hover:opacity-90 transition-opacity shadow-lg shadow-primary/20 z-10">
+    <span class="material-symbols-outlined text-[20px]">download</span>
+    Download
+  </a>
+</div>
 
-    <!-- Image -->
-    <div class="lg:col-span-2">
-      <div class="progressive-img rounded-xl glass-panel" style="aspect-ratio:{% if wallpaper.width and wallpaper.height %}{{ wallpaper.width }}/{{ wallpaper.height }}{% else %}16/9{% endif %};max-height:70vh">
-        {% blur_placeholder wallpaper.cloudinary_id as placeholder_url %}
-        <img src="{{ placeholder_url }}" alt="" class="placeholder" aria-hidden="true">
-        <img src="{{ placeholder_url }}" alt="{{ wallpaper.title }}" class="full w-full h-auto max-h-[70vh]" data-progressive data-src="{{ wallpaper.secure_url }}?fl_lossy=1&q_auto=best" loading="eager">
-      </div>
-    </div>
+<div class="mx-auto max-w-7xl px-margin-mobile md:px-margin-desktop py-8">
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-    <!-- Sidebar Info -->
-    <div class="space-y-4 lg:col-start-3 lg:row-start-1 lg:row-end-5">
+    <!-- Main Content -->
+    <div class="lg:col-span-2 space-y-8">
+      <!-- Title & Meta -->
       <div>
-        <h1 class="font-headline-md text-headline-md text-on-surface leading-tight">{{ wallpaper.title }}</h1>
-        {% if wallpaper.description %}<p class="mt-3 font-body-md text-on-surface-variant">{{ wallpaper.description }}</p>{% endif %}
+        <h1 class="font-headline-lg md:font-headline-lg text-headline-lg text-on-surface leading-tight">{{ wallpaper.title }}</h1>
+        {% if wallpaper.description %}
+        <p class="mt-3 font-body-md text-on-surface-variant leading-relaxed">{{ wallpaper.description }}</p>
+        {% endif %}
+
+        <!-- Meta pills -->
+        <div class="flex flex-wrap gap-2 mt-4">
+          {% if wallpaper.width and wallpaper.height %}
+          <span class="meta-pill text-on-surface-variant">
+            <span class="material-symbols-outlined text-[14px]">aspect_ratio</span>
+            {{ wallpaper.width }} x {{ wallpaper.height }}
+          </span>
+          {% endif %}
+          {% if wallpaper.format %}
+          <span class="meta-pill text-on-surface-variant">
+            <span class="material-symbols-outlined text-[14px]">image</span>
+            {{ wallpaper.format|upper }}
+          </span>
+          {% endif %}
+          {% if wallpaper.file_size %}
+          <span class="meta-pill text-on-surface-variant">
+            <span class="material-symbols-outlined text-[14px]">hard_drive</span>
+            {{ wallpaper.file_size|file_size_format }}
+          </span>
+          {% endif %}
+          <span class="meta-pill text-on-surface-variant">
+            <span class="material-symbols-outlined text-[14px]">calendar_today</span>
+            {{ wallpaper.created_at|date:"M d, Y" }}
+          </span>
+        </div>
       </div>
 
-      <a href="{% url 'wallpaper_download' pk=wallpaper.pk %}" class="flex w-full items-center justify-center gap-2 h-12 rounded-xl bg-primary-container text-on-primary-container font-label-md hover:opacity-90 transition-opacity">
-        <span class="material-symbols-outlined">download</span>
-        Download Wallpaper
-      </a>
+      <!-- Stats bar -->
+      <div class="flex items-center gap-6">
+        <div class="flex items-center gap-2 text-on-surface-variant">
+          <span class="material-symbols-outlined text-primary text-[20px]">visibility</span>
+          <span class="font-label-md">{{ wallpaper.views|format_number }} views</span>
+        </div>
+        <div class="flex items-center gap-2 text-on-surface-variant">
+          <span class="material-symbols-outlined text-primary text-[20px]">download_done</span>
+          <span class="font-label-md">{{ wallpaper.downloads|format_number }} downloads</span>
+        </div>
+      </div>
 
+      <!-- Action buttons -->
       <div class="flex gap-3">
-        <a href="wallpapershowdown://wallpaper/{{ wallpaper.pk }}" class="flex-1 flex items-center justify-center gap-2 h-10 rounded-xl bg-primary text-on-primary font-label-sm hover:opacity-90 transition-opacity md:hidden">
-          <span class="material-symbols-outlined text-sm">open_in_new</span>
+        <a href="wallpapershowdown://wallpaper/{{ wallpaper.pk }}" class="flex-1 flex items-center justify-center gap-2 h-11 rounded-xl bg-primary text-on-primary font-label-md hover:opacity-90 transition-opacity md:hidden">
+          <span class="material-symbols-outlined text-[18px]">open_in_new</span>
           Open in App
         </a>
-        <button onclick="shareWallpaper()" class="flex-1 md:flex-none md:w-full flex items-center justify-center gap-2 h-10 rounded-xl glass-panel font-label-sm hover:opacity-90 transition-colors">
-          <span class="material-symbols-outlined text-sm">share</span>
+        <button onclick="shareWallpaper()" class="flex-1 md:flex-none md:w-full flex items-center justify-center gap-2 h-11 rounded-xl glass-panel font-label-md hover:bg-surface-container-high transition-colors">
+          <span class="material-symbols-outlined text-[18px]">share</span>
           Share
         </button>
       </div>
@@ -60,42 +108,22 @@
           const url = window.location.href;
           const title = '{{ wallpaper.title|escapejs }}';
           if (navigator.share) {
-            navigator.share({ title: title + ' — Wallpaper', url: url });
+            navigator.share({ title: title + ' — wallpapersworld', url: url });
           } else {
             navigator.clipboard.writeText(url);
             const btn = event.target.closest('button');
-            btn.innerHTML = '<span class="material-symbols-outlined text-sm">check</span> Copied!';
-            setTimeout(() => { btn.innerHTML = '<span class="material-symbols-outlined text-sm">share</span> Share'; }, 2000);
+            btn.innerHTML = '<span class="material-symbols-outlined text-[18px]">check</span> Copied!';
+            setTimeout(() => { btn.innerHTML = '<span class="material-symbols-outlined text-[18px]">share</span> Share'; }, 2000);
           }
         }
       </script>
-
-      <div class="grid grid-cols-2 gap-4">
-        <div class="glass-panel p-4 rounded-xl text-center">
-          <span class="material-symbols-outlined text-primary">visibility</span>
-          <p class="font-headline-md text-headline-md text-on-surface mt-1">{{ wallpaper.views|format_number }}</p>
-          <p class="font-label-sm text-on-surface-variant">Views</p>
-        </div>
-        <div class="glass-panel p-4 rounded-xl text-center">
-          <span class="material-symbols-outlined text-primary">download_done</span>
-          <p class="font-headline-md text-headline-md text-on-surface mt-1">{{ wallpaper.downloads|format_number }}</p>
-          <p class="font-label-sm text-on-surface-variant">Downloads</p>
-        </div>
-      </div>
-
-      <div class="glass-panel p-5 rounded-xl space-y-4">
-        <div class="flex items-center justify-between text-sm"><span class="text-on-surface-variant">Dimensions</span><span class="text-on-surface">{{ wallpaper.width }} x {{ wallpaper.height }}</span></div>
-        <div class="flex items-center justify-between text-sm"><span class="text-on-surface-variant">Format</span><span class="text-on-surface uppercase">{{ wallpaper.format }}</span></div>
-        <div class="flex items-center justify-between text-sm"><span class="text-on-surface-variant">File Size</span><span class="text-on-surface">{{ wallpaper.file_size|file_size_format }}</span></div>
-        <div class="flex items-center justify-between text-sm"><span class="text-on-surface-variant">Uploaded</span><span class="text-on-surface">{{ wallpaper.created_at|date:"M d, Y" }}</span></div>
-      </div>
 
       {% if wallpaper.tags %}
       <div>
         <h3 class="font-label-md text-on-surface-variant mb-3">Tags</h3>
         <div class="flex flex-wrap gap-2">
           {% for tag in wallpaper.tags %}
-          <a href="/explore/?tags={{ tag }}" class="inline-flex items-center rounded-full bg-primary/20 text-primary px-3 py-1 font-label-sm hover:bg-primary/30 transition-colors">#{{ tag }}</a>
+          <a href="/explore/?tags={{ tag }}" class="inline-flex items-center rounded-full bg-primary/15 text-primary px-3.5 py-1.5 font-label-sm hover:bg-primary/25 transition-colors">#{{ tag }}</a>
           {% endfor %}
         </div>
       </div>
@@ -104,19 +132,32 @@
       <div class="hidden lg:block">{% include 'includes/ad_slot.html' with format='rectangle' %}</div>
     </div>
 
-    <!-- Similar Wallpapers -->
-    {% if related %}
-    <section class="lg:col-span-2 mt-6 lg:mt-0">
-      <h2 class="font-headline-md text-headline-md text-on-surface mb-4">Similar Wallpapers</h2>
-      <div class="columns-2 gap-4 sm:columns-3 lg:columns-4 [column-fill:_balance]">
-        {% for wp in related %}
-          <div class="break-inside-avoid mb-4">
-            {% include 'includes/wallpaper_card.html' with wallpaper=wp masonry=True %}
-          </div>
-        {% endfor %}
-      </div>
-    </section>
-    {% endif %}
+    <!-- Sidebar -->
+    <div class="space-y-4 lg:col-start-3 lg:row-start-1 lg:row-end-5">
+      <!-- Similar Wallpapers -->
+      {% if related %}
+      <section>
+        <h2 class="font-headline-md text-headline-md text-on-surface mb-4">Similar Wallpapers</h2>
+        <div class="space-y-3">
+          {% for wp in related %}
+          <a href="{% url 'wallpaper_detail' pk=wp.pk %}" class="flex items-center gap-3 p-2 rounded-xl glass-panel hover:bg-surface-container-high transition-colors group">
+            {% if wp.width and wp.height and wp.width < wp.height %}
+              {% cloudinary_url wp.cloudinary_id c='fill' g='auto' w=120 h=160 f='auto' q='auto' as thumb %}
+            {% else %}
+              {% cloudinary_url wp.cloudinary_id c='fill' g='auto' w=160 h=100 f='auto' q='auto' as thumb %}
+            {% endif %}
+            <img src="{{ thumb }}" alt="{{ wp.title }}" class="w-16 h-12 rounded-lg object-cover shrink-0" loading="lazy">
+            <div class="min-w-0 flex-1">
+              <p class="text-sm font-medium text-on-surface truncate group-hover:text-primary transition-colors">{{ wp.title }}</p>
+              <p class="text-xs text-on-surface-variant mt-0.5">{{ wp.views|format_number }} views</p>
+            </div>
+            <span class="material-symbols-outlined text-on-surface-variant text-[18px]">chevron_right</span>
+          </a>
+          {% endfor %}
+        </div>
+      </section>
+      {% endif %}
+    </div>
   </div>
 </div>
 {% endblock %}

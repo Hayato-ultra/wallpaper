@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
 {% load wallpaper_tags %}
-{% block title %}{% if current_tags %}#{{ current_tags }} — {% elif current_category %}{{ current_category }} — {% endif %}Explore — Wallpaper World{% endblock %}
+{% block title %}{% if current_tags %}#{{ current_tags }} — {% elif current_category %}{{ current_category }} — {% endif %}Explore — wallpapersworld{% endblock %}
 {% block content %}
 <div class="mx-auto max-w-7xl px-margin-mobile md:px-margin-desktop py-6">
   <div class="flex flex-col lg:flex-row gap-8">
+
     <!-- Desktop sidebar -->
     <aside class="hidden lg:block lg:w-60 shrink-0">
       <div class="sticky top-20 space-y-8">
@@ -21,41 +22,41 @@
     </aside>
 
     <!-- Main content -->
-    <div class="flex-1 min-w-0 space-y-14">
+    <div class="flex-1 min-w-0 space-y-10">
+
+      <!-- Page header -->
+      <div class="flex items-end justify-between">
+        <div>
+          <h1 class="font-headline-lg text-headline-lg text-on-surface">
+            {% if current_tags %}#{{ current_tags }}{% elif current_category %}{{ current_category }}{% else %}Explore{% endif %}
+          </h1>
+          <p class="font-body-md text-on-surface-variant mt-1">{{ page_obj.paginator.count }} result{{ page_obj.paginator.count|pluralize }}</p>
+        </div>
+        {% if current_tags or current_category or current_device %}
+        <a href="/explore/" class="inline-flex items-center gap-1.5 font-label-md text-on-surface-variant hover:text-on-surface transition-colors px-4 py-2 rounded-xl hover:bg-white/5">
+          <span class="material-symbols-outlined text-sm">close</span>
+          Clear filters
+        </a>
+        {% endif %}
+      </div>
 
       <!-- Categories -->
       {% if categories %}
       <section>
-        <div class="flex items-end justify-between mb-6">
-          <div>
-            <h2 class="font-headline-md text-headline-md text-on-surface">Browse by Category</h2>
-            <p class="font-label-md text-on-surface-variant">Find your perfect style</p>
-          </div>
-        </div>
-        <div class="columns-2 gap-3 sm:columns-3 lg:columns-4 [column-fill:_balance]">
+        <h2 class="font-headline-md text-headline-md text-on-surface mb-4">Browse by Category</h2>
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
           {% for cat in categories %}
-          <a href="{% url 'category' slug=cat.slug %}" aria-label="Browse {{ cat.name }} wallpapers" class="break-inside-avoid group relative overflow-hidden rounded-xl text-center transition-all duration-300 hover:shadow-lg border border-white/10 mb-3 sm:mb-4" style="background:#1d1b1f">
+          <a href="{% url 'category' slug=cat.slug %}" aria-label="Browse {{ cat.name }} wallpapers" class="group relative overflow-hidden rounded-xl aspect-video border border-white/10 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5 hover:border-primary/30" style="background:#1d1b1f">
             {% with thumb=cat.get_thumbnail %}
             {% if thumb %}
-            <div class="relative aspect-video overflow-hidden">
-              <img src="{{ thumb }}" alt="" class="w-full h-full object-cover transition-all duration-500 group-hover:scale-110" loading="lazy">
-              <div class="absolute inset-0 bg-gradient-to-t from-surface/95 via-surface/60 to-surface/20"></div>
-              <div class="absolute bottom-0 left-0 right-0 p-4 text-left">
-                <span class="font-headline-md text-headline-md font-bold text-on-surface block group-hover:text-primary transition-colors">{{ cat.name }}</span>
-                <span class="font-label-sm text-on-surface-variant/80">{{ cat.wallpaper_count }}</span>
-              </div>
-            </div>
-            {% else %}
-            <div class="relative aspect-video overflow-hidden bg-surface-container-high flex items-center justify-center">
-              <span class="font-headline-md text-headline-md font-bold text-primary">{{ cat.name|first|upper }}</span>
-              <div class="absolute inset-0 bg-gradient-to-t from-surface/95 via-surface/60 to-surface/20"></div>
-              <div class="absolute bottom-0 left-0 right-0 p-4 text-left">
-                <span class="font-headline-md text-headline-md font-bold text-on-surface block group-hover:text-primary transition-colors">{{ cat.name }}</span>
-                <span class="font-label-sm text-on-surface-variant/80">{{ cat.wallpaper_count }}</span>
-              </div>
-            </div>
+            <img src="{{ thumb }}" alt="" class="absolute inset-0 w-full h-full object-cover transition-all duration-500 group-hover:scale-110" loading="lazy">
             {% endif %}
             {% endwith %}
+            <div class="absolute inset-0 bg-gradient-to-t from-surface/95 via-surface/50 to-transparent"></div>
+            <div class="absolute bottom-0 left-0 right-0 p-3">
+              <span class="font-headline-md text-headline-md font-bold text-on-surface block group-hover:text-primary transition-colors">{{ cat.name }}</span>
+              <span class="font-label-sm text-on-surface-variant/70">{{ cat.wallpaper_count }} wallpapers</span>
+            </div>
           </a>
           {% endfor %}
         </div>
@@ -64,24 +65,9 @@
 
       <!-- All Wallpapers -->
       <section>
-        <div class="flex items-end justify-between mb-6">
-          <div>
-            <h2 class="font-headline-md text-headline-md text-on-surface">
-              {% if current_tags %}#{{ current_tags }}{% elif current_category %}{{ current_category }}{% else %}All Wallpapers{% endif %}
-            </h2>
-            <p class="font-label-md text-on-surface-variant">{{ page_obj.paginator.count }} result{{ page_obj.paginator.count|pluralize }}</p>
-          </div>
-          {% if current_tags or current_category or current_device %}
-          <a href="/explore/" class="inline-flex items-center gap-1.5 font-label-md text-on-surface-variant hover:text-on-surface transition-colors px-4 py-2 rounded-xl hover:bg-white/5">
-            <span class="material-symbols-outlined text-sm">close</span>
-            Clear filters
-          </a>
-          {% endif %}
-        </div>
-
         <!-- Mobile filter toggle -->
         <details id="mobile-filters" class="group lg:hidden mb-4">
-          <summary class="flex items-center gap-2 w-full rounded-xl glass-panel px-4 py-3 text-sm text-on-surface hover:bg-surface-bright transition-all cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+          <summary class="flex items-center gap-2 w-full rounded-xl glass-panel px-4 py-3 text-sm text-on-surface hover:bg-surface-container-high transition-all cursor-pointer list-none [&::-webkit-details-marker]:hidden">
             <span class="material-symbols-outlined text-sm shrink-0">filter_list</span>
             <span class="font-medium">Filters</span>
             <span class="material-symbols-outlined text-sm ml-auto transition-transform duration-200 group-open:rotate-180">expand_more</span>
