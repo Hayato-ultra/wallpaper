@@ -122,7 +122,7 @@
       <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
     </a>
   </div>
-  <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 [grid-auto-rows:1px]">
+  <div class="masonry grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
     {% for wp in featured %}
     <a href="{% url 'wallpaper_detail' pk=wp.pk %}" class="wp-card group relative overflow-hidden rounded-xl glass-panel transition-all duration-500 hover:bg-surface-bright hover:-translate-y-0.5 block">
       {% if wp.width and wp.height %}
@@ -227,7 +227,7 @@
       <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
     </a>
   </div>
-  <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 [grid-auto-rows:1px]">
+  <div class="masonry grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
     {% for wp in trending %}
     <a href="{% url 'wallpaper_detail' pk=wp.pk %}" class="wp-card group relative overflow-hidden rounded-xl glass-panel transition-all duration-500 hover:bg-surface-bright hover:-translate-y-0.5 block">
       {% if wp.width and wp.height %}
@@ -303,5 +303,34 @@
 </div>
 </div>
 </footer>
+<script>
+function initMasonry() {
+  document.querySelectorAll('.masonry').forEach(function(container) {
+    var items = Array.from(container.children);
+    if (!items.length) return;
+    container.style.position = 'relative';
+    var gap = 12;
+    var w = container.offsetWidth;
+    var cols = w >= 1024 ? 4 : w >= 640 ? 3 : 2;
+    var colW = (w - gap * (cols - 1)) / cols;
+    var heights = new Array(cols).fill(0);
+    items.forEach(function(item) {
+      item.style.position = 'absolute';
+      item.style.width = colW + 'px';
+      var shortest = 0;
+      for (var i = 1; i < cols; i++) { if (heights[i] < heights[shortest]) shortest = i; }
+      item.style.left = shortest * (colW + gap) + 'px';
+      item.style.top = heights[shortest] + 'px';
+      heights[shortest] += item.offsetHeight + gap;
+    });
+    container.style.height = Math.max.apply(null, heights) + 'px';
+  });
+}
+document.addEventListener('DOMContentLoaded', function() {
+  initMasonry();
+  var t;
+  window.addEventListener('resize', function() { clearTimeout(t); t = setTimeout(initMasonry, 150); });
+});
+</script>
 </body>
 </html>
